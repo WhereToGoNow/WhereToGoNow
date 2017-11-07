@@ -16,7 +16,7 @@ def respond_update():
     print('>> Request: (url)/update')
 
     # for debug. have to change after
-    data_routes = [route_paris, route_france]
+    data_routes = [route_paris, route_france, route_europe]
     json_routes = json.dumps([json.dumps(data) for data in data_routes])
 
     response = app.response_class(

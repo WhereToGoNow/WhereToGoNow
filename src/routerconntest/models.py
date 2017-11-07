@@ -74,35 +74,6 @@ class RouteGenerator(object):
 
         path = self.router.find_best_path(v_start, v_end, length_max, time_max)
 
-        v_start = path.nodes[0]
-        v_end = path.nodes[-1]
-        v_middle = path.nodes[1:-1]
-
-        # We'll apply the changed JSON format to the client-side code.
-        #
-        # return {
-        #     'time': path.time,
-        #     'point': path.point,
-        #     'start': {
-        #         'name': self.name_spots[v_start],
-        #         'id': self.id_spots[v_start],
-        #         'lat': self.lat_spots[v_start],
-        #         'lng': self.lng_spots[v_start]
-        #     },
-        #     'end': {
-        #         'name': self.name_spots[v_end],
-        #         'id': self.id_spots[v_end],
-        #         'lat': self.lat_spots[v_end],
-        #         'lng': self.lng_spots[v_end]
-        #     },
-        #     'middle': [{
-        #         'name': self.name_spots[v],
-        #         'id': self.id_spots[v],
-        #         'lat': self.lat_spots[v],
-        #         'lng': self.lng_spots[v]
-        #     } for v in v_middle]
-        # }
-
         return [{
             'name': self.name_spots[v],
             'id': self.id_spots[v],
@@ -122,3 +93,8 @@ route_france = RouteGenerator(
     path_spots='static/data/spots_france.json',
     speed=60.0
 ).generate_route(0, 1, time_max=24 * 9)
+
+route_europe = RouteGenerator(
+    path_spots='static/data/spots_europe.json',
+    speed=60.0
+).generate_route(0, 1, time_max=24 * 12)
