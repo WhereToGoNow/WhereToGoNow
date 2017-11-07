@@ -44,7 +44,6 @@
         .container-fluid {
             margin: 0px;
             padding: 12px;
-            height: 100%;
             width: 100%;
         }
 
@@ -98,7 +97,6 @@
                 routes.push(JSON.parse(route));
             })
 
-            $('#map').hide();
             var routeContainer = $('#container-routes');
             routeContainer.empty();
 
@@ -124,6 +122,8 @@
 
                 routeContainer.append(routePanel);
             });
+
+            $('#map').hide();
             routeContainer.show();
         }
 
