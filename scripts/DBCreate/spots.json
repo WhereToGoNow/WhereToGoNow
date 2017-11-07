@@ -1,0 +1,474 @@
+{
+    "Schwerin Castle": {
+        "website": "http://www.museum-schwerin.de/orte/schloss-schwerin/schloss-schwerin/", 
+        "rating": 4.7, 
+        "utc_offset": 60, 
+        "place_id": "ChIJQ2IIbPrZrUcRKynafkGOesw", 
+        "phone": "+49 385 5252920", 
+        "address": "Lenn\u00e9stra\u00dfe 1, 19053 Schwerin, Germany", 
+        "types": [
+            "museum", 
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png", 
+        "name": "Schwerin Castle", 
+        "url": "https://maps.google.com/?cid=14734245542848244011", 
+        "opening_hours": [
+            "Monday: Closed", 
+            "Tuesday: 10:00 AM \u2013 6:00 PM", 
+            "Wednesday: 10:00 AM \u2013 6:00 PM", 
+            "Thursday: 10:00 AM \u2013 6:00 PM", 
+            "Friday: 10:00 AM \u2013 6:00 PM", 
+            "Saturday: 10:00 AM \u2013 6:00 PM", 
+            "Sunday: 10:00 AM \u2013 6:00 PM"
+        ], 
+        "vicinity": "Lenn\u00e9stra\u00dfe 1, Schwerin", 
+        "location": {
+            "lat": 53.6247045, 
+            "lng": 11.4182424
+        }
+    }, 
+    "The Chenonceau Chateau": {
+        "website": "http://www.chenonceau.com/", 
+        "rating": 4.6, 
+        "utc_offset": 60, 
+        "place_id": "ChIJoaig2dWw_EcRARD_ye9ZEiY", 
+        "phone": "+33 820 20 90 90", 
+        "address": "37150 Chenonceaux, France", 
+        "types": [
+            "park", 
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png", 
+        "name": "Ch\u00e2teau de Chenonceau", 
+        "url": "https://maps.google.com/?cid=2743354009443045377", 
+        "opening_hours": [
+            "Monday: 9:00 AM \u2013 6:30 PM", 
+            "Tuesday: 9:00 AM \u2013 6:30 PM", 
+            "Wednesday: 9:00 AM \u2013 6:30 PM", 
+            "Thursday: 9:00 AM \u2013 6:30 PM", 
+            "Friday: 9:00 AM \u2013 6:30 PM", 
+            "Saturday: 9:00 AM \u2013 6:30 PM", 
+            "Sunday: 9:00 AM \u2013 6:30 PM"
+        ], 
+        "vicinity": "Chenonceaux", 
+        "location": {
+            "lat": 47.3248696, 
+            "lng": 1.0703005
+        }
+    }, 
+    "Cologne Cathedral": {
+        "website": "http://www.koelner-dom.de/", 
+        "rating": 4.7, 
+        "utc_offset": 60, 
+        "place_id": "ChIJLz2cNqUlv0cRxqnjljiR7Ck", 
+        "phone": "+49 221 17940555", 
+        "address": "Domkloster 4, 50667 K\u00f6ln, Germany", 
+        "types": [
+            "church", 
+            "place_of_worship", 
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/worship_general-71.png", 
+        "name": "Cologne Cathedral", 
+        "url": "https://maps.google.com/?cid=3020949122294458822", 
+        "opening_hours": [
+            "Monday: 6:00 AM \u2013 9:00 PM", 
+            "Tuesday: 6:00 AM \u2013 9:00 PM", 
+            "Wednesday: 6:00 AM \u2013 9:00 PM", 
+            "Thursday: 6:00 AM \u2013 9:00 PM", 
+            "Friday: 6:00 AM \u2013 9:00 PM", 
+            "Saturday: 6:00 AM \u2013 9:00 PM", 
+            "Sunday: 6:00 AM \u2013 9:00 PM"
+        ], 
+        "vicinity": "Domkloster 4, K\u00f6ln", 
+        "location": {
+            "lat": 50.94127839999999, 
+            "lng": 6.958281400000001
+        }
+    }, 
+    "Palace of Fontainebleau": {
+        "website": "http://www.musee-chateau-fontainebleau.fr/", 
+        "rating": 4.5, 
+        "utc_offset": 60, 
+        "place_id": "ChIJSaN8rYj05UcRgKvDAW_qXv8", 
+        "phone": "+33 1 60 71 50 70", 
+        "address": "77300 Fontainebleau, France", 
+        "types": [
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png", 
+        "name": "Ch\u00e2teau de Fontainebleau", 
+        "url": "https://maps.google.com/?cid=18401402889974295424", 
+        "opening_hours": [
+            "Monday: 9:30 AM \u2013 6:00 PM", 
+            "Tuesday: Closed", 
+            "Wednesday: 9:30 AM \u2013 6:00 PM", 
+            "Thursday: 9:30 AM \u2013 6:00 PM", 
+            "Friday: 9:30 AM \u2013 6:00 PM", 
+            "Saturday: 9:30 AM \u2013 6:00 PM", 
+            "Sunday: 9:30 AM \u2013 6:00 PM"
+        ], 
+        "vicinity": "Fontainebleau", 
+        "location": {
+            "lat": 48.4020962, 
+            "lng": 2.699495799999999
+        }
+    }, 
+    "Hohenzollern Castle": {
+        "website": "http://www.burg-hohenzollern.com/", 
+        "rating": 4.5, 
+        "utc_offset": 60, 
+        "place_id": "ChIJ9Z59XbEDmkcRL1pF2TBwziI", 
+        "phone": "+49 7471 2428", 
+        "address": "72379 Burg Hohenzollern, Germany", 
+        "types": [
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png", 
+        "name": "Hohenzollern Castle", 
+        "url": "https://maps.google.com/?cid=2508065397597887023", 
+        "opening_hours": [
+            "Monday: 10:00 AM \u2013 5:30 PM", 
+            "Tuesday: 10:00 AM \u2013 5:30 PM", 
+            "Wednesday: 10:00 AM \u2013 5:30 PM", 
+            "Thursday: 10:00 AM \u2013 5:30 PM", 
+            "Friday: 10:00 AM \u2013 5:30 PM", 
+            "Saturday: 10:00 AM \u2013 5:30 PM", 
+            "Sunday: 10:00 AM \u2013 5:30 PM"
+        ], 
+        "vicinity": "Burg Hohenzollern", 
+        "location": {
+            "lat": 48.3235588, 
+            "lng": 8.9674035
+        }
+    }, 
+    "The Reims Cathedral": {
+        "website": null, 
+        "rating": null, 
+        "utc_offset": 60, 
+        "place_id": "ChIJn8hxxVJ06UcRWLLRPy_K-TA", 
+        "phone": null, 
+        "address": "3 Rue Guillaume de Machault, 51100 Reims, France", 
+        "types": [
+            "premise", 
+            "church", 
+            "place_of_worship", 
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/worship_general-71.png", 
+        "name": "Reims Cathedral", 
+        "url": "https://maps.google.com/?q=3+Rue+Guillaume+de+Machault,+51100+Reims,+France&ftid=0x47e97452c571c89f:0x30f9ca2f3fd1b258", 
+        "opening_hours": null, 
+        "vicinity": "Reims", 
+        "location": {
+            "lat": 49.2538569, 
+            "lng": 4.0340402
+        }
+    }, 
+    "Promenade des Anglais": {
+        "website": null, 
+        "rating": null, 
+        "utc_offset": 60, 
+        "place_id": "ChIJ0VoczFnQzRIR737WTal1fso", 
+        "phone": null, 
+        "address": "Prom. des Anglais, Nice, France", 
+        "types": [
+            "route"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/geocode-71.png", 
+        "name": "Promenade des Anglais", 
+        "url": "https://maps.google.com/?q=Prom.+des+Anglais,+Nice,+France&ftid=0x12cdd059cc1c5ad1:0xca7e75a94dd67eef", 
+        "opening_hours": null, 
+        "vicinity": "Nice", 
+        "location": {
+            "lat": 43.6814531, 
+            "lng": 7.2322608
+        }
+    }, 
+    "Rugen Cliffs": {
+        "website": null, 
+        "rating": 4.3, 
+        "utc_offset": 60, 
+        "place_id": "ChIJf73Lab5Dq0cRNHXMI9l3uoA", 
+        "phone": null, 
+        "address": "R\u00fcgen, Germany", 
+        "types": [
+            "natural_feature", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/geocode-71.png", 
+        "name": "R\u00fcgen", 
+        "url": "https://maps.google.com/?q=R%C3%BCgen&ftid=0x47ab43be69cbbd7f:0x80ba77d923cc7534", 
+        "opening_hours": null, 
+        "vicinity": null, 
+        "location": {
+            "lat": 54.3519967, 
+            "lng": 13.3630491
+        }
+    }, 
+    "Quedlinburg": {
+        "website": null, 
+        "rating": null, 
+        "utc_offset": 60, 
+        "place_id": "ChIJaTMZktSipUcRcIwF-FlmIwQ", 
+        "phone": null, 
+        "address": "Quedlinburg, Germany", 
+        "types": [
+            "locality", 
+            "political"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/geocode-71.png", 
+        "name": "Quedlinburg", 
+        "url": "https://maps.google.com/?q=Quedlinburg,+Germany&ftid=0x47a5a2d492193369:0x4236659f8058c70", 
+        "opening_hours": null, 
+        "vicinity": "Quedlinburg", 
+        "location": {
+            "lat": 51.79205619999999, 
+            "lng": 11.141448
+        }
+    }, 
+    "The Louvre": {
+        "website": "http://www.louvre.fr/", 
+        "rating": 4.7, 
+        "utc_offset": 60, 
+        "place_id": "ChIJD3uTd9hx5kcR1IQvGfr8dbk", 
+        "phone": "+33 1 40 20 50 50", 
+        "address": "Rue de Rivoli, 75001 Paris, France", 
+        "types": [
+            "museum", 
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/museum-71.png", 
+        "name": "Louvre Museum", 
+        "url": "https://maps.google.com/?cid=13363865620386383060", 
+        "opening_hours": [
+            "Monday: 9:00 AM \u2013 6:00 PM", 
+            "Tuesday: Closed", 
+            "Wednesday: 9:00 AM \u2013 10:00 PM", 
+            "Thursday: 9:00 AM \u2013 6:00 PM", 
+            "Friday: 9:00 AM \u2013 10:00 PM", 
+            "Saturday: 9:00 AM \u2013 6:00 PM", 
+            "Sunday: 9:00 AM \u2013 6:00 PM"
+        ], 
+        "vicinity": "Rue de Rivoli, Paris", 
+        "location": {
+            "lat": 48.8606111, 
+            "lng": 2.337644
+        }
+    }, 
+    "Le Puy-en-Velay": {
+        "website": null, 
+        "rating": null, 
+        "utc_offset": 60, 
+        "place_id": "ChIJKcigQUD69UcRcPrny688CQQ", 
+        "phone": null, 
+        "address": "43000 Le Puy, France", 
+        "types": [
+            "locality", 
+            "political"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/geocode-71.png", 
+        "name": "Le Puy", 
+        "url": "https://maps.google.com/?q=43000+Le+Puy,+France&ftid=0x47f5fa4041a0c829:0x4093cafcbe7fa70", 
+        "opening_hours": null, 
+        "vicinity": "Le Puy", 
+        "location": {
+            "lat": 45.042768, 
+            "lng": 3.882936
+        }
+    }, 
+    "Nimes Roman Monuments": {
+        "website": "http://www.arenes-nimes.com/fr/node/1007", 
+        "rating": 4.3, 
+        "utc_offset": 60, 
+        "place_id": "ChIJLa5vkpgttBIRJ6dcwPz_ZDc", 
+        "phone": "+33 4 66 21 82 56", 
+        "address": "Les Jardins de la Fontaine, Place Guillaume Apollinaire, 30000 N\u00eemes, France", 
+        "types": [
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/museum-71.png", 
+        "name": "La Tour Magne", 
+        "url": "https://maps.google.com/?cid=3991596630781241127", 
+        "opening_hours": [
+            "Monday: 9:30 AM \u2013 1:00 PM, 2:00 \u2013 6:30 PM", 
+            "Tuesday: 9:30 AM \u2013 1:00 PM, 2:00 \u2013 6:30 PM", 
+            "Wednesday: 9:30 AM \u2013 1:00 PM, 2:00 \u2013 6:30 PM", 
+            "Thursday: 9:30 AM \u2013 1:00 PM, 2:00 \u2013 6:30 PM", 
+            "Friday: 9:30 AM \u2013 1:00 PM, 2:00 \u2013 6:30 PM", 
+            "Saturday: 9:30 AM \u2013 1:00 PM, 2:00 \u2013 6:30 PM", 
+            "Sunday: 9:30 AM \u2013 1:00 PM, 2:00 \u2013 6:30 PM"
+        ], 
+        "vicinity": "Les Jardins de la Fontaine, Place Guillaume Apollinaire, N\u00eemes", 
+        "location": {
+            "lat": 43.8430316, 
+            "lng": 4.349347900000001
+        }
+    }, 
+    "Epernay Champagne": {
+        "website": null, 
+        "rating": null, 
+        "utc_offset": 60, 
+        "place_id": "ChIJ9yEDwL4U6UcR4FI7mrlfCgQ", 
+        "phone": null, 
+        "address": "\u00c9pernay, France", 
+        "types": [
+            "locality", 
+            "political"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/geocode-71.png", 
+        "name": "\u00c9pernay", 
+        "url": "https://maps.google.com/?q=%C3%89pernay,+France&ftid=0x47e914bec00321f7:0x40a5fb99a3b52e0", 
+        "opening_hours": null, 
+        "vicinity": "\u00c9pernay", 
+        "location": {
+            "lat": 49.043411, 
+            "lng": 3.956242
+        }
+    }, 
+    "Frauenkirche": {
+        "website": "http://www.frauenkirche-dresden.de/", 
+        "rating": 4.7, 
+        "utc_offset": 60, 
+        "place_id": "ChIJT31SqELPCUcRo6nGHP5ePWM", 
+        "phone": "+49 351 65606100", 
+        "address": "Neumarkt, 01067 Dresden, Germany", 
+        "types": [
+            "church", 
+            "place_of_worship", 
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/worship_general-71.png", 
+        "name": "Frauenkirche Dresden", 
+        "url": "https://maps.google.com/?cid=7150976228831701411", 
+        "opening_hours": null, 
+        "vicinity": "Neumarkt, Dresden", 
+        "location": {
+            "lat": 51.05187340000001, 
+            "lng": 13.7415216
+        }
+    }, 
+    "Centre Georges-Pompidou": {
+        "website": "http://www.centrepompidou.fr/", 
+        "rating": 4.4, 
+        "utc_offset": 60, 
+        "place_id": "ChIJoyC4CRxu5kcRRTPcWX5srLc", 
+        "phone": "+33 1 44 78 12 33", 
+        "address": "Place Georges-Pompidou, 75004 Paris, France", 
+        "types": [
+            "museum", 
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/museum-71.png", 
+        "name": "The Centre Pompidou", 
+        "url": "https://maps.google.com/?cid=13235072694864327493", 
+        "opening_hours": [
+            "Monday: 11:00 AM \u2013 9:00 PM", 
+            "Tuesday: Closed", 
+            "Wednesday: 11:00 AM \u2013 9:00 PM", 
+            "Thursday: 11:00 AM \u2013 9:00 PM", 
+            "Friday: 11:00 AM \u2013 9:00 PM", 
+            "Saturday: 11:00 AM \u2013 9:00 PM", 
+            "Sunday: 11:00 AM \u2013 9:00 PM"
+        ], 
+        "vicinity": "Place Georges-Pompidou, Paris", 
+        "location": {
+            "lat": 48.86064200000001, 
+            "lng": 2.352245
+        }
+    }, 
+    "Cite des Sciences et de l'industrie": {
+        "website": "http://www.cite-sciences.fr/", 
+        "rating": 4.1, 
+        "utc_offset": 60, 
+        "place_id": "ChIJD6qS3zJs5kcRJ8_ebdhX0VI", 
+        "phone": "+33 1 40 05 70 00", 
+        "address": "30 Avenue Corentin Cariou, 75019 Paris, France", 
+        "types": [
+            "movie_theater", 
+            "museum", 
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/museum-71.png", 
+        "name": "City of Science and Industry", 
+        "url": "https://maps.google.com/?cid=5967647568310488871", 
+        "opening_hours": null, 
+        "vicinity": "30 Avenue Corentin Cariou, Paris", 
+        "location": {
+            "lat": 48.8955948, 
+            "lng": 2.3878996
+        }
+    }, 
+    "Reichstag": {
+        "website": "http://www.bundestag.de/kulturundgeschichte/architektur/reichstag/", 
+        "rating": 4.6, 
+        "utc_offset": 60, 
+        "place_id": "ChIJbVDuQcdRqEcR5X3xq9NSG2Q", 
+        "phone": "+49 30 22732152", 
+        "address": "Platz der Republik 1, 11011 Berlin, Germany", 
+        "types": [
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/civic_building-71.png", 
+        "name": "Reichstag Building", 
+        "url": "https://maps.google.com/?cid=7213450297240288741", 
+        "opening_hours": [
+            "Monday: 8:00 AM \u2013 12:00 AM", 
+            "Tuesday: 8:00 AM \u2013 12:00 AM", 
+            "Wednesday: 8:00 AM \u2013 12:00 AM", 
+            "Thursday: 8:00 AM \u2013 12:00 AM", 
+            "Friday: 8:00 AM \u2013 12:00 AM", 
+            "Saturday: 8:00 AM \u2013 12:00 AM", 
+            "Sunday: 8:00 AM \u2013 12:00 AM"
+        ], 
+        "vicinity": "Platz der Republik 1, Berlin", 
+        "location": {
+            "lat": 52.51862020000001, 
+            "lng": 13.3761872
+        }
+    }, 
+    "Aachen Cathedral": {
+        "website": "http://www.aachendom.de/", 
+        "rating": 4.7, 
+        "utc_offset": 60, 
+        "place_id": "ChIJ-4fwhHyZwEcRw4hn5SMLczg", 
+        "phone": "+49 241 477090", 
+        "address": "Domhof 1, 52062 Aachen, Germany", 
+        "types": [
+            "church", 
+            "place_of_worship", 
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/worship_general-71.png", 
+        "name": "Aachen Cathedral", 
+        "url": "https://maps.google.com/?cid=4067607137246218435", 
+        "opening_hours": [
+            "Monday: 7:00 AM \u2013 7:00 PM", 
+            "Tuesday: 7:00 AM \u2013 7:00 PM", 
+            "Wednesday: 7:00 AM \u2013 7:00 PM", 
+            "Thursday: 7:00 AM \u2013 7:00 PM", 
+            "Friday: 7:00 AM \u2013 7:00 PM", 
+            "Saturday: 7:00 AM \u2013 7:00 PM", 
+            "Sunday: 7:00 AM \u2013 7:00 PM"
+        ], 
+        "vicinity": "Domhof 1, Aachen", 
+        "location": {
+            "lat": 50.7747198, 
+            "lng": 6.083920099999999
+        }
+    }
+}
