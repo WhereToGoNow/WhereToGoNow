@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>RouterConnTest</title>
+    <title>WhereToGoNow</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, shrink-to-fit=no">
 
@@ -98,8 +98,6 @@
             var routeContainer = $('#container-routes');
             routeContainer.empty();
 
-            console.log(routes);
-
             if (!routes)
                 console.error("routes == undefined");
 
@@ -109,19 +107,6 @@
                 );
 
             });
-
-            routeContainer.on('click', '#route', function () {
-                var routeContainer = $('#container-routes');
-                var mapContainer = $('#map');
-                var index = $('li').index(this);
-
-                console.log(index + ' clicked!');
-
-                routeContainer.empty();
-                updateMap(routes[index - 2]);
-
-                mapContainer.show();
-            })
         }
 
         /* Update the map. */
@@ -166,6 +151,9 @@
                     // writeResult('Failed!');
                 }
             });
+
+            var routeContainer = $('#container-routes');
+            routeContainer.empty();
         }
 
         /*
@@ -180,6 +168,19 @@
                         updateRoutes(data);
                     }
                 });
+            });
+
+            $('#container-routes').on('click ', '#route', function () {
+                var routeContainer = $('#container-routes');
+                var mapContainer = $('#map');
+                var index = $('li.jumbotron').index(this);
+
+                console.log(index + 'th route clicked!');
+
+                routeContainer.empty();
+                updateMap(routes[index]);
+
+                mapContainer.show();
             });
         });
     </script>
@@ -196,7 +197,7 @@
 
 <body>
     <nav class="navbar navbar-expand navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">WhereToGoNow</a>
+        <a class="navbar-brand" href="/">WhereToGoNow</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02"
             aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
