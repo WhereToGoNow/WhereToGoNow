@@ -2,8 +2,9 @@ from flask import render_template
 
 from routerconntest.models import *
 
-
 # Render: index.html
+
+
 @app.route('/')
 def render_index():
     print('>> Render: index.html')
