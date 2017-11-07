@@ -1,44 +1,123 @@
-from lib.router import Graph, Router
+import json
+from math import sin, cos, asin, sqrt
 
-# location / time / eval
-spots = [
-    ('new york, ny', 5, 8),
-    ('montreal, quebec', 4, 9),
-    ('toronto, ont', 5, 6),
-    ('chicago, il', 4, 10),
-    ('winnipeg, mb', 3, 7),
-    ('los angeles, ca', 5, 7)
-]
+from routerconntest import app
+from routerconntest.lib import router
 
 
-def generate_route():
-    num_nodes = len(spots)
-    v_start = 0
-    v_end = num_nodes - 1
-    length_max = num_nodes
-    time_max = 80
+def calc_distance(lat_1, lng_1, lat_2, lng_2):
+    """Calculate the distance between two points.
+    (See https://en.wikipedia.org/wiki/Haversine_formula)
+    """
+    s_lat = sin((lat_1 - lat_2) / 2.0) ** 2
+    s_lng = sin((lng_1 - lng_2) / 2.0) ** 2
+    h = min(s_lat + cos(lat_1) * cos(lat_2) * s_lng, 1.0)
+    r = 6371  # radius of earth (km)
 
-    graph = Graph(num_nodes)
-    router = Router(graph, verbose=False)
+    return 2.0 * r * asin(sqrt(h))
 
-    for v in range(num_nodes):
-        graph.time_nodes[v] = spots[v][1]
-        graph.eval_nodes[v] = spots[v][2]
 
-        for v_next in range(num_nodes):
-            if v_next == v + 1:
-                graph.time_edges[v][v_next] = 5
+class RouteGenerator(object):
+    def __init__(self, path_spots, speed=8.0):
+        # extract info.
+        with app.open_resource(path_spots) as p:
+            self.info_spots = json.load(p)
+
+        self.name_spots = self.info_spots.keys()
+        self.num_spots = len(self.name_spots)
+        self.id_spots = []
+        self.lat_spots = []
+        self.lng_spots = []
+        self.rating_spots = []
+
+        for v in range(self.num_spots):
+            info = self.info_spots[self.name_spots[v]]
+
+            self.id_spots.append(info['place_id'])
+            self.lat_spots.append(info['location']['lat'])
+            self.lng_spots.append(info['location']['lng'])
+
+            rating = info['rating']
+
+            if rating is None:
+                self.rating_spots.append(3)
             else:
-                graph.time_edges[v][v_next] = 7
+                self.rating_spots.append(rating)
 
-    path = router.find_best_path(v_start, v_end, length_max, time_max)
+        # initialize graph & router
+        self.graph = router.Graph(self.num_spots)
+        self.router = router.Router(self.graph)
 
-    node_start = path.nodes[0]
-    node_end = path.nodes[-1]
-    node_middle = path.nodes[1:-1]
+        for v in range(self.num_spots):
+            self.graph.time_nodes[v] = 1
+            self.graph.eval_nodes[v] = self.rating_spots[v]
 
-    return {
-        'start': spots[node_start][0],
-        'end': spots[node_end][0],
-        'middle': [spots[v][0] for v in node_middle]
-    }
+            for v_next in range(v + 1, self.num_spots):
+                distance = calc_distance(
+                    lat_1=self.lat_spots[v],
+                    lng_1=self.lng_spots[v],
+                    lat_2=self.lat_spots[v_next],
+                    lng_2=self.lng_spots[v_next]
+                )
+
+                time = distance / float(speed)
+
+                self.graph.time_edges[v][v_next] = time
+                self.graph.time_edges[v_next][v] = time
+
+    def generate_route(self, v_start, v_end, length_max=None, time_max=None):
+        if length_max is None:
+            length_max = self.num_spots
+
+        if time_max is None:
+            time_max = float('inf')
+
+        path = self.router.find_best_path(v_start, v_end, length_max, time_max)
+
+        v_start = path.nodes[0]
+        v_end = path.nodes[-1]
+        v_middle = path.nodes[1:-1]
+
+        # We'll apply the changed JSON format to the client-side code.
+        #
+        # return {
+        #     'time': path.time,
+        #     'point': path.point,
+        #     'start': {
+        #         'name': self.name_spots[v_start],
+        #         'id': self.id_spots[v_start],
+        #         'lat': self.lat_spots[v_start],
+        #         'lng': self.lng_spots[v_start]
+        #     },
+        #     'end': {
+        #         'name': self.name_spots[v_end],
+        #         'id': self.id_spots[v_end],
+        #         'lat': self.lat_spots[v_end],
+        #         'lng': self.lng_spots[v_end]
+        #     },
+        #     'middle': [{
+        #         'name': self.name_spots[v],
+        #         'id': self.id_spots[v],
+        #         'lat': self.lat_spots[v],
+        #         'lng': self.lng_spots[v]
+        #     } for v in v_middle]
+        # }
+
+        return {
+            'start': self.name_spots[v_start],
+            'end': self.name_spots[v_end],
+            'middle': [self.name_spots[v] for v in v_middle]
+        }
+
+
+# Pre-compute the paths for testing
+# (will be removed later)
+route_paris = RouteGenerator(
+    path_spots='static/data/spots_paris.json',
+    speed=8.0
+).generate_route(0, 1, time_max=24 * 2)
+
+route_france = RouteGenerator(
+    path_spots='static/data/spots_france.json',
+    speed=60.0
+).generate_route(0, 1, time_max=24 * 9)

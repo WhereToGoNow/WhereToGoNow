@@ -1,8 +1,6 @@
 from flask import render_template
-import json
 
-from routerconntest import app
-from routerconntest.models import generate_route
+from routerconntest.models import *
 
 
 # Render: index.html
@@ -12,19 +10,14 @@ def render_index():
     return render_template('index.html')
 
 
-# @app.route(url)
-# def render_...()
-
 # Respond: From button click
 @app.route('/update', methods=['GET'])
 def respond_update():
     print('>> Request: (url)/update')
 
-    data_route = generate_route()
-    json_route = json.dumps(data_route)
-
     # for debug. have to change after
-    json_routes = json.dumps([json_route, json_route, json_route])
+    data_routes = [route_paris, route_france]
+    json_routes = json.dumps([json.dumps(data) for data in data_routes])
 
     response = app.response_class(
         response=json_routes,
@@ -35,6 +28,3 @@ def respond_update():
     print('>> Response: %s' % json_routes)
 
     return response
-
-# @app.route(url, methods)
-# def respond_...()
