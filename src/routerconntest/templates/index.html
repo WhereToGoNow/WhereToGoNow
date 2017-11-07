@@ -20,15 +20,22 @@
             height: 100%;
         }
 
-        .jumbotron,
-        #container-jumbotron {
-            padding: 8px;
+        .jumbotron {
             margin: 0px;
+            padding: 12px;
+            margin-bottom: 4px;
+            width: 100%;
+        }
+
+        .container {
+            margin: 0px;
+            padding: 0px;
+            width: 100%;
         }
 
         .container-fluid {
             margin: 0px;
-            padding: 0px;
+            padding: 12px;
             height: 100%;
             width: 100%;
         }
@@ -49,6 +56,7 @@
     <script type="text/javascript">
         var service; // route rendering
         var display; // map rendering
+        var routes;
 
         /*
          * Initialize the map.
@@ -76,16 +84,58 @@
 
         /* Write the result on the page. */
         function writeResult(s) {
-            $('#result')[0].innerHTML = s;
+            //$('#result')[0].innerHTML = s;
+        }
+
+        function updateRoutes(data) {
+            routes = [];
+
+            data.forEach(function (route) {
+                routes.push(JSON.parse(route));
+            })
+
+            $('#map').hide();
+            var routeContainer = $('#container-routes');
+            routeContainer.empty();
+
+            console.log(routes);
+
+            if (!routes)
+                console.error("routes == undefined");
+
+            routes.forEach(function (route) {
+                routeContainer.append(
+                    $('<li>').attr('class', 'jumbotron').attr('id', 'route').text(JSON.stringify(route))
+                );
+
+            });
+
+            routeContainer.on('click', '#route', function () {
+                var routeContainer = $('#container-routes');
+                var mapContainer = $('#map');
+                var index = $('li').index(this);
+
+                console.log(index + ' clicked!');
+
+                routeContainer.empty();
+                updateMap(routes[index - 2]);
+
+                mapContainer.show();
+            })
         }
 
         /* Update the map. */
-        function update(data) {
+        function updateMap(data) {
             var start = data.start;
             var end = data.end;
             var middle = data.middle;
 
             var middleInfo = [];
+
+            console.log("updatedMap" + data);
+            console.log(start);
+            console.log(middle);
+            console.log(end);
 
             for (var i = 0; i < middle.length; i++) {
                 middleInfo.push({
@@ -120,24 +170,17 @@
 
         /*
          * When the user clicks the button, send a request to the server
-         * and call update() using the response data.
+         * and call UpdateMap() using the response data.
          */
         $(document).ready(function () {
             $('#submit').click(function () {
                 $.getJSON({
                     url: '/update',
                     success: function (data) {
-                        console.log(data.middle);
-                        update(data);
+                        updateRoutes(data);
                     }
                 });
             });
-            $('#hide').click(function () {
-                $('#map').hide();
-            })
-            $('#show').click(function () {
-                $('#map').show();
-            })
         });
     </script>
 
@@ -173,12 +216,10 @@
         </div>
     </nav>
 
-    <div class="jumbotron" id="jumbotron">
-        <div class="container" id="container-jumbotron">
-            <!--Clicking the button calls update()-->
+    <div class="jumbotron">
+        <div class="container">
+            <!--Clicking the button calls UpdateMap()-->
             <button type="submit" id="submit" class="btn btn-primary">Choose the cities!</button>
-            <button id="hide" class="btn">HIDE!</button>
-            <button id="show" class="btn">SHOW!</button>
             <br />
 
             <!--
@@ -190,9 +231,8 @@
 
     <main role="main">
         <div class="container-fluid">
-            <div class="container" id="container-routes">
-                <!--Routes are rendered here-->
-            </div>
+            <ul class="container" id="container-routes">
+            </ul>
             <div id="map" style="width: 100%; height: 100%">
                 <!--Map is rendered here-->
             </div>
