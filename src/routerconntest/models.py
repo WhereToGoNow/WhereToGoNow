@@ -103,11 +103,12 @@ class RouteGenerator(object):
         #     } for v in v_middle]
         # }
 
-        return {
-            'start': self.name_spots[v_start],
-            'end': self.name_spots[v_end],
-            'middle': [self.name_spots[v] for v in v_middle]
-        }
+        return [{
+            'name': self.name_spots[v],
+            'id': self.id_spots[v],
+            'lat': self.lat_spots[v],
+            'lng': self.lng_spots[v]
+        } for v in path.nodes]
 
 
 # Pre-compute the paths for testing
