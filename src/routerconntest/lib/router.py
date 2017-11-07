@@ -8,6 +8,9 @@ point = sum of (eval of v) * weight_eval_nodes for nodes v in P
       + sum of (time of e) * weight_time_edges for edges e in P
 """
 
+infinity_pos = float('inf')
+infinity_neg = float('-inf')
+
 weight_eval_nodes = 1.0
 weight_time_nodes = -0.2
 weight_time_edges = -0.03
@@ -125,7 +128,8 @@ class Router(object):
         """Given a path, try to add a node in the middle of the path.
         Find the best one among them.
         """
-        path_best = path
+        path_best = None
+        point_best = infinity_neg
         not_used = [True] * self.graph.num_nodes
 
         # exclude the nodes included in the path
@@ -142,7 +146,11 @@ class Router(object):
                     if path_new.time > time_max:
                         continue
 
-                    if path_new.point > path_best.point:
+                    if path_new.point > point_best:
                         path_best = path_new
+                        point_best = path_new.point
 
-        return path_best
+        if path_best is None:
+            return path
+        else:
+            return path_best
