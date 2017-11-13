@@ -2,7 +2,7 @@ import json
 from math import sin, cos, asin, sqrt
 
 from routerconntest import app
-from routerconntest.lib import router
+from routerconntest.core import router
 
 
 def calc_distance(lat_1, lng_1, lat_2, lng_2):

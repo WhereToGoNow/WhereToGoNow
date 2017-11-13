@@ -6,16 +6,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='libs/bootstrap-4.0.0-beta.2.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='libs/bootstrap-3.3.2.min.css') }}">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <script type="text/javascript" src="{{ url_for('static', filename='libs/jquery-3.2.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='libs/popper-1.12.3.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='libs/bootstrap-4.0.0-beta.2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='libs/bootstrap-3.3.2.min.js') }}"></script>
 
-    <!--
-    JQuery (See http://flask.pocoo.org/docs/0.12/patterns/jquery/)
-    * We have to load JQuery before the script, since we sometimes have error
-      s.t '$' is unknown.
-    -->
-    <script type="text/javascript" src="{{ url_for('static', filename='jquery-3.2.1.min.js') }}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjZL2Os_sAEhnQRAwfPyLAJWU9tykuLIY&callback=init"
+            async defer></script>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='renderer.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='routeviewer.js') }}"></script>
 
     <style>
         html,
@@ -57,199 +60,62 @@
     </style>
 
     <script type="text/javascript">
-        var service; // route rendering
-        var display; // map rendering
-        var routes;
+        var renderer;
+        var routeviewer;
 
         /*
-         * Initialize the map.
-         * (See https://developers.google.com/maps/documentation/javascript/examples/directions-waypoints?hl=ko)
+         * Initialize all the things.
+         * This function is called automatically after Google Maps API is loaded.
          */
-        function initMap() {
-            service = new google.maps.DirectionsService;
-            display = new google.maps.DirectionsRenderer;
+        function init() {
+            $(document).ready(function () {
+                renderer = new Renderer('#map');
 
-            var defaultCenter = {
-                lat: 36.369392,
-                lng: 127.364025
-            };
-            var defaultZoom = 7;
-
-            // map object
-            var map = new google.maps.Map($('#map')[0], {
-                center: defaultCenter,
-                zoom: defaultZoom
-            });
-
-            // attach the renderer
-            display.setMap(map);
-        }
-
-        /* Write the result on the page. */
-        function writeResult(s) {
-            //$('#result')[0].innerHTML = s;
-        }
-
-        function updateRoutes(data) {
-            routes = [];
-
-            data.forEach(function (route) {
-                routes.push(JSON.parse(route));
-            })
-
-            var routeContainer = $('#container-routes');
-            routeContainer.empty();
-
-            if (!routes)
-                console.error("routes == undefined");
-
-            routes.forEach(function (route) {
-                var routePanelHeader = $('<div>').attr('class', 'panel-heading')
-                    .text(route[0]['name']);
-                var routePanelFooter = $('<div>').attr('class', 'panel-footer')
-                    .text(route[route.length - 1]['name']);
-
-                var routePanelBody = $('<div>').attr('class', 'panel-body');
-                for (var i = 1; i < route.length - 1; i++) {
-                    routePanelBody.append(route[i]['name'] + '<br />');
-                }
-
-                var routePanel = $('<li>').attr('class', 'panel panel-primary')
-                    .attr('id', 'route').append(
-                        routePanelHeader,
-                        routePanelBody,
-                        routePanelFooter);
-
-                routeContainer.append(routePanel);
-            });
-
-            $('#map').hide();
-            routeContainer.show();
-        }
-
-        /* Update the map. */
-        function updateMap(data) {
-            var start = data[0];
-            var end = data[data.length - 1];
-            var middle = data.slice(1, data.length - 3);
-
-            var middleInfo = [];
-
-            /*
-            console.log("updatedMap" + data);
-            console.log(start);
-            console.log(middle);
-            console.log(end);
-            */
-
-            for (var i = 0; i < middle.length; i++) {
-                middleInfo.push({
-                    location: middle[i]['name'],
-                    stopover: true
+                routeviewer = new RouteViewer('#container-routes', '#map', (route) => {
+                    renderer.renderRoute(route);
                 });
-            }
 
-            var routeInfo = {
-                origin: start['name'],
-                destination: end['name'],
-                waypoints: middleInfo,
-                travelMode: 'DRIVING',
-                unitSystem: google.maps.UnitSystem.METRIC
-            };
-
-            service.route(routeInfo, function (response, status) {
-                if (status == 'OK') {
-                    display.setDirections(response);
-
-                    /*
-                    writeResult(
-                        'Successful!' +
-                        '<br>- Start: ' + start['name'] +
-                        '<br>- End: ' + end['name'] +
-                        '<br>- Middle: ' + data.middle.join(' -> ')
-                    );
-                    */
-                } else {
-                    // writeResult('Failed!');
-                }
-            });
-
-            var routeContainer = $('#container-routes');
-            routeContainer.empty();
-            routeContainer.hide();
-        }
-
-        /*
-         * When the user clicks the button, send a request to the server
-         * and call UpdateMap() using the response data.
-         */
-        $(document).ready(function () {
-            $('#submit').click(function () {
-                $.getJSON({
-                    url: '/update',
-                    success: function (data) {
-                        updateRoutes(data);
-                    }
+                // bind the callback to the submit button
+                $('#submit').click(function () {
+                    $.getJSON({
+                        url: '/update',
+                        success: function (data) {
+                            routeviewer.updateRoutes(data);
+                        }
+                    });
                 });
             });
-
-            $('#container-routes').on('click ', '#route', function () {
-                var routeContainer = $('#container-routes');
-                var mapContainer = $('#map');
-                var index = $('li.panel').index(this);
-
-                console.log(index + 'th route clicked!');
-
-                routeContainer.empty();
-                updateMap(routes[index]);
-
-                mapContainer.show();
-            });
-        });
+        }
     </script>
-
-
 </head>
 
 <body>
-    <nav class="navbar navbar-expand navbar-dark bg-dark" style="margin: 0px;">
-        <a class="navbar-brand" href="/">WhereToGoNow</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02"
+<nav class="navbar navbar-expand navbar-dark bg-dark" style="margin: 0px;">
+    <a class="navbar-brand" href="/">WhereToGoNow</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02"
+            aria-controls="navbarsExample02"
             aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </nav>
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</nav>
 
-    <div class="jumbotron">
-        <div class="container">
-            <!--Clicking the button calls UpdateMap()-->
-            <button type="submit" id="submit" class="btn btn-primary">Choose the cities!</button>
-            <br />
+<div class="jumbotron">
+    <div class="container">
+        <!--Clicking the button calls UpdateMap()-->
+        <button type="submit" id="submit" class="btn btn-primary">Choose the cities!</button>
+        <br/>
+    </div>
+</div>
 
-            <!--
-            <h3>Result</h3>
-            <p id="result">Nothing!</p>
-            -->
+<main role="main">
+    <div class="container-fluid" id="container-map">
+        <ul class="container-fluid" id="container-routes">
+        </ul>
+        <div class="container-fluid" id="map">
+            <!--Map is rendered here-->
         </div>
     </div>
-
-    <main role="main">
-        <div class="container-fluid" id="container-map">
-            <ul class="container-fluid" id="container-routes">
-            </ul>
-            <div class="container-fluid" id="map">
-                <!--Map is rendered here-->
-            </div>
-        </div>
-    </main>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
-    <!--script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>-->
-    <!--Google Map API-->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjZL2Os_sAEhnQRAwfPyLAJWU9tykuLIY&callback=initMap" async
-        defer></script>
-
+</main>
 </body>
 
 </html>

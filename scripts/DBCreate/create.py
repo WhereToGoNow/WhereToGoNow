@@ -1,7 +1,7 @@
 import json
 import sqlite3
 
-from routerconntest.lib.db import DB
+from routerconntest.core.db import DB
 
 if __name__ == '__main__':
     print('Creating spots.db...')
