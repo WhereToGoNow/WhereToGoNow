@@ -36,13 +36,14 @@ class RouteViewer {
     updateRoutes(routes) {
         if (!routes) {
             console.error('routes: undefined');
+            return;
         }
 
-        // copy the array
-        this.routes = routes.slice(0);
-        this.routeContainer.empty();
+        this.routes = routes;
 
         // generate the panels
+        this.routeContainer.empty();
+
         this.routes.forEach((route) => {
             var routePanelHeader = $('<div>').attr('class', 'panel-heading')
                 .text(route[0]['name']);
