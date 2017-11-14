@@ -11,6 +11,13 @@ def render_index():
     return render_template('index.html')
 
 
+# Render: singin.html
+@app.route('/signin')
+def render_signin():
+    print('>> Render: signin.html')
+    return render_template('signin.html')
+
+
 # Respond: From button click
 @app.route('/update', methods=['GET'])
 def respond_update():
@@ -21,10 +28,7 @@ def respond_update():
     json_routes = json.dumps(data_routes)
 
     response = app.response_class(
-        response=json_routes,
-        status=200,
-        mimetype='application/json'
-    )
+        response=json_routes, status=200, mimetype='application/json')
 
     print('>> Response: %s' % json_routes)
 
