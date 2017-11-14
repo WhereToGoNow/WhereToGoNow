@@ -91,11 +91,13 @@
         }
 
         function updateRoutes(data) {
-            routes = [];
+            routes = data.slice(0); // slice(0): array copying
 
+            /*
             data.forEach(function (route) {
                 routes.push(JSON.parse(route));
             })
+            */
 
             var routeContainer = $('#container-routes');
             routeContainer.empty();
