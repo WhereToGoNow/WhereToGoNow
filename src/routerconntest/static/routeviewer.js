@@ -16,6 +16,8 @@ class RouteViewer {
         }
 
         this.routeContainer.on('click', '#route', (event) => {
+            // note: (event) => { ... .index(event.currentTarget) ...}
+            // is equivalent to function() { ... .index(this) ...}
             var index = $('li.panel').index(event.currentTarget);
             var route = this.routes[index];
 
@@ -50,7 +52,7 @@ class RouteViewer {
 
             var routePanelBody = $('<div>').attr('class', 'panel-body');
 
-            for (var i = 0; i < route.length; i++) {
+            for (var i = 1; i < route.length - 1; i++) {
                 routePanelBody.append(route[i]['name'] + '<br />');
             }
 

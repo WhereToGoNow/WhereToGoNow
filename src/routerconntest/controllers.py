@@ -18,9 +18,6 @@ def respond_update():
 
     # for debug. have to change after
     data_routes = [route_paris, route_france, route_europe]
-    # json_routes = json.dumps([json.dumps(data) for data in data_routes])
-    # We can just dump the whole list...
-    # (So we parse the data just once in the client.)
     json_routes = json.dumps(data_routes)
 
     response = app.response_class(
