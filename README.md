@@ -1,8 +1,5 @@
 # WhereToGoNow
 
-### About
-Main repository
-
 ### Project structure
 (Reference: [Flask - Organizing your project](http://exploreflask.com/en/latest/organizing.html))
 
