@@ -1,7 +1,8 @@
-import sqlite3
-from flask import render_template
-from routerconntest.models import *
+from flask import render_template, request
+from flask_login import login_user
+
 from routerconntest.core import dbmanager
+from routerconntest.models import *
 
 db = dbmanager.DBManager()
 
@@ -45,3 +46,51 @@ def respond_evaluate():
     json_hashtags = json.dumps(hashtags)
 
     return json_hashtags
+
+
+@app.route('/signin/signup', methods=['POST'])
+def respond_signup():
+    print('>> Request: (url)/signin/signup')
+
+    id_ = request.json['id']
+    password = request.json['password']
+
+    if sign_manager.add_user(id_, password):
+        login_user(User(id_))
+        print('>> User %s: Sign-up success' % id_)
+        data_result = {'result': True}
+    else:
+        print('>> User %s: Sign-up failed' % id_)
+        data_result = {'result': False}
+
+    json_result = json.dumps(data_result)
+
+    response = app.response_class(
+        response=json_result, status=200, mimetype='application/json'
+    )
+
+    return response
+
+
+@app.route('/signin/signin', methods=['POST'])
+def respond_signin():
+    print('>> Request: (url)/signin/signin')
+
+    id_ = request.json['id']
+    password = request.json['password']
+
+    if sign_manager.authenticate_user(id_, password):
+        login_user(User(id_))
+        print('>> User %s: Sign-in success' % id_)
+        data_result = {'result': True}
+    else:
+        print('>> User %s: Sign-in failed' % id_)
+        data_result = {'result': False}
+
+    json_result = json.dumps(data_result)
+
+    response = app.response_class(
+        response=json_result, status=200, mimetype='application/json'
+    )
+
+    return response

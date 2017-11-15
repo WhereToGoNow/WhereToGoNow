@@ -2,8 +2,11 @@ import json
 from math import sin, cos, asin, sqrt
 
 from routerconntest import app
-from routerconntest.core import router
+from routerconntest.core.router import Router, Graph
+from routerconntest.core.signmanager import SignManager, User
 
+
+# ==================== index.html ====================
 
 def calc_distance(lat_1, lng_1, lat_2, lng_2):
     """Calculate the distance between two points.
@@ -45,8 +48,8 @@ class RouteGenerator(object):
                 self.rating_spots.append(rating)
 
         # initialize graph & router
-        self.graph = router.Graph(self.num_spots)
-        self.router = router.Router(self.graph)
+        self.graph = Graph(self.num_spots)
+        self.router = Router(self.graph)
 
         for v in range(self.num_spots):
             self.graph.time_nodes[v] = 1
@@ -98,3 +101,41 @@ route_europe = RouteGenerator(
     path_spots='static/data/spots_europe.json',
     speed=60.0
 ).generate_route(0, 1, time_max=24 * 12)
+
+# ==================== signin.html ====================
+
+sign_manager = SignManager()
+sign_manager.init_app(app)
+
+
+# Required by flask_login: Used when reloading the user from the session.
+# If the user exists -> Return 'User' instance / Otherwise -> Return None
+@sign_manager.user_loader
+def user_loader(id_):
+    if sign_manager.search_user(id_):
+        print('>> user_loader: success')
+        return User(id_)
+    else:
+        print('>> user_loader: failed')
+        return None
+
+
+# Required by flask_login: Used when loading a user from the flask request.
+# If the user exists -> Return 'User' instance / Otherwise -> Return None
+"""
+@sign_manager.request_loader
+def request_loader(request):
+    id_ = request.json.get('id')
+    password = request.json.get('password')
+
+    if not sign_manager.search_user(id_):
+        print('>> request_loader: failed')
+        return None
+
+    user = User(id_)
+    # noinspection PyPropertyAccess
+    user.is_authenticated = sign_manager.authenticate_user(id_, password)
+
+    print('>> request_loader: success')
+    return user
+"""
