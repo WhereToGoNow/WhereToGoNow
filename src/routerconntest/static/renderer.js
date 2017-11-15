@@ -5,12 +5,17 @@
 
 class Renderer {
     constructor(mapContainerId) {
+        this.lastDrawnRoute = null;
+
         this.mapContainer = $(mapContainerId);
         this.service = new google.maps.DirectionsService();
         this.display = new google.maps.DirectionsRenderer();
 
         this.map = new google.maps.Map(this.mapContainer[0], {
-            center: {lat: 36.369392, lng: 127.364025},
+            center: {
+                lat: 36.369392,
+                lng: 127.364025
+            },
             zoom: 7
         });
 
@@ -60,5 +65,7 @@ class Renderer {
                 // do nothing
             }
         });
+
+        this.lastDrawnRoute = route;
     }
 }

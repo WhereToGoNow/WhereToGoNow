@@ -4,10 +4,14 @@
  */
 
 class RouteViewer {
-    constructor(routeContainerId, mapContainerId, onClick) {
+    constructor(routeContainerId, mapContainerId, spotContainerId, onClick) {
         this.routeContainer = $(routeContainerId);
         this.mapContainer = $(mapContainerId);
+        this.spotContainer = $(spotContainerId);
         this.routes = [];
+
+        this.routeContainer.hide();
+        this.spotContainer.hide();
 
         if (typeof onClick === 'undefined') {
             this.onClick = (route) => {};
@@ -18,14 +22,15 @@ class RouteViewer {
         this.routeContainer.on('click', '#route', (event) => {
             // note: (event) => { ... .index(event.currentTarget) ...}
             // is equivalent to function() { ... .index(this) ...}
-            var index = $('li.panel').index(event.currentTarget);
+            var index = $('div.card').index(event.currentTarget);
             var route = this.routes[index];
 
-            console.log(index +'th route is selected');
+            console.log(index + 'th route is selected');
 
             // hide the panels and show the map
             this.routeContainer.empty();
             this.routeContainer.hide();
+            this.spotContainer.hide();
             this.mapContainer.show();
 
             // callback (ex. render the map)
@@ -45,27 +50,53 @@ class RouteViewer {
         this.routeContainer.empty();
 
         this.routes.forEach((route) => {
-            var routePanelHeader = $('<div>').attr('class', 'panel-heading')
-                .text(route[0]['name']);
+            var routeCard = $('<div>').attr('class', 'card').attr('id', 'route');
+            var routeListGroup = $('<ul>').attr('id', 'list-group-route').attr('class', 'list-group list-group-flush');
 
-            var routePanelFooter = $('<div>').attr('class', 'panel-footer')
-                .text(route[route.length - 1]['name']);
+            route.forEach((spot) => {
+                routeListGroup.append($('<li>').attr('class', 'list-group-item').text(spot.name));
+            });
 
-            var routePanelBody = $('<div>').attr('class', 'panel-body');
-
-            for (var i = 1; i < route.length - 1; i++) {
-                routePanelBody.append(route[i]['name'] + '<br />');
-            }
-
-            var routePanel = $('<li>').attr('class', 'panel panel-primary')
-                .attr('id', 'route')
-                .append(routePanelHeader, routePanelBody, routePanelFooter);
-
-            this.routeContainer.append(routePanel);
+            routeCard.append(routeListGroup);
+            this.routeContainer.append(routeCard);
         });
 
         // hide the map and show the panels
         this.mapContainer.hide();
+        this.spotContainer.hide();
         this.routeContainer.show();
+    }
+
+    updateEvaluater(lastDrawnRoute) {
+        var route = lastDrawnRoute;
+        var spotContainer = this.spotContainer;
+
+        spotContainer.empty();
+
+        if (!route) {
+            console.error('route: undefined');
+            return;
+        }
+
+        var spotAccordion = $('<div>').attr('id', 'accordion').attr('role', 'tablist').attr('aria-multiselectable', 'true');
+
+        var index = 0;
+        route.forEach((spot) => {
+
+            var spotCard = $('<div>').attr('class', 'card').attr('id', 'spot');
+            spotCard.append($('<div>').attr('class', 'card-header').attr('role', 'tab')
+                .append($('<a>').attr('data-toggle', 'collapse').attr('data-parent', '#accordion').attr('href', '#collapse' + index).text(spot.name)));
+            spotCard.append($('<div>').attr('id', 'collapse' + index).attr('class', 'collapse').attr('role', 'tabpanel')
+                .append($('<div>').attr('class', 'card-block').text(spot.name)));
+
+            spotAccordion.append(spotCard);
+            index += 1;
+        });
+
+        this.spotContainer.append(spotAccordion);
+
+        this.mapContainer.hide();
+        this.routeContainer.hide();
+        this.spotContainer.show();
     }
 }
