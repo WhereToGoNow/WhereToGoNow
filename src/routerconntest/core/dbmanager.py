@@ -25,8 +25,8 @@ import sqlite3
 
 
 class DBManager(object):
-    def __init__(self, connection):
-        self.connection = connection
+    def __init__(self):
+        self.connection = sqlite3.connect('../static/data/spots.db')
         self.cursor = self.connection.cursor()
 
     def close(self):
@@ -49,3 +49,7 @@ class DBManager(object):
     def fetch_all(self):
         """Retrieve all matching rows."""
         return self.cursor.fetchall()
+
+    def get_hashtag_list(self):
+        self.run_query('SELECT name FROM HashtagList')
+        return self.fetch_all()

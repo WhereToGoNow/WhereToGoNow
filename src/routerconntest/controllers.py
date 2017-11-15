@@ -1,5 +1,9 @@
+import sqlite3
 from flask import render_template
 from routerconntest.models import *
+from routerconntest.core import dbmanager
+
+db = dbmanager.DBManager()
 
 
 # Render: index.html
@@ -31,3 +35,13 @@ def respond_update():
     print('>> Response: %s' % json_routes)
 
     return response
+
+
+@app.route('/evaluate', method=['GET'])
+def respond_evaluate():
+    print('>> Request: (url)/update')
+
+    hashtags = db.get_hashtag_list()
+    json_hashtags = json.dumps(hashtags)
+
+    return json_hashtags

@@ -92,9 +92,7 @@
                     });
                 });
 
-                $('#button-evaluate').click(function () {
-                    return routeviewer.updateEvaluater(renderer.lastDrawnRoute);
-                });
+                $('#button-evaluate').click(routeviewer.updateEvaluater(renderer.lastDrawnRoute));
             });
         }
     </script>
