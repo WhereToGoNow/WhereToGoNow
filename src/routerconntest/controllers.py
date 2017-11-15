@@ -37,7 +37,7 @@ def respond_update():
     return response
 
 
-@app.route('/evaluate', method=['GET'])
+@app.route('/evaluate', methods=['GET'])
 def respond_evaluate():
     print('>> Request: (url)/update')
 

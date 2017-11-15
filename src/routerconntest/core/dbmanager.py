@@ -26,7 +26,8 @@ import sqlite3
 
 class DBManager(object):
     def __init__(self):
-        self.connection = sqlite3.connect('../static/data/spots.db')
+        self.connection = sqlite3.connect(
+            'routerconntest/static/data/spots.db')
         self.cursor = self.connection.cursor()
 
     def close(self):
