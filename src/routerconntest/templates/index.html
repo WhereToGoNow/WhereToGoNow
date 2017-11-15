@@ -63,6 +63,10 @@
         .collapse {
             margin: 12px;
         }
+
+        .btn-sm {
+            margin: 4px;
+        }
     </style>
 
     <script type="text/javascript">
@@ -93,7 +97,12 @@
                 });
 
                 $('#button-evaluate').click(function () {
-                    return routeviewer.updateEvaluater(renderer.lastDrawnRoute);
+                    $.getJSON({
+                        url: '/evaluate',
+                        success: function (data) {
+                            routeviewer.updateEvaluater(renderer.lastDrawnRoute, data);
+                        }
+                    });
                 });
             });
         }

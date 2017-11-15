@@ -74,7 +74,7 @@ class RouteViewer {
         this.routeContainer.show();
     }
 
-    updateEvaluater(lastDrawnRoute) {
+    updateEvaluater(lastDrawnRoute, hashtags) {
         var route = lastDrawnRoute;
         var spotContainer = this.spotContainer;
 
@@ -93,8 +93,16 @@ class RouteViewer {
             var spotCard = $('<div>').attr('class', 'card').attr('id', 'spot');
             spotCard.append($('<div>').attr('class', 'card-header').attr('role', 'tab')
                 .append($('<a>').attr('data-toggle', 'collapse').attr('data-parent', '#accordion').attr('href', '#collapse' + index).text(spot.name)));
-            spotCard.append($('<div>').attr('id', 'collapse' + index).attr('class', 'collapse').attr('role', 'tabpanel')
-                .append($('<div>').attr('class', 'card-block').text(spot.name)));
+
+            var collapse = $('<div>').attr('id', 'collapse' + index).attr('class', 'collapse').attr('role', 'tabpanel');
+            var card_block = $('<div>').attr('class', 'card-block');
+
+            hashtags.forEach((hashtag) => {
+                card_block.append($('<button>').attr('type', 'submit').attr('class', 'btn btn-outline-primary btn-sm').text(hashtag));
+            });
+
+            collapse.append(card_block);
+            spotCard.append(collapse);
 
             spotAccordion.append(spotCard);
             index += 1;
