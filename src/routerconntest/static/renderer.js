@@ -35,6 +35,8 @@ class Renderer {
      * }
      */
     renderRoute(route) {
+        console.log(route);
+
         var startSpot = route[0];
         var endSpot = route[route.length - 1];
         var middleSpots = route.slice(1, route.length - 3);

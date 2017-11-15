@@ -77,9 +77,10 @@
             $(document).ready(function () {
                 renderer = new Renderer('#container-map');
 
-                routeviewer = new RouteViewer('#container-routes', '#container-map', '#container-spots', (route) => {
-                    renderer.renderRoute(route);
-                });
+                routeviewer = new RouteViewer('#container-routes', '#container-map', '#container-spots',
+                    '#button-submit', '#button-evalute', (route) => {
+                        renderer.renderRoute(route);
+                    });
 
                 // bind the callback to the submit button
                 $('#button-submit').click(function () {
@@ -92,8 +93,6 @@
                 });
 
                 $('#button-evaluate').click(function () {
-                    console.log('try enter evaluating, ', renderer.lastDrawnRoute);
-
                     return routeviewer.updateEvaluater(renderer.lastDrawnRoute);
                 });
             });
