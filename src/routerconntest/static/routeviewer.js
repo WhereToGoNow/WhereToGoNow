@@ -74,11 +74,14 @@ class RouteViewer {
         this.routeContainer.show();
     }
 
-    updateEvaluater(lastDrawnRoute, hashtags) {
+    updateEvaluater(lastDrawnRoute, hashtags, userId) {
         var route = lastDrawnRoute;
         var spotContainer = this.spotContainer;
 
         spotContainer.empty();
+
+        console.log('update: ', lastDrawnRoute);
+        console.log(hashtags);
 
         if (!route) {
             console.error('route: undefined');
@@ -98,7 +101,39 @@ class RouteViewer {
             var card_block = $('<div>').attr('class', 'card-block');
 
             hashtags.forEach((hashtag) => {
-                card_block.append($('<button>').attr('type', 'submit').attr('class', 'btn btn-outline-primary btn-sm').text(hashtag));
+                var button = $('<button>').attr('type', 'submit')
+                    .attr('class', 'btn btn-outline-primary btn-sm')
+                    .attr('data-spot-id', spot.id)
+                    .attr('data-hashtag-id', hashtag.id)
+                    .text(hashtag.name);
+
+                button.click(() => {
+                    var updateType;
+
+                    if (button.attr('class') == 'btn btn-outline-primary btn-sm') {
+                        button.attr('class', 'btn btn-primary btn-sm');
+                        updateType = 'update';
+                    } else {
+                        button.attr('class', 'btn btn-outline-primary btn-sm');
+                        updateType = 'remove';
+                    }
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/hashtags/update',
+                        data: {
+                            'userId': userId,
+                            'spotId': button.attr('data-spot-id'),
+                            'hashtagId': button.attr('data-hashtag-id'),
+                            'updateType': updateType
+                        },
+                        dataType: 'json',
+                        copmplete: (data) => {
+                            console.log(data);
+                        }
+                    })
+                });
+                card_block.append(button);
             });
 
             collapse.append(card_block);
@@ -110,8 +145,27 @@ class RouteViewer {
 
         this.spotContainer.append(spotAccordion);
 
+        this.evaluteButton.hide();
         this.mapContainer.hide();
         this.routeContainer.hide();
         this.spotContainer.show();
+
+        $.getJSON({
+            url: '/hashtags/0',
+            success: function (evalList) {
+                console.log(evalList);
+
+                spotAccordion.find('button').each((index, e) => {
+                    var elem = $(e);
+
+                    evalList.forEach((ev) => {
+                        if (ev.userId == userId && ev.spotId == elem.attr('data-spot-id') && ev.hashtagId == elem.attr('data-hashtag-id')) {
+                            elem.attr('class', 'btn btn-primary btn-sm');
+                        }
+                    });
+                })
+            }
+        });
     }
+
 }

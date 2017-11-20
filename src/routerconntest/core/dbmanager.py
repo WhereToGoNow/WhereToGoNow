@@ -30,6 +30,8 @@ class DBManager(object):
             'routerconntest/static/data/spots.db',
             check_same_thread=False  # flask_login uses multiple threads
         )
+        self.connection.row_factory = lambda c, r: dict(
+            [(col[0], r[idx]) for idx, col in enumerate(c.description)])
 
         self.cursor = self.connection.cursor()
 
@@ -55,5 +57,24 @@ class DBManager(object):
         return self.cursor.fetchall()
 
     def get_hashtag_list(self):
-        self.run_query('SELECT name FROM HashtagList')
+        self.run_query('SELECT * FROM HashtagList')
         return self.fetch_all()
+
+    def get_hashtag_list_by_user_id(self, userId):
+        self.run_query(
+            'SELECT userId, spotId, hashtagId FROM SpotEval WHERE userId=?', userId)
+        return self.fetch_all()
+
+    def update_hashtag(self, userId, spotId, hashtagId, updateType):
+        print userId, spotId, hashtagId, updateType
+
+        if updateType == 'remove':
+            print 'delete'
+            self.run_query(
+                'DELETE FROM SpotEval WHERE userId=? and spotId=? and hashtagId=?', userId, spotId, hashtagId)
+        elif updateType == 'update':
+            print 'insert'
+            self.run_query(
+                'INSERT INTO SpotEval VALUES (NULL, ?, ?, ?)', userId, spotId, hashtagId)
+
+        return True

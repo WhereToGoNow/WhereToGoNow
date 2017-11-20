@@ -33,19 +33,42 @@ def respond_update():
     response = app.response_class(
         response=json_routes, status=200, mimetype='application/json')
 
-    print('>> Response: %s' % json_routes)
+    #print('>> Response: %s' % json_routes)
 
     return response
 
 
-@app.route('/evaluate', methods=['GET'])
-def respond_evaluate():
-    print('>> Request: (url)/update')
+@app.route('/hashtags', methods=['GET'])
+def respond_hashtags():
+    print('>> Request: (url)/hashtags')
 
     hashtags = db.get_hashtag_list()
     json_hashtags = json.dumps(hashtags)
 
     return json_hashtags
+
+
+@app.route('/hashtags/<userId>', methods=['GET'])
+def respond_hashtag_list_by_user_id(userId):
+    print('>> Request: (url)/hashtags/<userId>')
+
+    hashtags = db.get_hashtag_list_by_user_id(userId)
+    json_hashtags = json.dumps(hashtags)
+
+    return json_hashtags
+
+
+@app.route('/hashtags/update', methods=['POST'])
+def respond_hashtags_update():
+    print('>> Request: (url)/hashtags/update')
+
+    contents = request.form
+    print contents
+
+    if db.update_hashtag(contents['userId'], contents['spotId'], contents['hashtagId'], contents['updateType']):
+        return app.response_class(response={'result': True}, status=200, mimetype='application/json')
+
+    return app.response_class(response={'result': False}, status=403)
 
 
 @app.route('/signin/signup', methods=['POST'])
