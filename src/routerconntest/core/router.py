@@ -13,7 +13,7 @@ from operator import attrgetter
 infinity_pos = float('inf')
 infinity_neg = float('-inf')
 
-list_max = 50
+list_max = 30
 
 
 # ============================================================
