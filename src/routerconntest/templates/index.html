@@ -17,6 +17,7 @@
 
     <script type="text/javascript" src="{{ url_for('static', filename='renderer.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='routeviewer.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='signmanager.js') }}"></script>
 
     <style>
         html,
@@ -67,11 +68,68 @@
         .btn-sm {
             margin: 4px;
         }
+
+        .form-signin {
+            max-width: 330px;
+            padding: 15px;
+            margin: 0 auto;
+        }
+
+        .form-signin .form-signin-heading {
+            margin-bottom: 10px;
+        }
+
+        .form-signin .form-control {
+            position: relative;
+            box-sizing: border-box;
+            height: auto;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .form-signin .form-control:focus {
+            z-index: 2;
+        }
+
+        .form-signin input[type="text"] {
+            margin-bottom: -1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        .form-signin input[type="password"] {
+            margin-bottom: 10px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+        #panel-sign-in {
+            position: absolute; /* overlap the other contents */
+            z-index: 1;
+            width: 100%;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #button-sign-toggle {
+            position: absolute;
+            right: 10px;
+        }
+
+        #button-sign-out {
+            position: absolute;
+            right: 10px;
+        }
+
+        #text-sign-result {
+            margin-top: 10px;
+        }
     </style>
 
     <script type="text/javascript">
         var renderer;
         var routeviewer;
+        var signmanager;
 
         /*
          * Initialize all the things.
@@ -80,6 +138,16 @@
         function init() {
             $(document).ready(function () {
                 renderer = new Renderer('#container-map');
+
+                signmanager = new SignManager({
+                    idContainer: '#input-id',
+                    passwordContainer: '#input-password',
+                    toggleButton: '#button-sign-toggle',
+                    signUpButton: '#button-sign-up',
+                    signInButton: '#button-sign-in',
+                    signOutButton: '#button-sign-out',
+                    resultText: '#text-sign-result'
+                });
 
                 $.getJSON({
                     url: '/spots',
@@ -124,7 +192,35 @@
             aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
+        <button type="button" id="button-sign-toggle" class="btn btn-success btn-md"
+                data-toggle="collapse" data-target="#panel-sign-in">
+            Sign up / Sign in
+        </button>
+
+        <button type="button" id="button-sign-out" class="btn btn-success btn-md">
+            Sign out
+        </button>
     </nav>
+
+    <div class="panel panel-collapse collapse bg-light" id="panel-sign-in">
+        <form class="form-signin">
+            <label for="input-id" class="sr-only">Id</label>
+            <input type="text" id="input-id" class="form-control" placeholder="Id" required autofocus>
+            <label for="input-password" class="sr-only">Password</label>
+            <input type="password" id="input-password" class="form-control" placeholder="Password" required>
+
+            <button type="button" id="button-sign-up" class="btn btn-block btn-md btn-primary">
+                New user? Sign up!
+            </button>
+
+            <button type="button" id="button-sign-in" class="btn btn-block btn-md btn-info">
+                Have an account? Sign in!
+            </button>
+
+            <div id="text-sign-result"></div>
+        </form>
+    </div>
 
     <div class="jumbotron">
         <div class="container">
@@ -136,7 +232,6 @@
     </div>
 
     <main role="main">
-
         <div class="container-fluid" id="container-spots">
             <!--Spots are rendered here-->
         </div>

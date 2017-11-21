@@ -118,24 +118,3 @@ def user_loader(id_):
     else:
         print('>> user_loader: failed')
         return None
-
-
-# Required by flask_login: Used when loading a user from the flask request.
-# If the user exists -> Return 'User' instance / Otherwise -> Return None
-"""
-@sign_manager.request_loader
-def request_loader(request):
-    id_ = request.json.get('id')
-    password = request.json.get('password')
-
-    if not sign_manager.search_user(id_):
-        print('>> request_loader: failed')
-        return None
-
-    user = User(id_)
-    # noinspection PyPropertyAccess
-    user.is_authenticated = sign_manager.authenticate_user(id_, password)
-
-    print('>> request_loader: success')
-    return user
-"""
