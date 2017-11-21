@@ -104,23 +104,29 @@ class Router(object):
     def find_best_path(self, v_start, v_end, length_max, time_max):
         def_path = Path(self.graph, [v_start, v_end])
         plist = [def_path]
-    
+
         if self.verbose:
             print('> %s\n  (Point: %.3f, Time: %.3f)'
                   % (def_path, def_path.point, def_path.time))
 
         for i in range(length_max - 2):
+            plist_prev = plist
             plist = self.find_next_path(plist, time_max)
 
             if self.verbose:
                 for path in plist:
                     print('> %s\n  (Point: %.3f, Time: %.3f)'
-                        % (path, path.point, path.time))
+                          % (path, path.point, path.time))
+
+            # if plist is empty -> try to use the previous one
+            if not plist:
+                plist = plist_prev
 
         return plist[0]
 
     def find_next_path(self, plist, time_max):
-        """Given a list of path, try to add a node in the middle of the path. add it to update the list.
+        """Given a list of path, try to add a node in the middle of the path.
+        Add it to update the list.
         """
 
         plist_new = []
@@ -133,7 +139,7 @@ class Router(object):
                 if not_used[v]:
                     path_best = None
                     time_best = infinity_pos
-                    for pos in range(1,path.length):
+                    for pos in range(1, path.length):
                         path_new = path.copy()
                         path_new.add_node(pos, v)
 
@@ -143,17 +149,16 @@ class Router(object):
                         if path_new.time < time_best:
                             path_best = path_new
                             time_best = path_new.time
-                        
+
                         success = True
 
                         for path_tmp in plist_new:
                             if set(path_tmp.nodes) == set(path_best.nodes):
                                 success = False
                                 break
-                        
+
                         if success:
                             plist_new.append(path_best)
-        
-        return sorted(plist_new,key=attrgetter('point'),reverse=True)[0:list_max]
 
-        
+        plist_sorted = sorted(plist_new, key=attrgetter('point'), reverse=True)
+        return plist_sorted[0:list_max]
