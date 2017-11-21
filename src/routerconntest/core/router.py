@@ -117,7 +117,7 @@ class Router(object):
                     print('> %s\n  (Point: %.3f, Time: %.3f)'
                         % (path, path.point, path.time))
 
-        return path
+        return plist[0]
 
     def find_next_path(self, plist, time_max):
         """Given a list of path, try to add a node in the middle of the path. add it to update the list.
@@ -146,8 +146,8 @@ class Router(object):
                         
                         success = True
 
-                        for path in plist_new:
-                            if set(path.nodes) == set(path_best.nodes):
+                        for path_tmp in plist_new:
+                            if set(path_tmp.nodes) == set(path_best.nodes):
                                 success = False
                                 break
                         
