@@ -13,14 +13,31 @@ class Renderer {
 
         this.map = new google.maps.Map(this.mapContainer[0], {
             center: {
-                lat: 36.369392,
-                lng: 127.364025
+                lat: 41.89193,
+                lng: 12.51133
             },
-            zoom: 7
+            zoom: 14
         });
-
         // attach the renderer
         this.display.setMap(this.map);
+    }
+
+    drawMarkers(spotList) {
+        this.markerList = [];
+
+        spotList.forEach((spot) => {
+            var marker = new google.maps.Marker({
+                position: {
+                    lat: spot.latitude,
+                    lng: spot.longitude
+                },
+                map: this.map,
+                title: spot.name,
+                tag: spot
+            });
+
+            this.markerList.push(marker);
+        })
     }
 
     /*

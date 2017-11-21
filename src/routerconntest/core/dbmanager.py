@@ -60,6 +60,10 @@ class DBManager(object):
         self.run_query('SELECT * FROM HashtagList')
         return self.fetch_all()
 
+    def get_spot_list(self):
+        self.run_query('SELECT * FROM SpotInfo')
+        return self.fetch_all()
+
     def get_hashtag_list_by_user_id(self, userId):
         self.run_query(
             'SELECT userId, spotId, hashtagId FROM SpotEval WHERE userId=?', userId)

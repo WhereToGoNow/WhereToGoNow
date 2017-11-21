@@ -81,6 +81,13 @@
             $(document).ready(function () {
                 renderer = new Renderer('#container-map');
 
+                $.getJSON({
+                    url: '/spots',
+                    success: function (spotList) {
+                        renderer.drawMarkers(spotList);
+                    }
+                })
+
                 routeviewer = new RouteViewer('#container-routes', '#container-map', '#container-spots',
                     '#button-submit', '#button-evalute', (route) => {
                         renderer.renderRoute(route);

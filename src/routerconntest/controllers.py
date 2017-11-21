@@ -48,6 +48,16 @@ def respond_hashtags():
     return json_hashtags
 
 
+@app.route('/spots', methods=['GET'])
+def respond_spots():
+    print('>> Request: (url)/spots')
+
+    spots = db.get_spot_list()
+    json_spots = json.dumps(spots)
+
+    return json_spots
+
+
 @app.route('/hashtags/<userId>', methods=['GET'])
 def respond_hashtag_list_by_user_id(userId):
     print('>> Request: (url)/hashtags/<userId>')
