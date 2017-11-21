@@ -8,12 +8,12 @@ point = sum of (eval of v) * weight_eval_nodes for nodes v in P
       + sum of (time of e) * weight_time_edges for edges e in P
 """
 
+from operator import attrgetter
+
 infinity_pos = float('inf')
 infinity_neg = float('-inf')
 
-weight_eval_nodes = 1.0
-weight_time_nodes = -0.2
-weight_time_edges = -0.03
+list_max = 50
 
 
 # ============================================================
@@ -54,15 +54,13 @@ class Path(object):
             v = self.nodes[i]
 
             self.time += self.graph.time_nodes[v]
-            self.point += self.graph.eval_nodes[v] * weight_eval_nodes \
-                          + self.graph.time_nodes[v] * weight_time_nodes
+            self.point += self.graph.eval_nodes[v]
 
         # (2) for each edge (v_1 -> v_2)
         for i in range(self.length - 1):
             v_1, v_2 = self.nodes[i], self.nodes[i + 1]
 
             self.time += self.graph.time_edges[v_1][v_2]
-            self.point += self.graph.time_edges[v_1][v_2] * weight_time_edges
 
     def add_node(self, pos, v):
         """Add `v` at position `pos`."""
@@ -74,19 +72,14 @@ class Path(object):
 
         # (1) add the node v
         self.time += self.graph.time_nodes[v]
-        self.point += self.graph.eval_nodes[v] * weight_eval_nodes \
-                      + self.graph.time_nodes[v] * weight_time_nodes
+        self.point += self.graph.eval_nodes[v]
 
         # (2) add the edges (v_prev -> v) and (v -> v_next)
         self.time += self.graph.time_edges[v_prev][v] \
                      + self.graph.time_edges[v][v_next]
 
-        self.point += self.graph.time_edges[v_prev][v] * weight_time_edges \
-                      + self.graph.time_edges[v][v_next] * weight_time_edges
-
         # (3) remove the edge (v_prev -> v_next)
         self.time -= self.graph.time_edges[v_prev][v_next]
-        self.point -= self.graph.time_edges[v_prev][v_next] * weight_time_edges
 
     def copy(self):
         """Copy the path. (Reuse the time and the point.)"""
@@ -109,48 +102,58 @@ class Router(object):
         self.verbose = verbose
 
     def find_best_path(self, v_start, v_end, length_max, time_max):
-        path = Path(self.graph, [v_start, v_end])
-
+        def_path = Path(self.graph, [v_start, v_end])
+        plist = [def_path]
+    
         if self.verbose:
             print('> %s\n  (Point: %.3f, Time: %.3f)'
-                  % (path, path.point, path.time))
+                  % (def_path, def_path.point, def_path.time))
 
         for i in range(length_max - 2):
-            path = self.find_next_path(path, time_max)
+            plist = self.find_next_path(plist, time_max)
 
             if self.verbose:
-                print('> %s\n  (Point: %.3f, Time: %.3f)'
-                      % (path, path.point, path.time))
+                for path in plist:
+                    print('> %s\n  (Point: %.3f, Time: %.3f)'
+                        % (path, path.point, path.time))
 
         return path
 
-    def find_next_path(self, path, time_max):
-        """Given a path, try to add a node in the middle of the path.
-        Find the best one among them.
+    def find_next_path(self, plist, time_max):
+        """Given a list of path, try to add a node in the middle of the path. add it to update the list.
         """
-        path_best = None
-        point_best = infinity_neg
-        not_used = [True] * self.graph.num_nodes
 
-        # exclude the nodes included in the path
-        for v in path.nodes:
-            not_used[v] = False
+        plist_new = []
 
-        # find the best path
-        for v in range(self.graph.num_nodes):
-            if not_used[v]:
-                for pos in range(1, path.length):
-                    path_new = path.copy()
-                    path_new.add_node(pos, v)
+        for path in plist:
+            not_used = [True] * self.graph.num_nodes
+            for v in path.nodes:
+                not_used[v] = False
+            for v in range(self.graph.num_nodes):
+                if not_used[v]:
+                    path_best = None
+                    time_best = infinity_pos
+                    for pos in range(1,path.length):
+                        path_new = path.copy()
+                        path_new.add_node(pos, v)
 
-                    if path_new.time > time_max:
-                        continue
+                        if path_new.time > time_max:
+                            continue
 
-                    if path_new.point > point_best:
-                        path_best = path_new
-                        point_best = path_new.point
+                        if path_new.time < time_best:
+                            path_best = path_new
+                            time_best = path_new.time
+                        
+                        success = True
 
-        if path_best is None:
-            return path
-        else:
-            return path_best
+                        for path in plist_new:
+                            if set(path.nodes) == set(path_best.nodes):
+                                success = False
+                                break
+                        
+                        if success:
+                            plist_new.append(path_best)
+        
+        return sorted(plist_new,key=attrgetter('point'),reverse=True)[0:list_max]
+
+        
