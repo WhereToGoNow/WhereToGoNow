@@ -6,7 +6,7 @@ from routerconntest.core.router import Router, Graph
 from routerconntest.core.signmanager import SignManager, User
 
 
-# ==================== index.html ====================
+# ==================== Routing ====================
 
 def calc_distance(lat_1, lng_1, lat_2, lng_2):
     """Calculate the distance between two points.
@@ -102,7 +102,7 @@ route_europe = RouteGenerator(
     speed=60.0
 ).generate_route(0, 1, time_max=24 * 12)
 
-# ==================== signin.html ====================
+# ==================== Signing ====================
 
 sign_manager = SignManager()
 sign_manager.init_app(app)

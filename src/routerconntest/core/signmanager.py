@@ -2,8 +2,6 @@
 See https://github.com/maxcountryman/flask-login
 """
 
-import sqlite3
-
 import flask_login
 
 from routerconntest.core.dbmanager import DBManager

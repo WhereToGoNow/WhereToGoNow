@@ -1,5 +1,5 @@
 from flask import render_template, request
-from flask_login import login_user
+from flask_login import login_user, logout_user
 
 from routerconntest.core import dbmanager
 from routerconntest.models import *
@@ -14,13 +14,6 @@ def render_index():
     return render_template('index.html')
 
 
-# Render: singin.html
-@app.route('/signin')
-def render_signin():
-    print('>> Render: signin.html')
-    return render_template('signin.html')
-
-
 # Respond: From button click
 @app.route('/update', methods=['GET'])
 def respond_update():
@@ -33,7 +26,7 @@ def respond_update():
     response = app.response_class(
         response=json_routes, status=200, mimetype='application/json')
 
-    #print('>> Response: %s' % json_routes)
+    # print('>> Response: %s' % json_routes)
 
     return response
 
@@ -75,55 +68,79 @@ def respond_hashtags_update():
     contents = request.form
     print contents
 
-    if db.update_hashtag(contents['userId'], contents['spotId'], contents['hashtagId'], contents['updateType']):
-        return app.response_class(response={'result': True}, status=200, mimetype='application/json')
+    if db.update_hashtag(contents['userId'], contents['spotId'],
+                         contents['hashtagId'], contents['updateType']):
+        return app.response_class(
+            response={'result': True},
+            status=200,
+            mimetype='application/json'
+        )
 
-    return app.response_class(response={'result': False}, status=403)
+    return app.response_class(
+        response=json.dumps({'result': False}),
+        status=403
+    )
 
 
-@app.route('/signin/signup', methods=['POST'])
-def respond_signup():
-    print('>> Request: (url)/signin/signup')
+@app.route('/sign-up', methods=['POST'])
+def respond_sign_up():
+    print('>> Request: (url)/sign-up')
 
     id_ = request.json['id']
     password = request.json['password']
+    data_result = {'success': False, 'msg': ''}
 
     if sign_manager.add_user(id_, password):
         login_user(User(id_))
+        data_result['success'] = True
         print('>> User %s: Sign-up success' % id_)
-        data_result = {'result': True}
     else:
+        data_result['success'] = False
+        data_result['msg'] = 'User "%s" already exists!' % id_
         print('>> User %s: Sign-up failed' % id_)
-        data_result = {'result': False}
 
-    json_result = json.dumps(data_result)
-
-    response = app.response_class(
-        response=json_result, status=200, mimetype='application/json'
+    return app.response_class(
+        response=json.dumps(data_result),
+        status=200,
+        mimetype='application/json'
     )
 
-    return response
 
-
-@app.route('/signin/signin', methods=['POST'])
-def respond_signin():
-    print('>> Request: (url)/signin/signin')
+@app.route('/sign-in', methods=['POST'])
+def respond_sign_in():
+    print('>> Request: (url)/sign-in')
 
     id_ = request.json['id']
     password = request.json['password']
+    data_result = {'success': False, 'msg': ''}
 
     if sign_manager.authenticate_user(id_, password):
         login_user(User(id_))
+        data_result['success'] = True
         print('>> User %s: Sign-in success' % id_)
-        data_result = {'result': True}
     else:
+        data_result['success'] = False
+        data_result['msg'] = 'Id or password does not match!'
         print('>> User %s: Sign-in failed' % id_)
-        data_result = {'result': False}
 
-    json_result = json.dumps(data_result)
-
-    response = app.response_class(
-        response=json_result, status=200, mimetype='application/json'
+    return app.response_class(
+        response=json.dumps(data_result),
+        status=200,
+        mimetype='application/json'
     )
 
-    return response
+
+@app.route('/sign-out', methods=['POST'])
+def respond_sign_out():
+    print('>> Request: (url)/sign-out')
+
+    logout_user()
+    data_result = {'success': True}
+
+    print('>> Sign-out success')
+
+    return app.response_class(
+        response=json.dumps(data_result),
+        status=200,
+        mimetype='application/json'
+    )

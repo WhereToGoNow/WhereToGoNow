@@ -1,3 +1,8 @@
+/*
+ * Class for signing up & signing in & signing out.
+ * Use this module *after* loading js-sha256(static/libs/sha256.min.js).
+ */
+
 class SignManager {
     constructor(args) {
         this.idContainer = $(args.idContainer);
@@ -10,8 +15,11 @@ class SignManager {
 
         this.resultText = $(args.resultText)
 
-        this.id = '';
-        this.password = '';
+        // true when user is signed-in currently
+        this.signed = false;
+
+        // store the current (user) id for future use
+        this.currId = '';
 
         /*
          * XXX: Binding the methods directly (.click(this.signUp))
@@ -31,9 +39,27 @@ class SignManager {
             return;
         }
 
-        this.id = inputs.id;
-        this.password = inputs.password;
-        this.disableToggle();
+        $.ajax({
+            type: 'POST',
+            url: '/sign-up',
+            data: JSON.stringify({
+                id: inputs.id,
+                password: this.encryptToHex(inputs.password)
+            }),
+            success: (data) => {
+                if (data.success) {
+                    this.signed = true;
+                    this.currId = inputs.id;
+                    this.disableToggle();
+                    console.log('Sign-up: Success!');
+                } else {
+                    this.resultText.text(data.msg);
+                    console.log('Sign-up: Failed!');
+                }
+            },
+            contentType: 'application/json',
+            dataType: 'json'
+        });
     }
 
     signIn() {
@@ -43,13 +69,47 @@ class SignManager {
             return;
         }
 
-        this.id = inputs.id;
-        this.password = inputs.password;
-        this.disableToggle();
+        $.ajax({
+            type: 'POST',
+            url: '/sign-in',
+            data: JSON.stringify({
+                id: inputs.id,
+                password: this.encryptToHex(inputs.password)
+            }),
+            success: (data) => {
+                if (data.success) {
+                    this.signed = true;
+                    this.currId = inputs.id;
+                    this.disableToggle();
+                    console.log('Sign-in: Success!');
+                } else {
+                    this.resultText.text(data.msg);
+                    console.log('Sign-in: Failed!');
+                }
+            },
+            contentType: 'application/json',
+            dataType: 'json'
+        });
     }
 
     signOut() {
-        this.enableToggle();
+        $.ajax({
+            type: 'POST',
+            url: '/sign-out',
+            data: '',
+            success: (data) => {
+                if (data.success) {
+                    this.signed = false;
+                    this.currId = '';
+                    this.enableToggle();
+                    console.log('Sign-out: Success!');
+                } else {
+                    console.log('Sign-out: Failed!');
+                }
+            },
+            contentType: 'application/json',
+            dataType: 'json'
+        });
     }
 
     /* Enable the user to sign up & sign in. */
@@ -76,11 +136,16 @@ class SignManager {
 
         // check whether the inputs are valid
         if (!id || !password || !id.length || !password.length) {
-            this.resultText.css('color', 'red').text(
-                'Id and password should be unempty!');
+            this.resultText.text('Id and password should be unempty!');
             return null;
         } else {
             return {id: id, password: password};
         }
+    }
+
+    encryptToHex(str) {
+        var hash = sha256.create();
+        hash.update(str);
+        return hash.hex();
     }
 }
