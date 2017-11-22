@@ -151,7 +151,7 @@ class RouteViewer {
         this.spotContainer.show();
 
         $.getJSON({
-            url: '/hashtags/0',
+            url: '/hashtags/' + userId,
             success: function (evalList) {
                 console.log(evalList);
 

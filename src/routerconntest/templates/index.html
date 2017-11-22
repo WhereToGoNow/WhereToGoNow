@@ -203,8 +203,7 @@
                     $.getJSON({
                         url: '/hashtags',
                         success: function (data) {
-                            //DEBUG: 로그인 파트 미완성 때문에 우선 userId 0 처리
-                            routeviewer.updateEvaluater(renderer.lastDrawnRoute, data, 0);
+                            routeviewer.updateEvaluater(renderer.lastDrawnRoute, data, signmanager.currId);
                         }
                     });
                 });
