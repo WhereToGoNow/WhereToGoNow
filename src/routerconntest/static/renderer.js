@@ -4,6 +4,8 @@
  */
 
 class Renderer {
+
+
     constructor(mapContainerId) {
         this.lastDrawnRoute = null;
 
@@ -22,8 +24,7 @@ class Renderer {
         this.display.setMap(this.map);
     }
 
-    renderMarkers(spotList, startInputFormElem, endInputFormElem) {
-        this.currentInfoWindow;
+    renderMarkers($, spotList) {
 
         spotList.forEach((spot) => {
             var marker = new google.maps.Marker({
@@ -36,20 +37,91 @@ class Renderer {
             });
 
             var infoWindow = new google.maps.InfoWindow({
-                content: `<div class="info-window" style="text-align: center">` + spot.name + `<br />
-                        <button type="submit" id="button-start" class="btn btn-info btn-sm" data-spot-name="` + spot.name + `" data-spot-id="` + spot.id + `">Start</button>
-                        <button type="submit" id="button-end" class="btn btn-success btn-sm" data-spot-name="` + spot.name + `" data-spot-id="` + spot.id + `">End</button>
-                        </div>`
+                content: spot.name
             });
 
             marker.addListener('click', () => {
-                if (this.currentInfoWindow)
+                if (this.currentInfoWindow) {
                     this.currentInfoWindow.close();
-                infoWindow.open(this.map, marker);
+                }
                 this.currentInfoWindow = infoWindow;
+
+                infoWindow.open(this.map, marker);
             });
         })
+
+        this.map.addListener('click', (event) => {
+            var infoWindow = new google.maps.InfoWindow({
+                content: ` <button type="submit" id="button-start" class="btn btn-info btn-sm" data-lat="` + event.latLng.lat() + `" data-lng="` + event.latLng.lng() + `">Start</button>
+                        <button type="submit" id="button-end" class="btn btn-success btn-sm" data-lat="` + event.latLng.lat() + `" data-lng="` + event.latLng.lng() + `">End</button>
+                        </div>`
+            });
+
+            infoWindow.setPosition({
+                lat: event.latLng.lat(),
+                lng: event.latLng.lng()
+            });
+
+            if (this.currentInfoWindow) {
+                this.currentInfoWindow.close();
+            }
+            this.currentInfoWindow = infoWindow;
+            infoWindow.open(this.map);
+
+            google.maps.event.addListener(infoWindow, 'domready', () => {
+                var infoDom = $('.gm-style-iw');
+
+                infoDom.find('#button-start').each((index, e) => {
+                    $(e).click(() => {
+                        var lat = $(e).attr('data-lat') * 1;
+                        var lng = $(e).attr('data-lng') * 1;
+                        console.log(lat, lng);
+                        console.log($(e));
+
+                        var marker = new google.maps.Marker({
+                            position: {
+                                lat: lat,
+                                lng: lng
+                            },
+                            label: 'start',
+                            map: this.map
+                        });
+
+                        if (this.currentStartMarker) {
+                            this.currentStartMarker.setMap(null);
+                        }
+                        this.currentStartMarker = marker;
+                    });
+                });
+
+                infoDom.find('#button-end').each((index, e) => {
+                    $(e).click(() => {
+                        var lat = $(e).attr('data-lat') * 1;
+                        var lng = $(e).attr('data-lng') * 1;
+                        console.log(lat, lng);
+                        console.log($(e));
+
+                        var marker = new google.maps.Marker({
+                            position: {
+                                lat: lat,
+                                lng: lng
+                            },
+                            label: 'end',
+                            map: this.map
+                        });
+
+                        if (this.currentEndMarker) {
+                            this.currentEndMarker.setMap(null);
+                        }
+                        this.currentEndMarker = marker;
+                    });
+                });
+            })
+
+            this.currentInfoWindow = infoWindow;
+        })
     }
+
 
     /*
      * Given the data of a route, render the route on the map.

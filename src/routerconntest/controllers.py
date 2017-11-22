@@ -15,9 +15,12 @@ def render_index():
 
 
 # Respond: From button click
-@app.route('/update', methods=['GET'])
+@app.route('/update', methods=['POST'])
 def respond_update():
     print('>> Request: (url)/update')
+
+    contents = request.form
+    print contents
 
     # for debug. have to change after
     data_routes = [route_paris, route_france, route_europe]

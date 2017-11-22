@@ -175,33 +175,9 @@
                     url: '/spots',
                     success: function (spotList) {
                         // spot 정보가 모두 들어오는 대로 map에 marker를 그려 준다.
-                        renderer.renderMarkers(spotList);
-
-                        $('#container-map').find('#button-start').each((index, e) => {
-                            var elem = $(e);
-                            console.log(elem.attr('data-spot-name'), elem.attr(
-                                'data-spot-id'));
-
-                            elem.click(() => {
-                                inputStart.attr('placeholder', elem.attr(
-                                    'data-spot-name'));
-                                inputStart.attr('data-spot-id', elem.attr(
-                                    'data-spot-id'));
-                            });
-                        });
-
-                        $('#container-map').find('#button-end').each((index, e) => {
-                            var elem = $(e);
-
-                            elem.click(() => {
-                                inputEnd.attr('placeholder', elem.attr(
-                                    'data-spot-name'));
-                                inputEnd.attr('data-spot-id', elem.attr(
-                                    'data-spot-id'));
-                            });
-                        });
+                        renderer.renderMarkers($, spotList);
                     }
-                })
+                });
 
                 routeviewer = new RouteViewer('#container-routes', '#container-map', '#container-spots',
                     '#button-submit', '#button-evalute', (route) => {
@@ -217,12 +193,27 @@
                         console.log('User "' + signmanager.currId + '": submit');
                     }
 
-                    $.getJSON({
-                        url: '/update',
-                        success: function (data) {
-                            routeviewer.updateRoutes(data);
-                        }
-                    });
+                    if (renderer.currentStartMarker && renderer.currentEndMarker) {
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '/update',
+                            dataType: 'json',
+                            data: {
+                                'start': {
+                                    'lat': renderer.currentStartMarker.getPosition().lat(),
+                                    'lng': renderer.currentStartMarker.getPosition().lng()
+                                },
+                                'end': {
+                                    'lat': renderer.currentEndMarker.getPosition().lat(),
+                                    'lng': renderer.currentEndMarker.getPosition().lng()
+                                }
+                            },
+                            success: function (data) {
+                                routeviewer.updateRoutes(data);
+                            }
+                        });
+                    }
                 });
 
                 $('#button-evaluate').click(function () {
