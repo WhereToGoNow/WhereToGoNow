@@ -160,6 +160,10 @@
                     },
                     onSignOut: (id) => {
                         console.log('User "' + id + '" signed out!');
+
+                        // reload the page after signing out
+                        // XXX: Is there some better ideas?
+                        location.reload();
                     }
                 });
 
