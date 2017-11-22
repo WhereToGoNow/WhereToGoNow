@@ -22,8 +22,8 @@ class Renderer {
         this.display.setMap(this.map);
     }
 
-    drawMarkers(spotList) {
-        this.markerList = [];
+    renderMarkers(spotList, startInputFormElem, endInputFormElem) {
+        this.currentInfoWindow;
 
         spotList.forEach((spot) => {
             var marker = new google.maps.Marker({
@@ -32,11 +32,22 @@ class Renderer {
                     lng: spot.longitude
                 },
                 map: this.map,
-                title: spot.name,
                 tag: spot
             });
 
-            this.markerList.push(marker);
+            var infoWindow = new google.maps.InfoWindow({
+                content: `<div class="info-window" style="text-align: center">` + spot.name + `<br />
+                        <button type="submit" id="button-start" class="btn btn-info btn-sm" data-spot-name="` + spot.name + `" data-spot-id="` + spot.id + `">Start</button>
+                        <button type="submit" id="button-end" class="btn btn-success btn-sm" data-spot-name="` + spot.name + `" data-spot-id="` + spot.id + `">End</button>
+                        </div>`
+            });
+
+            marker.addListener('click', () => {
+                if (this.currentInfoWindow)
+                    this.currentInfoWindow.close();
+                infoWindow.open(this.map, marker);
+                this.currentInfoWindow = infoWindow;
+            });
         })
     }
 

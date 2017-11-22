@@ -11,12 +11,10 @@
 
     <script type="text/javascript" src="{{ url_for('static', filename='libs/jquery-3.2.1.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='libs/popper-1.12.6.min.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ url_for('static', filename='libs/bootstrap-4.0.0-beta.2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='libs/bootstrap-4.0.0-beta.2.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='libs/sha256.min.js') }}"></script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjZL2Os_sAEhnQRAwfPyLAJWU9tykuLIY&callback=init"
-            async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjZL2Os_sAEhnQRAwfPyLAJWU9tykuLIY&callback=init" async defer></script>
 
     <script type="text/javascript" src="{{ url_for('static', filename='renderer.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='routeviewer.js') }}"></script>
@@ -32,12 +30,6 @@
             height: 100%;
         }
 
-        .jumbotron {
-            margin: 0px;
-            padding: 12px;
-            width: 100%;
-        }
-
         ul,
         li,
         .container {
@@ -46,6 +38,7 @@
             width: 100%;
         }
 
+        .jumbotron,
         .container-fluid {
             margin: 0px;
             padding: 12px;
@@ -70,6 +63,14 @@
 
         .btn-sm {
             margin: 4px;
+        }
+
+        .input-group {
+            width: 500px;
+        }
+
+        .input-group-addon {
+            width: 60px;
         }
 
         .form-signin {
@@ -107,7 +108,8 @@
         }
 
         #panel-sign-in {
-            position: absolute; /* overlap the other contents */
+            position: absolute;
+            /* overlap the other contents */
             z-index: 1;
             width: 100%;
             margin: 0px;
@@ -128,7 +130,6 @@
             margin-top: 10px;
             color: red;
         }
-
     </style>
 
     <script type="text/javascript">
@@ -143,6 +144,9 @@
         function init() {
             $(document).ready(function () {
                 renderer = new Renderer('#container-map');
+
+                var inputStart = $('#input-start');
+                var inputEnd = $('#input-end');
 
                 signmanager = new SignManager({
                     idContainer: '#input-id',
@@ -170,7 +174,32 @@
                 $.getJSON({
                     url: '/spots',
                     success: function (spotList) {
-                        renderer.drawMarkers(spotList);
+                        // spot 정보가 모두 들어오는 대로 map에 marker를 그려 준다.
+                        renderer.renderMarkers(spotList);
+
+                        $('#container-map').find('#button-start').each((index, e) => {
+                            var elem = $(e);
+                            console.log(elem.attr('data-spot-name'), elem.attr(
+                                'data-spot-id'));
+
+                            elem.click(() => {
+                                inputStart.attr('placeholder', elem.attr(
+                                    'data-spot-name'));
+                                inputStart.attr('data-spot-id', elem.attr(
+                                    'data-spot-id'));
+                            });
+                        });
+
+                        $('#container-map').find('#button-end').each((index, e) => {
+                            var elem = $(e);
+
+                            elem.click(() => {
+                                inputEnd.attr('placeholder', elem.attr(
+                                    'data-spot-name'));
+                                inputEnd.attr('data-spot-id', elem.attr(
+                                    'data-spot-id'));
+                            });
+                        });
                     }
                 })
 
@@ -207,74 +236,72 @@
                     $.getJSON({
                         url: '/hashtags',
                         success: function (data) {
-                            routeviewer.updateEvaluater(renderer.lastDrawnRoute, data, signmanager.currId);
+                            routeviewer.updateEvaluater(renderer.lastDrawnRoute, data,
+                                signmanager.currId);
                         }
                     });
                 });
             });
         }
-
     </script>
 </head>
 
 <body>
-<nav class="navbar navbar-expand navbar-dark bg-dark" style="margin: 0px;">
-    <a class="navbar-brand" href="/">WhereToGoNow</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02"
-            aria-controls="navbarsExample02"
+    <nav class="navbar navbar-expand navbar-dark bg-dark" style="margin: 0px;">
+        <a class="navbar-brand" href="/">WhereToGoNow</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02"
             aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <button type="button" id="button-sign-toggle" class="btn btn-success btn-md"
-            data-toggle="collapse" data-target="#panel-sign-in">
-        Sign up / Sign in
-    </button>
-
-    <button type="button" id="button-sign-out" class="btn btn-success btn-md">
-        Sign out
-    </button>
-</nav>
-
-<div class="panel panel-collapse collapse bg-light" id="panel-sign-in">
-    <form class="form-signin">
-        <label for="input-id" class="sr-only">Id</label>
-        <input type="text" id="input-id" class="form-control" placeholder="Id" required autofocus>
-        <label for="input-password" class="sr-only">Password</label>
-        <input type="password" id="input-password" class="form-control" placeholder="Password" required>
-
-        <button type="button" id="button-sign-up" class="btn btn-block btn-md btn-primary">
-            New user? Sign up!
+            <span class="navbar-toggler-icon"></span>
         </button>
 
-        <button type="button" id="button-sign-in" class="btn btn-block btn-md btn-info">
-            Have an account? Sign in!
+        <button type="button" id="button-sign-toggle" class="btn btn-success btn-md" data-toggle="collapse" data-target="#panel-sign-in">
+            Sign up / Sign in
         </button>
 
-        <div id="text-sign-result"></div>
-    </form>
-</div>
+        <button type="button" id="button-sign-out" class="btn btn-success btn-md">
+            Sign out
+        </button>
+    </nav>
 
-<div class="jumbotron">
-    <div class="container">
-        <!--Clicking the button calls UpdateMap()-->
-        <button type="submit" id="button-submit" class="btn btn-primary">Choose the cities!</button>
-        <button type="submit" id="button-evaluate" class="btn btn-primary">Evaluate</button>
-        <br/>
-    </div>
-</div>
+    <div class="panel panel-collapse collapse bg-light" id="panel-sign-in">
+        <form class="form-signin">
+            <label for="input-id" class="sr-only">Id</label>
+            <input type="text" id="input-id" class="form-control" placeholder="Id" required autofocus>
+            <label for="input-password" class="sr-only">Password</label>
+            <input type="password" id="input-password" class="form-control" placeholder="Password" required>
 
-<main role="main">
-    <div class="container-fluid" id="container-spots">
-        <!--Spots are rendered here-->
+            <button type="button" id="button-sign-up" class="btn btn-block btn-md btn-primary">
+                New user? Sign up!
+            </button>
+
+            <button type="button" id="button-sign-in" class="btn btn-block btn-md btn-info">
+                Have an account? Sign in!
+            </button>
+
+            <div id="text-sign-result"></div>
+        </form>
     </div>
-    <div class="container-fluid" id="container-routes">
-        <!--Routes are rendered here-->
+
+    <div class="jumbotron">
+        <div class="container">
+            <!--Clicking the button calls UpdateMap()-->
+            <button type="submit" id="button-submit" class="btn btn-primary">Choose the cities!</button>
+            <button type="submit" id="button-evaluate" class="btn btn-primary">Evaluate</button>
+            <br/>
+        </div>
     </div>
-    <div class="container-fluid" id="container-map">
-        <!--Map is rendered here-->
-    </div>
-</main>
+
+    <main role="main">
+        <div class="container-fluid" id="container-spots">
+            <!--Spots are rendered here-->
+        </div>
+        <div class="container-fluid" id="container-routes">
+            <!--Routes are rendered here-->
+        </div>
+        <div class="container-fluid" id="container-map">
+            <!--Map is rendered here-->
+        </div>
+    </main>
 </body>
 
 </html>
