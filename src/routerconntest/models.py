@@ -1,7 +1,7 @@
-import json
 from math import sin, cos, asin, sqrt
 
 from routerconntest import app
+from routerconntest.core.dbmanager import DBManager
 from routerconntest.core.router import Router, Graph
 from routerconntest.core.signmanager import SignManager, User
 
@@ -21,86 +21,79 @@ def calc_distance(lat_1, lng_1, lat_2, lng_2):
 
 
 class RouteGenerator(object):
-    def __init__(self, path_spots, speed=8.0):
-        # extract info.
-        with app.open_resource(path_spots) as p:
-            self.info_spots = json.load(p)
+    def __init__(self):
+        self.db = DBManager()
+        self.info_spots = self.db.get_spot_info()
+        self.num_spots = len(self.info_spots)
 
-        self.name_spots = self.info_spots.keys()
-        self.num_spots = len(self.name_spots)
-        self.id_spots = []
-        self.lat_spots = []
-        self.lng_spots = []
-        self.rating_spots = []
-
-        for v in range(self.num_spots):
-            info = self.info_spots[self.name_spots[v]]
-
-            self.id_spots.append(info['place_id'])
-            self.lat_spots.append(info['location']['lat'])
-            self.lng_spots.append(info['location']['lng'])
-
-            rating = info['rating']
-
-            if rating is None:
-                self.rating_spots.append(3)
-            else:
-                self.rating_spots.append(rating)
-
-        # initialize graph & router
-        self.graph = Graph(self.num_spots)
+        # 0th vertex: starting point
+        # 1th vertex: ending point
+        # ith vertex (i >= 2) : spots
+        # Setting like this prevents re-generating the whole graph every time.
+        self.graph = Graph(self.num_spots + 2)
         self.router = Router(self.graph)
 
-        for v in range(self.num_spots):
-            self.graph.time_nodes[v] = 1
-            self.graph.eval_nodes[v] = self.rating_spots[v]
+        for i_curr in xrange(self.num_spots):
+            v_curr = i_curr + 2
+            id_curr = self.info_spots[i_curr]['id']
+            eval_curr = self.info_spots[i_curr]['rating']
 
-            for v_next in range(v + 1, self.num_spots):
-                distance = calc_distance(
-                    lat_1=self.lat_spots[v],
-                    lng_1=self.lng_spots[v],
-                    lat_2=self.lat_spots[v_next],
-                    lng_2=self.lng_spots[v_next]
-                )
+            self.graph.time_nodes[v_curr] = 3  # 3 hours for each spot
+            self.graph.eval_nodes[v_curr] = eval_curr
 
-                time = distance / float(speed)
+            for i_next in xrange(i_curr, self.num_spots):
+                v_next = i_next + 2
+                id_next = self.info_spots[i_next]['id']
 
-                self.graph.time_edges[v][v_next] = time
-                self.graph.time_edges[v_next][v] = time
+                self.graph.time_edges[v_curr][v_next] \
+                    = self.db.get_route_info(id_curr, id_next)['time'] / 3600.0
 
-    def generate_route(self, v_start, v_end, length_max=None, time_max=None):
+                self.graph.time_edges[v_next][v_curr] \
+                    = self.db.get_route_info(id_next, id_curr)['time'] / 3600.0
+
+    def generate_route(self, lat_start, lng_start, lat_end, lng_end,
+                       length_max=None, time_max=None):
         if length_max is None:
             length_max = self.num_spots
 
         if time_max is None:
             time_max = float('inf')
 
-        path = self.router.find_best_path(v_start, v_end, length_max, time_max)
+        speed = 40.0  # km/h
 
-        return [{
-            'name': self.name_spots[v],
-            'id': self.id_spots[v],
-            'lat': self.lat_spots[v],
-            'lng': self.lng_spots[v]
-        } for v in path.nodes]
+        # update the times between starting point <-> each spot
+        # and each spot <-> ending point
+        for i in xrange(self.num_spots):
+            v = i + 2
+            lat_v = self.info_spots[i]['latitude']
+            lng_v = self.info_spots[i]['longitude']
+
+            time_start = calc_distance(
+                lat_start, lng_start, lat_v, lng_v) / speed
+
+            time_end = calc_distance(
+                lat_end, lng_end, lat_v, lng_v) / speed
+
+            self.graph.time_edges[0][v] = time_start
+            self.graph.time_edges[v][0] = time_start
+            self.graph.time_edges[1][v] = time_end
+            self.graph.time_edges[v][1] = time_end
+
+        plist = self.router.find_best_path(0, 1, 4, length_max + 2, time_max)
+        result = []
+
+        for path in plist:
+            result.append([{
+                'name': self.info_spots[v - 2]['name'],
+                'id': self.info_spots[v - 2]['id'],
+                'lat': self.info_spots[v - 2]['latitude'],
+                'lng': self.info_spots[v - 2]['longitude']
+            } for v in path.nodes[1:-1]])
+
+        return result
 
 
-# Pre-compute the paths for testing
-# (will be removed later)
-route_paris = RouteGenerator(
-    path_spots='static/data/spots_paris.json',
-    speed=8.0
-).generate_route(0, 1, time_max=24 * 2)
-
-route_france = RouteGenerator(
-    path_spots='static/data/spots_france.json',
-    speed=60.0
-).generate_route(0, 1, time_max=24 * 9)
-
-route_europe = RouteGenerator(
-    path_spots='static/data/spots_europe.json',
-    speed=60.0
-).generate_route(0, 1, time_max=24 * 12)
+route_generator = RouteGenerator()
 
 # ==================== Signing ====================
 

@@ -64,9 +64,21 @@ class DBManager(object):
         self.run_query('SELECT * FROM SpotInfo')
         return self.fetch_all()
 
+    def get_spot_info(self):
+        self.run_query('SELECT id, name, latitude, longitude, rating'
+                       ' FROM SpotInfo')
+        return self.fetch_all()
+
+    def get_route_info(self, id_start, id_end):
+        self.run_query('SELECT time, distance FROM RouteInfo'
+                       ' WHERE startId=? AND endId=?',
+                       id_start, id_end)
+        return self.fetch_one()
+
     def get_hashtag_list_by_user_id(self, userId):
-        self.run_query(
-            'SELECT userId, spotId, hashtagId FROM SpotEval WHERE userId=?', userId)
+        self.run_query('SELECT userId, spotId, hashtagId FROM SpotEval'
+                       ' WHERE userId=?',
+                       userId)
         return self.fetch_all()
 
     def update_hashtag(self, userId, spotId, hashtagId, updateType):
@@ -74,11 +86,13 @@ class DBManager(object):
 
         if updateType == 'remove':
             print 'delete'
-            self.run_query(
-                'DELETE FROM SpotEval WHERE userId=? and spotId=? and hashtagId=?', userId, spotId, hashtagId)
+            self.run_query('DELETE FROM SpotEval'
+                           ' WHERE userId=? and spotId=? and hashtagId=?',
+                           userId, spotId, hashtagId)
         elif updateType == 'update':
             print 'insert'
             self.run_query(
-                'INSERT INTO SpotEval VALUES (NULL, ?, ?, ?)', userId, spotId, hashtagId)
+                'INSERT INTO SpotEval VALUES (NULL, ?, ?, ?)', userId, spotId,
+                hashtagId)
 
         return True

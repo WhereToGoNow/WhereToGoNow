@@ -8,6 +8,7 @@ class Renderer {
 
     constructor(mapContainerId) {
         this.lastDrawnRoute = null;
+        this.lastDrawnArrowRoute = null;
 
         this.mapContainer = $(mapContainerId);
         this.service = new google.maps.DirectionsService();
@@ -91,6 +92,12 @@ class Renderer {
                             this.currentStartMarker.setMap(null);
                         }
                         this.currentStartMarker = marker;
+
+                        console.log('Picked '
+                            + marker.getPosition().lat()
+                            + ', '
+                            + marker.getPosition().lng()
+                            + ' as start!');
                     });
                 });
 
@@ -114,6 +121,12 @@ class Renderer {
                             this.currentEndMarker.setMap(null);
                         }
                         this.currentEndMarker = marker;
+
+                        console.log('Picked '
+                            + marker.getPosition().lat()
+                            + ', '
+                            + marker.getPosition().lng()
+                            + ' as end!');
                     });
                 });
             })
@@ -135,39 +148,81 @@ class Renderer {
      * }
      */
     renderRoute(route) {
-        console.log(route);
+        console.log('Rendering ' + route + ' ...');
 
-        var startSpot = route[0];
-        var endSpot = route[route.length - 1];
-        var middleSpots = route.slice(1, route.length - 3);
+        // var startSpot = route[0];
+        // var endSpot = route[route.length - 1];
+        // var middleSpots = route.slice(1, route.length - 3);
+        var middleSpots = route;
 
         // pack the middle spots into waypoints
         var waypoints = [];
 
         middleSpots.forEach((spot) => {
             waypoints.push({
-                location: spot['name'],
+                location: 'place_id:' + spot.id,
                 stopover: true
             });
         });
 
         // draw the route on the map
+        var startPos = this.currentStartMarker.getPosition();
+        var endPos = this.currentEndMarker.getPosition();
+
         var routeInfo = {
-            origin: startSpot['name'],
-            destination: endSpot['name'],
+            origin: '' + startPos.lat() + ',' + startPos.lng(),
+            destination: '' + endPos.lat() + ',' + endPos.lng(),
             waypoints: waypoints,
-            travelMode: 'DRIVING',
+            travelMode: 'WALKING',
             unitSystem: google.maps.UnitSystem.METRIC
         };
 
+        // erase arrow route
+        if (this.lastDrawnArrowRoute != null) {
+            this.lastDrawnArrowRoute.setMap(null);
+        }
+
+        // try to draw the route / if it fails, draw the route with arrows
         this.service.route(routeInfo, (response, status) => {
             if (status === 'OK') {
                 this.display.setDirections(response);
+                console.log('Rendering: success!')
             } else {
-                // do nothing
+                this.renderArrowRoute(route);
+                console.log('Rendering: failed!');
             }
         });
 
         this.lastDrawnRoute = route;
+    }
+
+    renderArrowRoute(route) {
+        var symbol = {path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW};
+        var spots = [];
+        var startPos = this.currentStartMarker.getPosition();
+        var endPos = this.currentEndMarker.getPosition();
+
+        spots.push({
+            lat: startPos.lat(),
+            lng: startPos.lng()
+        });
+
+        route.forEach((spot) => {
+            spots.push({
+                lat: spot.lat,
+                lng: spot.lng
+            });
+        });
+
+        spots.push({
+            lat: endPos.lat(),
+            lng: endPos.lng()
+        });
+
+        this.lastDrawnArrowRoute = new google.maps.Polyline({
+            path: spots,
+            icons: [{icon: symbol, offset: '100%'}],
+            map: this.map
+        });
     }
 }

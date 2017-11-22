@@ -8,12 +8,11 @@ point = sum of (eval of v) * weight_eval_nodes for nodes v in P
       + sum of (time of e) * weight_time_edges for edges e in P
 """
 
+import heapq
 from operator import attrgetter
 
 infinity_pos = float('inf')
 infinity_neg = float('-inf')
-
-list_max = 30
 
 
 # ============================================================
@@ -101,7 +100,7 @@ class Router(object):
         self.graph = graph
         self.verbose = verbose
 
-    def find_best_path(self, v_start, v_end, length_max, time_max):
+    def find_best_path(self, v_start, v_end, list_max, length_max, time_max):
         def_path = Path(self.graph, [v_start, v_end])
         plist = [def_path]
 
@@ -111,7 +110,7 @@ class Router(object):
 
         for i in range(length_max - 2):
             plist_prev = plist
-            plist = self.find_next_path(plist, time_max)
+            plist = self.find_next_path(plist, list_max, time_max)
 
             if self.verbose:
                 for path in plist:
@@ -122,23 +121,25 @@ class Router(object):
             if not plist:
                 plist = plist_prev
 
-        return plist[0]
+        return plist
 
-    def find_next_path(self, plist, time_max):
+    def find_next_path(self, plist, list_max, time_max):
         """Given a list of path, try to add a node in the middle of the path.
         Add it to update the list.
         """
-
         plist_new = []
 
         for path in plist:
             not_used = [True] * self.graph.num_nodes
+
             for v in path.nodes:
                 not_used[v] = False
+
             for v in range(self.graph.num_nodes):
                 if not_used[v]:
                     path_best = None
                     time_best = infinity_pos
+
                     for pos in range(1, path.length):
                         path_new = path.copy()
                         path_new.add_node(pos, v)
@@ -160,5 +161,4 @@ class Router(object):
                         if success:
                             plist_new.append(path_best)
 
-        plist_sorted = sorted(plist_new, key=attrgetter('point'), reverse=True)
-        return plist_sorted[0:list_max]
+        return heapq.nlargest(list_max, plist_new, key=attrgetter('point'))

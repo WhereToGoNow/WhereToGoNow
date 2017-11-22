@@ -14,7 +14,7 @@
     <script type="text/javascript" src="{{ url_for('static', filename='libs/bootstrap-4.0.0-beta.2.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='libs/sha256.min.js') }}"></script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjZL2Os_sAEhnQRAwfPyLAJWU9tykuLIY&callback=init" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZ116sYwYampWa0lmH0Ypqn2vvAWtIXXA&callback=init" async defer></script>
 
     <script type="text/javascript" src="{{ url_for('static', filename='renderer.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='routeviewer.js') }}"></script>
@@ -198,8 +198,7 @@
                         $.ajax({
                             type: 'POST',
                             url: '/update',
-                            dataType: 'json',
-                            data: {
+                            data: JSON.stringify({
                                 'start': {
                                     'lat': renderer.currentStartMarker.getPosition().lat(),
                                     'lng': renderer.currentStartMarker.getPosition().lng()
@@ -208,10 +207,12 @@
                                     'lat': renderer.currentEndMarker.getPosition().lat(),
                                     'lng': renderer.currentEndMarker.getPosition().lng()
                                 }
-                            },
+                            }),
                             success: function (data) {
                                 routeviewer.updateRoutes(data);
-                            }
+                            },
+                            contentType: 'application/json',
+                            dataType: 'json'
                         });
                     }
                 });

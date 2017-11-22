@@ -1,8 +1,11 @@
+import json
+
 from flask import render_template, request
 from flask_login import login_user, logout_user
 
+from routerconntest import app
 from routerconntest.core import dbmanager
-from routerconntest.models import *
+from routerconntest.models import route_generator, sign_manager, User
 
 db = dbmanager.DBManager()
 
@@ -19,17 +22,25 @@ def render_index():
 def respond_update():
     print('>> Request: (url)/update')
 
-    contents = request.form
-    print contents
+    loc_start = request.json['start']
+    loc_end = request.json['end']
+    print('>> Start: %s' % loc_start)
+    print('>> End: %s' % loc_end)
 
-    # for debug. have to change after
-    data_routes = [route_paris, route_france, route_europe]
+    data_routes = route_generator.generate_route(
+        lat_start=loc_start['lat'],
+        lng_start=loc_start['lng'],
+        lat_end=loc_end['lat'],
+        lng_end=loc_end['lng'],
+        length_max=10,
+        time_max=24
+    )
+
+    print('>> Found %d routes' % len(data_routes))
     json_routes = json.dumps(data_routes)
 
     response = app.response_class(
         response=json_routes, status=200, mimetype='application/json')
-
-    # print('>> Response: %s' % json_routes)
 
     return response
 
