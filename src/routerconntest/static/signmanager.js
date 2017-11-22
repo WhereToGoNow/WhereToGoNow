@@ -15,6 +15,10 @@ class SignManager {
 
         this.resultText = $(args.resultText)
 
+        this.onSignUp = args.onSignUp;
+        this.onSignIn = args.onSignIn;
+        this.onSignOut = args.onSignOut;
+
         // true when user is signed-in currently
         this.signed = false;
 
@@ -51,10 +55,9 @@ class SignManager {
                     this.signed = true;
                     this.currId = inputs.id;
                     this.disableToggle();
-                    console.log('Sign-up: Success!');
+                    this.onSignUp(this.currId);
                 } else {
                     this.resultText.text(data.msg);
-                    console.log('Sign-up: Failed!');
                 }
             },
             contentType: 'application/json',
@@ -81,10 +84,9 @@ class SignManager {
                     this.signed = true;
                     this.currId = inputs.id;
                     this.disableToggle();
-                    console.log('Sign-in: Success!');
+                    this.onSignIn(this.currId);
                 } else {
                     this.resultText.text(data.msg);
-                    console.log('Sign-in: Failed!');
                 }
             },
             contentType: 'application/json',
@@ -100,11 +102,11 @@ class SignManager {
             success: (data) => {
                 if (data.success) {
                     this.signed = false;
-                    this.currId = '';
                     this.enableToggle();
-                    console.log('Sign-out: Success!');
+                    this.onSignOut(this.currId);
+                    this.currId = '';
                 } else {
-                    console.log('Sign-out: Failed!');
+                    // do nothing
                 }
             },
             contentType: 'application/json',

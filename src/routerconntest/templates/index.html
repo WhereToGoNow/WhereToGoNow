@@ -151,7 +151,16 @@
                     signUpButton: '#button-sign-up',
                     signInButton: '#button-sign-in',
                     signOutButton: '#button-sign-out',
-                    resultText: '#text-sign-result'
+                    resultText: '#text-sign-result',
+                    onSignUp: (id) => {
+                        console.log('User "' + id + '" signed up!');
+                    },
+                    onSignIn: (id) => {
+                        console.log('User "' + id + '" signed in!');
+                    },
+                    onSignOut: (id) => {
+                        console.log('User "' + id + '" signed out!');
+                    }
                 });
 
                 $.getJSON({
