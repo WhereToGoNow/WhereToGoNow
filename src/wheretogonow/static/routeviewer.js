@@ -41,6 +41,41 @@ class RouteViewer {
             // callback (ex. render the map)
             this.onClick(route);
         });
+
+        // bind the callbacks to the buttons
+        this.submitButton.click(function () {
+            if (renderer.currentStartMarker && renderer.currentEndMarker) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/update',
+                    data: JSON.stringify({
+                        'start': {
+                            'lat': renderer.currentStartMarker.getPosition().lat(),
+                            'lng': renderer.currentStartMarker.getPosition().lng()
+                        },
+                        'end': {
+                            'lat': renderer.currentEndMarker.getPosition().lat(),
+                            'lng': renderer.currentEndMarker.getPosition().lng()
+                        }
+                    }),
+                    success: function (data) {
+                        routeviewer.updateRoutes(data);
+                    },
+                    contentType: 'application/json',
+                    dataType: 'json'
+                });
+            }
+        });
+
+        this.evaluateButton.click(function () {
+            $.getJSON({
+                url: '/hashtags',
+                success: function (data) {
+                    routeviewer.updateEvaluater(renderer.lastDrawnRoute, data,
+                        signmanager.currId);
+                }
+            });
+        });
     }
 
     updateRoutes(routes) {

@@ -177,53 +177,13 @@
                     resultText: '#text-sign-result'
                 });
 
-                $.getJSON({
-                    url: '/spots',
-                    success: function (spotList) {
-                        // spot 정보가 모두 들어오는 대로 map에 marker를 그려 준다.
-                        renderer.renderMarkers($, spotList);
-                    }
-                });
-
-                routeviewer = new RouteViewer('#container-routes', '#container-map', '#container-spots',
-                    '#button-submit', '#button-evaluate', (route) => {
+                routeviewer = new RouteViewer(
+                    '#container-routes', '#container-map', '#container-spots',
+                    '#button-submit', '#button-evaluate',
+                    (route) => {
                         renderer.renderRoute(route);
-                    });
-
-                // bind the callback to the submit button
-                $('#button-submit').click(function () {
-                    if (renderer.currentStartMarker && renderer.currentEndMarker) {
-                        $.ajax({
-                            type: 'POST',
-                            url: '/update',
-                            data: JSON.stringify({
-                                'start': {
-                                    'lat': renderer.currentStartMarker.getPosition().lat(),
-                                    'lng': renderer.currentStartMarker.getPosition().lng()
-                                },
-                                'end': {
-                                    'lat': renderer.currentEndMarker.getPosition().lat(),
-                                    'lng': renderer.currentEndMarker.getPosition().lng()
-                                }
-                            }),
-                            success: function (data) {
-                                routeviewer.updateRoutes(data);
-                            },
-                            contentType: 'application/json',
-                            dataType: 'json'
-                        });
                     }
-                });
-
-                $('#button-evaluate').click(function () {
-                    $.getJSON({
-                        url: '/hashtags',
-                        success: function (data) {
-                            routeviewer.updateEvaluater(renderer.lastDrawnRoute, data,
-                                signmanager.currId);
-                        }
-                    });
-                });
+                );
             });
         }
     </script>

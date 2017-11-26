@@ -21,8 +21,17 @@ class Renderer {
             },
             zoom: 14
         });
+
         // attach the renderer
         this.display.setMap(this.map);
+
+        // draw the markers on the map at start
+        $.getJSON({
+            url: '/spots',
+            success: function (spotList) {
+                renderer.renderMarkers($, spotList);
+            }
+        });
     }
 
     renderMarkers($, spotList) {
