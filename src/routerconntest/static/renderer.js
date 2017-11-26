@@ -173,7 +173,7 @@ class Renderer {
             origin: '' + startPos.lat() + ',' + startPos.lng(),
             destination: '' + endPos.lat() + ',' + endPos.lng(),
             waypoints: waypoints,
-            travelMode: 'WALKING',
+            travelMode: 'DRIVING',
             unitSystem: google.maps.UnitSystem.METRIC
         };
 
@@ -188,7 +188,6 @@ class Renderer {
                 this.display.setDirections(response);
                 console.log('Rendering: success!')
             } else {
-                this.renderArrowRoute(route);
                 console.log('Rendering: failed!');
             }
         });

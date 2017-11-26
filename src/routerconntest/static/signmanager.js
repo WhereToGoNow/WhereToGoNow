@@ -5,19 +5,15 @@
 
 class SignManager {
     constructor(args) {
+        this.formContainer = $(args.formContainer);
         this.idContainer = $(args.idContainer);
         this.passwordContainer = $(args.passwordContainer);
 
-        this.toggleButton = $(args.toggleButton);
         this.signUpButton = $(args.signUpButton);
         this.signInButton = $(args.signInButton);
         this.signOutButton = $(args.signOutButton);
 
         this.resultText = $(args.resultText)
-
-        this.onSignUp = args.onSignUp;
-        this.onSignIn = args.onSignIn;
-        this.onSignOut = args.onSignOut;
 
         // true when user is signed-in currently
         this.signed = false;
@@ -25,15 +21,14 @@ class SignManager {
         // store the current (user) id for future use
         this.currId = '';
 
-        /*
-         * XXX: Binding the methods directly (.click(this.signUp))
-         * gives TypeError. Why???
-         */
+        // bind the methods to the buttons
         this.signUpButton.click(() => {this.signUp()});
         this.signInButton.click(() => {this.signIn()});
         this.signOutButton.click(() => {this.signOut()});
 
-        this.enableToggle();
+        // at first, disable signOutButton and show formContainer
+        this.signOutButton.disabled = true;
+        this.formContainer.show();
     }
 
     signUp() {
@@ -54,8 +49,8 @@ class SignManager {
                 if (data.success) {
                     this.signed = true;
                     this.currId = inputs.id;
-                    this.disableToggle();
-                    this.onSignUp(this.currId);
+                    this.signOutButton.attr('disabled', false);
+                    this.formContainer.hide();
                 } else {
                     this.resultText.text(data.msg);
                 }
@@ -83,8 +78,8 @@ class SignManager {
                 if (data.success) {
                     this.signed = true;
                     this.currId = inputs.id;
-                    this.disableToggle();
-                    this.onSignIn(this.currId);
+                    this.signOutButton.attr('disabled', false);
+                    this.formContainer.hide();
                 } else {
                     this.resultText.text(data.msg);
                 }
@@ -102,9 +97,13 @@ class SignManager {
             success: (data) => {
                 if (data.success) {
                     this.signed = false;
-                    this.enableToggle();
-                    this.onSignOut(this.currId);
                     this.currId = '';
+
+                    // reload the page
+                    // XXX: Is there a better method???
+                    // this.signOutButton.disabled = true;
+                    // this.formContainer.show();
+                    location.reload();
                 } else {
                     // do nothing
                 }
@@ -112,24 +111,6 @@ class SignManager {
             contentType: 'application/json',
             dataType: 'json'
         });
-    }
-
-    /* Enable the user to sign up & sign in. */
-    enableToggle() {
-        // erase resultText
-        this.resultText.empty();
-
-        this.signOutButton.hide();
-        this.toggleButton.show();
-    }
-
-    /* Disable the user to sign up & sign in. */
-    disableToggle() {
-        // collapse the panel if it is still open
-        $('.collapse').collapse('hide');
-
-        this.toggleButton.hide();
-        this.signOutButton.show();
     }
 
     readInputs() {

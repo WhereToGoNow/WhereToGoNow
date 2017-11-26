@@ -4,18 +4,18 @@
  */
 
 class RouteViewer {
-    constructor(routeContainerId, mapContainerId, spotContainerId, submitButtonId, evaluteButtonId, onClick) {
+    constructor(routeContainerId, mapContainerId, spotContainerId, submitButtonId, evaluateButtonId, onClick) {
         this.routeContainer = $(routeContainerId);
         this.mapContainer = $(mapContainerId);
         this.spotContainer = $(spotContainerId);
         this.submitButton = $(submitButtonId);
-        this.evaluteButton = $(evaluteButtonId);
+        this.evaluateButton = $(evaluateButtonId);
 
         this.routes = [];
 
         this.routeContainer.hide();
         this.spotContainer.hide();
-        this.evaluteButton.hide();
+        this.evaluateButton.hide();
 
         if (typeof onClick === 'undefined') {
             this.onClick = (route) => {};
@@ -69,7 +69,7 @@ class RouteViewer {
         // hide the map and show the panels
         this.mapContainer.hide();
         this.spotContainer.hide();
-        this.evaluteButton.show();
+        this.evaluateButton.show();
 
         this.routeContainer.show();
     }
@@ -145,7 +145,7 @@ class RouteViewer {
 
         this.spotContainer.append(spotAccordion);
 
-        this.evaluteButton.hide();
+        this.evaluateButton.hide();
         this.mapContainer.hide();
         this.routeContainer.hide();
         this.spotContainer.show();
