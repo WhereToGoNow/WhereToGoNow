@@ -27,7 +27,7 @@ import sqlite3
 class DBManager(object):
     def __init__(self):
         self.connection = sqlite3.connect(
-            'routerconntest/static/data/spots.db',
+            'wheretogonow/static/data/spots.db',
             check_same_thread=False  # flask_login uses multiple threads
         )
         self.connection.row_factory = lambda c, r: dict(

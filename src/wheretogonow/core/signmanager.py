@@ -4,7 +4,7 @@ See https://github.com/maxcountryman/flask-login
 
 import flask_login
 
-from routerconntest.core.dbmanager import DBManager
+from wheretogonow.core.dbmanager import DBManager
 
 
 # Class which represents a single user: Used by flask_login.

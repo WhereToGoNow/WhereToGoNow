@@ -1,9 +1,9 @@
 from math import sin, cos, asin, sqrt
 
-from routerconntest import app
-from routerconntest.core.dbmanager import DBManager
-from routerconntest.core.router import Router, Graph
-from routerconntest.core.signmanager import SignManager, User
+from wheretogonow import app
+from wheretogonow.core.dbmanager import DBManager
+from wheretogonow.core.router import Router, Graph
+from wheretogonow.core.signmanager import SignManager, User
 
 
 # ==================== Routing ====================

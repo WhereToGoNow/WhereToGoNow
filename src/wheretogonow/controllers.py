@@ -3,9 +3,9 @@ import json
 from flask import render_template, request
 from flask_login import login_user, logout_user
 
-from routerconntest import app
-from routerconntest.core import dbmanager
-from routerconntest.models import route_generator, sign_manager, User
+from wheretogonow import app
+from wheretogonow.core import dbmanager
+from wheretogonow.models import route_generator, sign_manager, User
 
 db = dbmanager.DBManager()
 
