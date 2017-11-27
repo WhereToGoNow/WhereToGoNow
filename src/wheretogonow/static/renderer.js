@@ -19,6 +19,11 @@ class Renderer {
             zoom: 14
         });
 
+        this.currentInfoWindow = null;
+        this.currentStartMarker = null;
+        this.currentEndMarker = null;
+        this.spotMarkers = [];
+
         // attach the renderer
         this.display.setMap(this.map);
 
@@ -54,6 +59,8 @@ class Renderer {
 
                 infoWindow.open(this.map, marker);
             });
+
+            this.spotMarkers.push(marker);
         })
 
         this.map.addListener('click', (event) => {
@@ -107,6 +114,7 @@ class Renderer {
                         if (this.currentStartMarker) {
                             this.currentStartMarker.setMap(null);
                         }
+
                         this.currentStartMarker = marker;
 
                         console.log('Picked '
@@ -136,6 +144,7 @@ class Renderer {
                         if (this.currentEndMarker) {
                             this.currentEndMarker.setMap(null);
                         }
+
                         this.currentEndMarker = marker;
 
                         console.log('Picked '
@@ -176,7 +185,7 @@ class Renderer {
 
         middleSpots.forEach((spot) => {
             waypoints.push({
-                location: 'place_id:' + spot.id,
+                location: '' + spot.lat + ',' + spot.lng,
                 stopover: true
             });
         });
@@ -197,6 +206,7 @@ class Renderer {
         this.service.route(routeInfo, (response, status) => {
             if (status === 'OK') {
                 this.display.setDirections(response);
+                this.clearMarkers();
                 console.log('Rendering: success!')
             } else {
                 console.log('Rendering: failed!');
@@ -204,5 +214,16 @@ class Renderer {
         });
 
         this.lastDrawnRoute = route;
+    }
+
+    clearMarkers() {
+        this.currentStartMarker.setMap(null);
+        this.currentEndMarker.setMap(null);
+
+        this.spotMarkers.forEach((marker) => {
+            marker.setMap(null);
+        });
+
+        this.spotMarkers = [];
     }
 }

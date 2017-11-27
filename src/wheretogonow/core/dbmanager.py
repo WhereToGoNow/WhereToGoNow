@@ -65,8 +65,7 @@ class DBManager(object):
         return self.fetch_all()
 
     def get_spot_info(self):
-        self.run_query('SELECT id, name, latitude, longitude, rating'
-                       ' FROM SpotInfo')
+        self.run_query('SELECT * FROM SpotInfo')
         return self.fetch_all()
 
     def get_route_info(self, id_start, id_end):

@@ -69,6 +69,8 @@ class RouteViewer {
                     dataType: 'json'
                 });
             } else {
+                alert('Missing start / end!');
+
                 console.error(
                     'Invalid start / end markers! ('
                     + this.renderer.currentStartMarker
@@ -109,8 +111,20 @@ class RouteViewer {
                 .attr('class', 'list-group list-group-flush');
 
             route.forEach((spot) => {
+                var spotIcon = $('<img>').attr('src', spot.icon).css({
+                    'height': '2em',
+                    'margin-right': '5px',
+                    'border-radius': '50%',
+                    'border': '2px solid black'
+                });
+
+                var spotName = spot.name;
+
+                // TODO: Change icon to photo
                 routeListGroup.append(
-                    $('<li>').attr('class', 'list-group-item').text(spot.name)
+                    $('<li>').attr('class', 'list-group-item')
+                        .append(spotIcon)
+                        .append(spotName)
                 );
             });
 

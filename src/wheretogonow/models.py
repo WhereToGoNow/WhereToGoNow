@@ -83,12 +83,20 @@ class RouteGenerator(object):
         result = []
 
         for path in plist:
-            result.append([{
-                'name': self.info_spots[v - 2]['name'],
-                'id': self.info_spots[v - 2]['id'],
-                'lat': self.info_spots[v - 2]['latitude'],
-                'lng': self.info_spots[v - 2]['longitude']
-            } for v in path.nodes[1:-1]])
+            route = []
+
+            for v in path.nodes[1:-1]:
+                info = self.info_spots[v - 2]
+
+                route.append({
+                    'name': info['name'],
+                    'id': info['id'],
+                    'lat': info['latitude'],
+                    'lng': info['longitude'],
+                    'icon': info['icon']
+                })
+
+            result.append(route)
 
         return result
 
