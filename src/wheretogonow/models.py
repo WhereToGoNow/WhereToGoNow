@@ -59,7 +59,12 @@ class RouteGenerator(object):
         if time_max is None:
             time_max = float('inf')
 
-        speed = 40.0  # km/h
+        # speed between starting(ending) point & first(last) spot
+        speed_ends = 40.0
+
+        # give more weight to the time between starting(ending) point
+        # & first(last) spot
+        weight_ends = 3
 
         # update the times between starting point <-> each spot
         # and each spot <-> ending point
@@ -69,10 +74,10 @@ class RouteGenerator(object):
             lng_v = self.info_spots[i]['longitude']
 
             time_start = calc_distance(
-                lat_start, lng_start, lat_v, lng_v) / speed
+                lat_start, lng_start, lat_v, lng_v) / speed_ends * weight_ends
 
             time_end = calc_distance(
-                lat_end, lng_end, lat_v, lng_v) / speed
+                lat_end, lng_end, lat_v, lng_v) / speed_ends * weight_ends
 
             self.graph.time_edges[0][v] = time_start
             self.graph.time_edges[v][0] = time_start

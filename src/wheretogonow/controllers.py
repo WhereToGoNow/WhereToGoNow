@@ -32,8 +32,8 @@ def respond_update():
         lng_start=loc_start['lng'],
         lat_end=loc_end['lat'],
         lng_end=loc_end['lng'],
-        length_max=10,
-        time_max=24
+        length_max=6 + 1,
+        time_max=24 + 6
     )
 
     print('>> Found %d routes' % len(data_routes))

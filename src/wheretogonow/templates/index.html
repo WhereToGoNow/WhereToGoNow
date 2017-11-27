@@ -102,7 +102,7 @@
             border-top-right-radius: 0;
         }
 
-        #div-navbar-buttons {
+        #navbar-buttons {
             position: absolute;
             right: 10px;
         }
@@ -171,6 +171,7 @@
             padding: 0px;
             width: 100%;
             height: 100%;
+            overflow: hidden;
         }
     </style>
 
@@ -185,7 +186,11 @@
          */
         function init() {
             $(document).ready(function () {
-                renderer = new Renderer('#container-map');
+                renderer = new Renderer({
+                    mapContainer: '#container-map',
+                    startFlagUrl: "{{ url_for('static', filename='data/flag-start.png') }}",
+                    endFlagUrl: "{{ url_for('static', filename='data/flag-end.png') }}"
+                });
 
                 var inputStart = $('#input-start');
                 var inputEnd = $('#input-end');
@@ -219,7 +224,7 @@
     <img src="{{url_for('static', filename='data/icon.png')}}" style="height: 40px; margin-right: 10px;">
     <a class="navbar-brand" href="/">WhereToGoNow</a>
 
-    <div id="div-navbar-buttons">
+    <div id="navbar-buttons">
         <button type="button" id="button-sign-out" class="btn btn-success btn-md" disabled>
             Sign out
         </button>
@@ -233,7 +238,8 @@
 
 <div class="panel" id="panel-loading">
     <div class="panel" id="panel-loading-inner">
-        <img src="{{url_for('static', filename='data/clock.png')}}" style="display: block; margin: auto; width: 15%;">
+        <img src="{{url_for('static', filename='data/loading.gif')}}"
+             style="display: block; margin: auto; width: 150px;">
     </div>
 </div>
 
@@ -249,10 +255,8 @@
                 &nbsp;your trip.
             </li>
             <li>
-                Click&nbsp;
-                <button class="btn btn-primary btn-sm">Generate</button>
-                &nbsp;to find out&nbsp;
-                <span style="font-weight: bold;">where to go now.</span>
+                Find out&nbsp;
+                <button class="btn btn-primary btn-sm">Where to go now</button>
             </li>
             <li>
                 Click one of the routes to draw it on the map.

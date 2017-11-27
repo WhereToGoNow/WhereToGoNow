@@ -4,12 +4,10 @@
  */
 
 class Renderer {
-    constructor(mapContainerId) {
-        this.lastDrawnRoute = null;
-
-        this.mapContainer = $(mapContainerId);
-        this.service = new google.maps.DirectionsService();
-        this.display = new google.maps.DirectionsRenderer();
+    constructor(args) {
+        this.mapContainer = $(args.mapContainer);
+        this.startFlagUrl = args.startFlagUrl;
+        this.endFlagUrl = args.endFlagUrl;
 
         this.map = new google.maps.Map(this.mapContainer[0], {
             center: {
@@ -19,24 +17,31 @@ class Renderer {
             zoom: 14
         });
 
+        this.service = new google.maps.DirectionsService();
+
+        this.display = new google.maps.DirectionsRenderer({
+            map: this.map,
+            suppressMarkers: true,
+            draggable: false
+        });
+
+        this.lastDrawnRoute = null;
         this.currentInfoWindow = null;
         this.currentStartMarker = null;
         this.currentEndMarker = null;
         this.spotMarkers = [];
 
-        // attach the renderer
-        this.display.setMap(this.map);
-
         // draw the markers on the map at start
         $.getJSON({
             url: '/spots',
             success: (spotList) => {
-                this.renderMarkers($, spotList);
+                this.renderMarkers(spotList);
             }
         });
     }
 
-    renderMarkers($, spotList) {
+    /* Render the markers on the map. */
+    renderMarkers(spotList) {
         spotList.forEach((spot) => {
             var marker = new google.maps.Marker({
                 position: {
@@ -55,8 +60,8 @@ class Renderer {
                 if (this.currentInfoWindow) {
                     this.currentInfoWindow.close();
                 }
-                this.currentInfoWindow = infoWindow;
 
+                this.currentInfoWindow = infoWindow;
                 infoWindow.open(this.map, marker);
             });
 
@@ -89,6 +94,7 @@ class Renderer {
             if (this.currentInfoWindow) {
                 this.currentInfoWindow.close();
             }
+
             this.currentInfoWindow = infoWindow;
             infoWindow.open(this.map);
 
@@ -107,7 +113,10 @@ class Renderer {
                                 lat: lat,
                                 lng: lng
                             },
-                            label: 'start',
+                            icon: {
+                                url: this.startFlagUrl,
+                                scaledSize: new google.maps.Size(45, 52)
+                            },
                             map: this.map
                         });
 
@@ -117,11 +126,8 @@ class Renderer {
 
                         this.currentStartMarker = marker;
 
-                        console.log('Picked '
-                            + marker.getPosition().lat()
-                            + ', '
-                            + marker.getPosition().lng()
-                            + ' as start!');
+                        console.log('Start: ' + marker.getPosition().lat()
+                            + ', ' + marker.getPosition().lng());
                     });
                 });
 
@@ -137,7 +143,10 @@ class Renderer {
                                 lat: lat,
                                 lng: lng
                             },
-                            label: 'end',
+                            icon: {
+                                url: this.endFlagUrl,
+                                scaledSize: new google.maps.Size(45, 52)
+                            },
                             map: this.map
                         });
 
@@ -147,11 +156,8 @@ class Renderer {
 
                         this.currentEndMarker = marker;
 
-                        console.log('Picked '
-                            + marker.getPosition().lat()
-                            + ', '
-                            + marker.getPosition().lng()
-                            + ' as end!');
+                        console.log('End: ' + marker.getPosition().lat()
+                            + ', ' + marker.getPosition().lng());
                     });
                 });
             })
@@ -161,52 +167,60 @@ class Renderer {
     }
 
 
-    /*
-     * Given the data of a route, render the route on the map.
-     * Format of route:
-     * {
-     *     (spot's name): {
-     *         name: (spot's (real) name),
-     *         ...
-     *     },
-     *     ...
-     * }
-     */
+    /* Given the data of a route, render the route on the map. */
     renderRoute(route) {
-        console.log('Rendering ' + route + ' ...');
-
-        // var startSpot = route[0];
-        // var endSpot = route[route.length - 1];
-        // var middleSpots = route.slice(1, route.length - 3);
-        var middleSpots = route;
-
-        // pack the middle spots into waypoints
+        var startPos = this.currentStartMarker.getPosition();
+        var endPos = this.currentEndMarker.getPosition();
         var waypoints = [];
 
-        middleSpots.forEach((spot) => {
+        this.clearMarkers();
+
+        route.forEach((spot) => {
             waypoints.push({
                 location: '' + spot.lat + ',' + spot.lng,
                 stopover: true
             });
-        });
 
-        // draw the route on the map
-        var startPos = this.currentStartMarker.getPosition();
-        var endPos = this.currentEndMarker.getPosition();
+            var marker = new google.maps.Marker({
+                position: {
+                    lat: spot.lat,
+                    lng: spot.lng
+                },
+                icon: {
+                    // TODO: Change icon to photo
+                    url: spot.icon,
+                    scaledSize: new google.maps.Size(40, 40)
+                },
+                map: this.map
+            });
+
+            var infoWindow = new google.maps.InfoWindow({
+                content: spot.name
+            });
+
+            marker.addListener('click', () => {
+                if (this.currentInfoWindow) {
+                    this.currentInfoWindow.close();
+                }
+
+                this.currentInfoWindow = infoWindow;
+                infoWindow.open(this.map, marker);
+            });
+
+            this.spotMarkers.push(marker);
+        });
 
         var routeInfo = {
             origin: '' + startPos.lat() + ',' + startPos.lng(),
             destination: '' + endPos.lat() + ',' + endPos.lng(),
             waypoints: waypoints,
-            travelMode: 'DRIVING',
+            travelMode: 'WALKING',
             unitSystem: google.maps.UnitSystem.METRIC
         };
 
-        // try to draw the route
         this.service.route(routeInfo, (response, status) => {
             if (status === 'OK') {
                 this.display.setDirections(response);
-                this.clearMarkers();
                 console.log('Rendering: success!')
             } else {
                 console.log('Rendering: failed!');
@@ -217,8 +231,8 @@ class Renderer {
     }
 
     clearMarkers() {
-        this.currentStartMarker.setMap(null);
-        this.currentEndMarker.setMap(null);
+        // this.currentStartMarker.setMap(null);
+        // this.currentEndMarker.setMap(null);
 
         this.spotMarkers.forEach((marker) => {
             marker.setMap(null);

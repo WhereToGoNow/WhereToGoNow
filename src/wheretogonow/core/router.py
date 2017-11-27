@@ -49,14 +49,14 @@ class Path(object):
 
         # calculate the time and the point
         # (1) for each node v
-        for i in range(self.length):
+        for i in xrange(self.length):
             v = self.nodes[i]
 
             self.time += self.graph.time_nodes[v]
             self.point += self.graph.eval_nodes[v]
 
         # (2) for each edge (v_1 -> v_2)
-        for i in range(self.length - 1):
+        for i in xrange(self.length - 1):
             v_1, v_2 = self.nodes[i], self.nodes[i + 1]
 
             self.time += self.graph.time_edges[v_1][v_2]
@@ -108,7 +108,7 @@ class Router(object):
             print('> %s\n  (Point: %.3f, Time: %.3f)'
                   % (def_path, def_path.point, def_path.time))
 
-        for i in range(length_max - 2):
+        for i in xrange(length_max - 2):
             plist_prev = plist
             plist = self.find_next_path(plist, list_max, time_max)
 
@@ -135,12 +135,12 @@ class Router(object):
             for v in path.nodes:
                 not_used[v] = False
 
-            for v in range(self.graph.num_nodes):
+            for v in xrange(self.graph.num_nodes):
                 if not_used[v]:
                     path_best = None
                     time_best = infinity_pos
 
-                    for pos in range(1, path.length):
+                    for pos in xrange(1, path.length):
                         path_new = path.copy()
                         path_new.add_node(pos, v)
 
