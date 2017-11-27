@@ -4,11 +4,8 @@
  */
 
 class Renderer {
-
-
     constructor(mapContainerId) {
         this.lastDrawnRoute = null;
-        this.lastDrawnArrowRoute = null;
 
         this.mapContainer = $(mapContainerId);
         this.service = new google.maps.DirectionsService();
@@ -28,14 +25,13 @@ class Renderer {
         // draw the markers on the map at start
         $.getJSON({
             url: '/spots',
-            success: function (spotList) {
-                renderer.renderMarkers($, spotList);
+            success: (spotList) => {
+                this.renderMarkers($, spotList);
             }
         });
     }
 
     renderMarkers($, spotList) {
-
         spotList.forEach((spot) => {
             var marker = new google.maps.Marker({
                 position: {
@@ -62,9 +58,20 @@ class Renderer {
 
         this.map.addListener('click', (event) => {
             var infoWindow = new google.maps.InfoWindow({
-                content: ` <button type="submit" id="button-start" class="btn btn-info btn-sm" data-lat="` + event.latLng.lat() + `" data-lng="` + event.latLng.lng() + `">Start</button>
-                        <button type="submit" id="button-end" class="btn btn-success btn-sm" data-lat="` + event.latLng.lat() + `" data-lng="` + event.latLng.lng() + `">End</button>
-                        </div>`
+                content: `
+                    <button type="submit" id="button-start"
+                            class="btn btn-info btn-sm"
+                            data-lat="` + event.latLng.lat() + `"
+                            data-lng="` + event.latLng.lng() + `">
+                        Start
+                    </button>
+                    <button type="submit" id="button-end"
+                        class="btn btn-success btn-sm"
+                        data-lat="` + event.latLng.lat() + `"
+                        data-lng="` + event.latLng.lng() + `">
+                    End
+                    </button>
+                </div>`
             });
 
             infoWindow.setPosition({
@@ -186,12 +193,7 @@ class Renderer {
             unitSystem: google.maps.UnitSystem.METRIC
         };
 
-        // erase arrow route
-        if (this.lastDrawnArrowRoute != null) {
-            this.lastDrawnArrowRoute.setMap(null);
-        }
-
-        // try to draw the route / if it fails, draw the route with arrows
+        // try to draw the route
         this.service.route(routeInfo, (response, status) => {
             if (status === 'OK') {
                 this.display.setDirections(response);
@@ -202,35 +204,5 @@ class Renderer {
         });
 
         this.lastDrawnRoute = route;
-    }
-
-    renderArrowRoute(route) {
-        var symbol = {path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW};
-        var spots = [];
-        var startPos = this.currentStartMarker.getPosition();
-        var endPos = this.currentEndMarker.getPosition();
-
-        spots.push({
-            lat: startPos.lat(),
-            lng: startPos.lng()
-        });
-
-        route.forEach((spot) => {
-            spots.push({
-                lat: spot.lat,
-                lng: spot.lng
-            });
-        });
-
-        spots.push({
-            lat: endPos.lat(),
-            lng: endPos.lng()
-        });
-
-        this.lastDrawnArrowRoute = new google.maps.Polyline({
-            path: spots,
-            icons: [{icon: symbol, offset: '100%'}],
-            map: this.map
-        });
     }
 }

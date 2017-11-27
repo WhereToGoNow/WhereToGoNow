@@ -2,26 +2,20 @@
  * Class for displaying the generated routes.
  * It shows the routes using the panels.
  */
-
 class RouteViewer {
-    constructor(routeContainerId, mapContainerId, spotContainerId, submitButtonId, evaluateButtonId, onClick) {
-        this.routeContainer = $(routeContainerId);
-        this.mapContainer = $(mapContainerId);
-        this.spotContainer = $(spotContainerId);
-        this.submitButton = $(submitButtonId);
-        this.evaluateButton = $(evaluateButtonId);
+    constructor(args) {
+        this.renderer = renderer;
+        this.routeContainer = $(args.routeContainer);
+        this.mapContainer = $(args.mapContainer);
+        this.spotContainer = $(args.spotContainer);
+        this.submitButton = $(args.submitButton);
+        this.evaluateButton = $(args.evaluateButton);
 
         this.routes = [];
 
         this.routeContainer.hide();
         this.spotContainer.hide();
-        this.evaluateButton.hide();
-
-        if (typeof onClick === 'undefined') {
-            this.onClick = (route) => {};
-        } else {
-            this.onClick = onClick;
-        }
+        this.evaluateButton.attr('disabled', true);
 
         this.routeContainer.on('click', '#route', (event) => {
             // note: (event) => { ... .index(event.currentTarget) ...}
@@ -38,41 +32,61 @@ class RouteViewer {
 
             this.mapContainer.show();
 
-            // callback (ex. render the map)
-            this.onClick(route);
+            // render the route on the map
+            this.renderer.renderRoute(route);
         });
 
         // bind the callbacks to the buttons
-        this.submitButton.click(function () {
-            if (renderer.currentStartMarker && renderer.currentEndMarker) {
+        var loadingPanel = $('#panel-loading');
+
+        this.submitButton.click(() => {
+            if (this.renderer.currentStartMarker
+                    && this.renderer.currentEndMarker) {
+                console.log('Valid start / end markers!');
+                loadingPanel.show();
+
                 $.ajax({
                     type: 'POST',
                     url: '/update',
                     data: JSON.stringify({
                         'start': {
-                            'lat': renderer.currentStartMarker.getPosition().lat(),
-                            'lng': renderer.currentStartMarker.getPosition().lng()
+                            'lat': this.renderer.currentStartMarker.getPosition().lat(),
+                            'lng': this.renderer.currentStartMarker.getPosition().lng()
                         },
                         'end': {
-                            'lat': renderer.currentEndMarker.getPosition().lat(),
-                            'lng': renderer.currentEndMarker.getPosition().lng()
+                            'lat': this.renderer.currentEndMarker.getPosition().lat(),
+                            'lng': this.renderer.currentEndMarker.getPosition().lng()
                         }
                     }),
-                    success: function (data) {
-                        routeviewer.updateRoutes(data);
+                    success: (data) => {
+                        this.updateRoutes(data);
+                        loadingPanel.hide();
+                    },
+                    error: () => {
+                        loadingPanel.hide();
                     },
                     contentType: 'application/json',
                     dataType: 'json'
                 });
+            } else {
+                console.error(
+                    'Invalid start / end markers! ('
+                    + this.renderer.currentStartMarker
+                    + ', '
+                    + this.renderer.currentEndMarker
+                    + ')'
+                );
             }
         });
 
-        this.evaluateButton.click(function () {
+        this.evaluateButton.click(() => {
             $.getJSON({
                 url: '/hashtags',
-                success: function (data) {
-                    routeviewer.updateEvaluater(renderer.lastDrawnRoute, data,
-                        signmanager.currId);
+                success: (data) => {
+                    this.updateEvaluater(
+                        data,
+                        signmanager.currId
+                    );
                 }
             });
         });
@@ -91,10 +105,13 @@ class RouteViewer {
 
         this.routes.forEach((route) => {
             var routeCard = $('<div>').attr('class', 'card').attr('id', 'route');
-            var routeListGroup = $('<ul>').attr('id', 'list-group-route').attr('class', 'list-group list-group-flush');
+            var routeListGroup = $('<ul>').attr('id', 'list-group-route')
+                .attr('class', 'list-group list-group-flush');
 
             route.forEach((spot) => {
-                routeListGroup.append($('<li>').attr('class', 'list-group-item').text(spot.name));
+                routeListGroup.append(
+                    $('<li>').attr('class', 'list-group-item').text(spot.name)
+                );
             });
 
             routeCard.append(routeListGroup);
@@ -104,18 +121,18 @@ class RouteViewer {
         // hide the map and show the panels
         this.mapContainer.hide();
         this.spotContainer.hide();
-        this.evaluateButton.show();
+        this.evaluateButton.attr('disabled', false);
 
         this.routeContainer.show();
     }
 
-    updateEvaluater(lastDrawnRoute, hashtags, userId) {
-        var route = lastDrawnRoute;
+    updateEvaluater(hashtags, userId) {
+        var route = this.renderer.lastDrawnRoute;
         var spotContainer = this.spotContainer;
 
         spotContainer.empty();
 
-        console.log('update: ', lastDrawnRoute);
+        console.log('update: ', this.renderer.lastDrawnRoute);
         console.log(hashtags);
 
         if (!route) {
@@ -123,16 +140,26 @@ class RouteViewer {
             return;
         }
 
-        var spotAccordion = $('<div>').attr('id', 'accordion').attr('role', 'tablist').attr('aria-multiselectable', 'true');
+        var spotAccordion = $('<div>').attr('id', 'accordion')
+            .attr('role', 'tablist').attr('aria-multiselectable', 'true');
 
         var index = 0;
+
         route.forEach((spot) => {
-
             var spotCard = $('<div>').attr('class', 'card').attr('id', 'spot');
-            spotCard.append($('<div>').attr('class', 'card-header').attr('role', 'tab')
-                .append($('<a>').attr('data-toggle', 'collapse').attr('data-parent', '#accordion').attr('href', '#collapse' + index).text(spot.name)));
 
-            var collapse = $('<div>').attr('id', 'collapse' + index).attr('class', 'collapse').attr('role', 'tabpanel');
+            spotCard.append(
+                $('<div>').attr('class', 'card-header')
+                    .attr('role', 'tab')
+                    .append($('<a>')
+                    .attr('data-toggle', 'collapse')
+                    .attr('data-parent', '#accordion')
+                    .attr('href', '#collapse' + index).text(spot.name))
+            );
+
+            var collapse = $('<div>').attr('id', 'collapse' + index)
+                .attr('class', 'collapse').attr('role', 'tabpanel');
+
             var card_block = $('<div>').attr('class', 'card-block');
 
             hashtags.forEach((hashtag) => {
@@ -163,7 +190,7 @@ class RouteViewer {
                             'updateType': updateType
                         },
                         dataType: 'json',
-                        copmplete: (data) => {
+                        complete: (data) => {
                             console.log(data);
                         }
                     })
@@ -180,21 +207,23 @@ class RouteViewer {
 
         this.spotContainer.append(spotAccordion);
 
-        this.evaluateButton.hide();
+        this.evaluateButton.attr('disabled', true);
         this.mapContainer.hide();
         this.routeContainer.hide();
         this.spotContainer.show();
 
         $.getJSON({
             url: '/hashtags/' + userId,
-            success: function (evalList) {
+            success: (evalList) => {
                 console.log(evalList);
 
                 spotAccordion.find('button').each((index, e) => {
                     var elem = $(e);
 
                     evalList.forEach((ev) => {
-                        if (ev.userId == userId && ev.spotId == elem.attr('data-spot-id') && ev.hashtagId == elem.attr('data-hashtag-id')) {
+                        if (ev.userId == userId
+                                && ev.spotId == elem.attr('data-spot-id')
+                                && ev.hashtagId == elem.attr('data-hashtag-id')) {
                             elem.attr('class', 'btn btn-primary btn-sm');
                         }
                     });
@@ -202,5 +231,4 @@ class RouteViewer {
             }
         });
     }
-
 }

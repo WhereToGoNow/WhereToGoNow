@@ -32,10 +32,6 @@
             height: 100%;
         }
 
-        img {
-            height: 40px;
-        }
-
         ul,
         li,
         .container {
@@ -106,11 +102,46 @@
             border-top-right-radius: 0;
         }
 
-        #container-map {
+        #div-navbar-buttons {
+            position: absolute;
+            right: 10px;
+        }
+
+        #panel-loading {
+            position: absolute;
+            width: 100%;
+            height: 110%;
             margin: 0px;
             padding: 0px;
+            background-color: rgba(230, 230, 230, 0.4);
+
+            /* overlap the other contents */
+            z-index: 2;
+
+            /* hide the panel by default */
+            display: none;
+        }
+
+        #panel-loading-inner {
+            /* vertically align the contents inside panel-sign-in */
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        #panel-help {
+            position: absolute;
             width: 100%;
-            height: 100%;
+            margin: 0px;
+            z-index: 1;
+        }
+
+        #panel-help-inner {
+            margin: 0px;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            padding-left: 20px;
+            padding-right: 20px;
         }
 
         #panel-sign-in {
@@ -119,12 +150,8 @@
             height: 110%;
             margin: 0px;
             padding: 0px;
-
-            /* overlap the other contents */
             z-index: 1;
-
-            /* transparent */
-            background-color: rgba(200, 200, 200, 0.7);
+            background-color: rgba(230, 230, 230, 0.8);
         }
 
         #panel-sign-in-inner {
@@ -134,19 +161,16 @@
             transform: translateY(-50%);
         }
 
-        #button-sign-toggle {
-            position: absolute;
-            right: 10px;
-        }
-
-        #button-sign-out {
-            position: absolute;
-            right: 10px;
-        }
-
         #text-sign-result {
             margin-top: 10px;
             color: red;
+        }
+
+        #container-map {
+            margin: 0px;
+            padding: 0px;
+            width: 100%;
+            height: 100%;
         }
     </style>
 
@@ -177,13 +201,14 @@
                     resultText: '#text-sign-result'
                 });
 
-                routeviewer = new RouteViewer(
-                    '#container-routes', '#container-map', '#container-spots',
-                    '#button-submit', '#button-evaluate',
-                    (route) => {
-                        renderer.renderRoute(route);
-                    }
-                );
+                routeviewer = new RouteViewer({
+                    renderer: renderer,
+                    routeContainer: '#container-routes',
+                    mapContainer: '#container-map',
+                    spotContainer: '#container-spots',
+                    submitButton: '#button-submit',
+                    evaluateButton: '#button-evaluate'
+                });
             });
         }
     </script>
@@ -191,20 +216,63 @@
 
 <body>
 <nav class="navbar navbar-expand navbar-dark bg-dark" style="margin: 0px;">
-    <img src="{{url_for('static', filename='data/icon.png')}}">
-
+    <img src="{{url_for('static', filename='data/icon.png')}}" style="height: 40px; margin-right: 10px;">
     <a class="navbar-brand" href="/">WhereToGoNow</a>
 
+    <!--
     <button class="navbar-toggler" type="button"
             data-toggle="collapse" data-target="#navbarsExample02"
             aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
+    -->
 
-    <button type="button" id="button-sign-out" class="btn btn-success btn-md" disabled>
-        Sign out
-    </button>
+    <div id="div-navbar-buttons">
+        <button type="button" id="button-sign-out" class="btn btn-success btn-md" disabled>
+            Sign out
+        </button>
+
+        <button type="button" id="button-help" class="btn btn-success btn-md"
+                data-toggle="collapse" data-target="#panel-help">
+            Help
+        </button>
+    </div>
 </nav>
+
+<div class="panel" id="panel-loading">
+    <div class="panel" id="panel-loading-inner">
+        <img src="{{url_for('static', filename='data/clock.png')}}" style="display: block; margin: auto; width: 15%;">
+    </div>
+</div>
+
+<!--Panel for showing useful information-->
+<div class="panel panel-collapse collapse bg-light" id="panel-help">
+    <div class="panel" id="panel-help-inner">
+        <ul style="list-style-type: square; list-style-position: inside;">
+            <li>
+                Click the map to mark where will you&nbsp;
+                <button class="btn btn-info btn-sm">Start</button>
+                &nbsp;and&nbsp;
+                <button class="btn btn-success btn-sm">End</button>
+                &nbsp;your trip.
+            </li>
+            <li>
+                Click&nbsp;
+                <button class="btn btn-primary btn-sm">Generate</button>
+                &nbsp;to find out&nbsp;
+                <span style="font-weight: bold;">where to go now.</span>
+            </li>
+            <li>
+                Click one of the routes to draw it on the map.
+            </li>
+            <li>
+                Click&nbsp;
+                <button class="btn btn-primary btn-sm">Evaluate</button>
+                &nbsp;to evaluate the spots you visited.
+            </li>
+        </ul>
+    </div>
+</div>
 
 <!--Panel for signing up & signing in-->
 <div class="panel" id="panel-sign-in">
@@ -230,9 +298,8 @@
 
 <div class="jumbotron">
     <div class="container">
-        <!--Clicking the button calls UpdateMap()-->
-        <button type="submit" id="button-submit" class="btn btn-primary">Choose the cities!</button>
-        <button type="submit" id="button-evaluate" class="btn btn-primary">Evaluate</button>
+        <button type="submit" id="button-submit" class="btn btn-primary">Where to go now?</button>
+        <button type="submit" id="button-evaluate" class="btn btn-primary" disabled>Evaluate!</button>
         <br/>
     </div>
 </div>
