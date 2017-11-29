@@ -68,46 +68,36 @@
             width: 60px;
         }
 
-        .form-signin {
-            max-width: 330px;
-            padding: 15px;
-            margin: 0 auto;
-        }
-
-        .form-signin .form-signin-heading {
-            margin-bottom: 10px;
-        }
-
-        .form-signin .form-control {
-            position: relative;
-            box-sizing: border-box;
-            height: auto;
-            padding: 10px;
-            font-size: 16px;
-        }
-
-        .form-signin .form-control:focus {
-            z-index: 2;
-        }
-
-        .form-signin input[type="text"] {
-            margin-bottom: -1px;
-            border-bottom-right-radius: 0;
-            border-bottom-left-radius: 0;
-        }
-
-        .form-signin input[type="password"] {
-            margin-bottom: 10px;
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
-        }
-
-        #navbar-buttons {
+        .navbar-buttons {
             position: absolute;
             right: 10px;
         }
 
-        #panel-loading {
+        .help.outer {
+            position: absolute;
+            width: 100%;
+            margin: 0px;
+            z-index: 1;
+        }
+
+        .help.inner {
+            margin: 0px;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .help ul {
+            list-style-type: square;
+            list-style-position: inside;
+        }
+
+        .help li {
+            margin: 10px 0;
+        }
+
+        .loading.outer {
             position: absolute;
             width: 100%;
             height: 110%;
@@ -122,29 +112,14 @@
             display: none;
         }
 
-        #panel-loading-inner {
+        .loading.inner {
             /* vertically align the contents inside panel-sign-in */
             position: relative;
             top: 50%;
             transform: translateY(-50%);
         }
 
-        #panel-help {
-            position: absolute;
-            width: 100%;
-            margin: 0px;
-            z-index: 1;
-        }
-
-        #panel-help-inner {
-            margin: 0px;
-            padding-top: 15px;
-            padding-bottom: 15px;
-            padding-left: 20px;
-            padding-right: 20px;
-        }
-
-        #panel-sign-in {
+        .sign.outer {
             position: absolute;
             width: 100%;
             height: 110%;
@@ -154,23 +129,58 @@
             background-color: rgba(230, 230, 230, 0.8);
         }
 
-        #panel-sign-in-inner {
+        .sign.inner {
             /* vertically align the contents inside panel-sign-in */
             position: relative;
             top: 50%;
             transform: translateY(-50%);
         }
 
-        #text-sign-result {
+        .sign.result {
             margin-top: 10px;
             color: red;
         }
 
-        #container-map {
+        .sign form {
+            max-width: 330px;
+            padding: 15px;
+            margin: 0 auto;
+        }
+
+        .sign input {
+            position: relative;
+            box-sizing: border-box;
+            width: 100%;
+            height: auto;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .sign input:focus {
+            z-index: 2;
+        }
+
+        .sign input[type="text"] {
+            margin-top: 1px;
+            margin-bottom: -1px;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .sign input[type="password"] {
+            margin-bottom: 10px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+        .contents {
             margin: 0px;
             padding: 0px;
             width: 100%;
             height: 100%;
+        }
+
+        .contents #container-map {
             overflow: hidden;
         }
     </style>
@@ -224,60 +234,62 @@
     <img src="{{url_for('static', filename='data/icon.png')}}" style="height: 40px; margin-right: 10px;">
     <a class="navbar-brand" href="/">WhereToGoNow</a>
 
-    <div id="navbar-buttons">
-        <button type="button" id="button-sign-out" class="btn btn-success btn-md" disabled>
+    <div class="navbar-buttons">
+        <button type="button" id="button-sign-out" class="btn btn-success btn-sm" disabled>
             Sign out
         </button>
 
-        <button type="button" id="button-help" class="btn btn-success btn-md"
+        <button type="button" id="button-help" class="btn btn-success btn-sm"
                 data-toggle="collapse" data-target="#panel-help">
             Help
         </button>
     </div>
 </nav>
 
-<div class="panel" id="panel-loading">
-    <div class="panel" id="panel-loading-inner">
+<div class="panel loading outer" id="panel-loading">
+    <div class="panel loading inner">
         <img src="{{url_for('static', filename='data/loading.gif')}}"
              style="display: block; margin: auto; width: 150px;">
     </div>
 </div>
 
 <!--Panel for showing useful information-->
-<div class="panel panel-collapse collapse bg-light" id="panel-help">
-    <div class="panel" id="panel-help-inner">
-        <ul style="list-style-type: square; list-style-position: inside;">
+<div class="panel panel-collapse collapse bg-light help outer" id="panel-help">
+    <div class="panel help inner">
+        <ul>
             <li>
-                Click the map to mark where will you&nbsp;
-                <button class="btn btn-info btn-sm">Start</button>
-                &nbsp;and&nbsp;
-                <button class="btn btn-success btn-sm">End</button>
-                &nbsp;your trip.
+                Click the map to mark where you will start / end your trip.
+                <br/>
+                <img src="{{url_for('static', filename='data/ex-start.png')}}" style="width: 150px;">
             </li>
             <li>
-                Find out&nbsp;
-                <button class="btn btn-primary btn-sm">Where to go now</button>
+                Find out <span style="font-weight: bold;">where to go now!</span>
+                <br/>
+                <img src="{{url_for('static', filename='data/ex-generate.png')}}" style="width: 250px;">
             </li>
             <li>
                 Click one of the routes to draw it on the map.
+                <br/>
+                <img src="{{url_for('static', filename='data/ex-select.png')}}" style="width: 200px;">
             </li>
             <li>
-                Click&nbsp;
-                <button class="btn btn-primary btn-sm">Evaluate</button>
-                &nbsp;to evaluate the spots you visited.
+                Did you have fun? Evaluate the spots you visited!
+                <br/>
+                <img src="{{url_for('static', filename='data/ex-evaluate.png')}}" style="width: 250px;">
+                <br/>
             </li>
         </ul>
     </div>
 </div>
 
 <!--Panel for signing up & signing in-->
-<div class="panel" id="panel-sign-in">
-    <div class="panel" id="panel-sign-in-inner">
-        <form class="form-signin">
+<div class="panel sign outer" id="panel-sign-in">
+    <div class="panel sign inner">
+        <form>
             <label for="input-id" class="sr-only">Id</label>
-            <input type="text" id="input-id" class="form-control" placeholder="Id" required autofocus>
+            <input type="text" id="input-id" placeholder="Id" required autofocus>
             <label for="input-password" class="sr-only">Password</label>
-            <input type="password" id="input-password" class="form-control" placeholder="Password" required>
+            <input type="password" id="input-password" placeholder="Password" required>
 
             <button type="button" id="button-sign-up" class="btn btn-block btn-md btn-primary">
                 New user? Sign up!
@@ -287,7 +299,7 @@
                 Have an account? Sign in!
             </button>
 
-            <div id="text-sign-result">&nbsp;</div>
+            <div class="sign result" id="text-sign-result">&nbsp;</div>
         </form>
     </div>
 </div>
@@ -305,13 +317,13 @@
 </div>
 
 <main role="main">
-    <div class="container-fluid" id="container-spots">
+    <div class="container-fluid contents" id="container-spots">
         <!--Spots are rendered here-->
     </div>
-    <div class="container-fluid" id="container-routes">
+    <div class="container-fluid contents" id="container-routes">
         <!--Routes are rendered here-->
     </div>
-    <div class="container-fluid" id="container-map">
+    <div class="container-fluid contents" id="container-map">
         <!--Map is rendered here-->
     </div>
 </main>

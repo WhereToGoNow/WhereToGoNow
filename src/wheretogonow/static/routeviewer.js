@@ -11,38 +11,37 @@ class RouteViewer {
         this.submitButton = $(args.submitButton);
         this.evaluateButton = $(args.evaluateButton);
 
-        this.routes = [];
+        this.currentRoutes = [];
+        this.currentSelectedRoute = null;
 
         this.routeContainer.hide();
         this.spotContainer.hide();
-        this.evaluateButton.attr('disabled', true);
+        this.disableEvaluation();
+
+        var loadingPanel = $('#panel-loading');
 
         this.routeContainer.on('click', '#route', (event) => {
             // note: (event) => { ... .index(event.currentTarget) ...}
             // is equivalent to function() { ... .index(this) ...}
             var index = $('div.card').index(event.currentTarget);
-            var route = this.routes[index];
 
+            this.currentSelectedRoute = this.currentRoutes[index];
             console.log(index + 'th route is selected');
 
-            // hide the panels and show the map
-            this.routeContainer.empty();
-            this.routeContainer.hide();
-            this.spotContainer.hide();
-
-            this.mapContainer.show();
+            this.enableEvaluation();
+            this.openMapContainer();
 
             // render the route on the map
-            this.renderer.renderRoute(route);
+            this.renderer.renderRoute(this.currentSelectedRoute);
         });
 
-        // bind the callbacks to the buttons
-        var loadingPanel = $('#panel-loading');
-
         this.submitButton.click(() => {
+            this.disableEvaluation();
+
+            // if the user choosed both start / end markers,
+            // request the route from the server
             if (this.renderer.currentStartMarker
                     && this.renderer.currentEndMarker) {
-                console.log('Valid start / end markers!');
                 loadingPanel.show();
 
                 $.ajax({
@@ -72,7 +71,7 @@ class RouteViewer {
                 alert('Missing start / end!');
 
                 console.error(
-                    'Invalid start / end markers! ('
+                    'Error in submitButton: Invalid start / end markers! ('
                     + this.renderer.currentStartMarker
                     + ', '
                     + this.renderer.currentEndMarker
@@ -96,16 +95,17 @@ class RouteViewer {
 
     updateRoutes(routes) {
         if (!routes) {
-            console.error('routes: undefined');
+            console.error('Error in updateRoutes(): Invalid routes!');
             return;
         }
 
-        this.routes = routes;
+        // store the routes
+        this.currentRoutes = routes;
 
         // generate the panels
         this.routeContainer.empty();
 
-        this.routes.forEach((route) => {
+        this.currentRoutes.forEach((route) => {
             var routeCard = $('<div>').attr('class', 'card').attr('id', 'route');
             var routeListGroup = $('<ul>').attr('id', 'list-group-route')
                 .attr('class', 'list-group list-group-flush');
@@ -132,25 +132,16 @@ class RouteViewer {
             this.routeContainer.append(routeCard);
         });
 
-        // hide the map and show the panels
-        this.mapContainer.hide();
-        this.spotContainer.hide();
-        this.evaluateButton.attr('disabled', false);
-
-        this.routeContainer.show();
+        this.openRouteContainer();
+        this.disableEvaluation();
     }
 
     updateEvaluater(hashtags, userId) {
-        var route = this.renderer.lastDrawnRoute;
-        var spotContainer = this.spotContainer;
+        console.log('Evaluation: ', this.currentSelectedRoute);
+        console.log('(Hashtags: ' + hashtags + ')');
 
-        spotContainer.empty();
-
-        console.log('update: ', this.renderer.lastDrawnRoute);
-        console.log(hashtags);
-
-        if (!route) {
-            console.error('route: undefined');
+        if (!this.currentSelectedRoute) {
+            console.error('Error in updateEvaluater(): Invalid route!');
             return;
         }
 
@@ -159,7 +150,7 @@ class RouteViewer {
 
         var index = 0;
 
-        route.forEach((spot) => {
+        this.currentSelectedRoute.forEach((spot) => {
             var spotCard = $('<div>').attr('class', 'card').attr('id', 'spot');
 
             spotCard.append(
@@ -219,12 +210,11 @@ class RouteViewer {
             index += 1;
         });
 
+        this.spotContainer.empty();
         this.spotContainer.append(spotAccordion);
 
-        this.evaluateButton.attr('disabled', true);
-        this.mapContainer.hide();
-        this.routeContainer.hide();
-        this.spotContainer.show();
+        this.openSpotContainer();
+        this.disableEvaluation();
 
         $.getJSON({
             url: '/hashtags/' + userId,
@@ -244,5 +234,31 @@ class RouteViewer {
                 })
             }
         });
+    }
+
+    enableEvaluation() {
+        this.evaluateButton.attr('disabled', false);
+    }
+
+    disableEvaluation() {
+        this.evaluateButton.attr('disabled', true);
+    }
+
+    openMapContainer() {
+        this.spotContainer.hide();
+        this.routeContainer.hide();
+        this.mapContainer.show();
+    }
+
+    openSpotContainer() {
+        this.routeContainer.hide();
+        this.mapContainer.hide();
+        this.spotContainer.show();
+    }
+
+    openRouteContainer() {
+        this.mapContainer.hide();
+        this.spotContainer.hide();
+        this.routeContainer.show();
     }
 }

@@ -45,8 +45,13 @@ class Renderer {
         spotList.forEach((spot) => {
             var marker = new google.maps.Marker({
                 position: {
-                    lat: spot.latitude,
-                    lng: spot.longitude
+                    lat: spot.lat,
+                    lng: spot.lng
+                },
+                icon: {
+                    // TODO: Change icon to photo
+                    url: spot.icon,
+                    scaledSize: new google.maps.Size(25, 25)
                 },
                 map: this.map,
                 tag: spot
@@ -221,9 +226,8 @@ class Renderer {
         this.service.route(routeInfo, (response, status) => {
             if (status === 'OK') {
                 this.display.setDirections(response);
-                console.log('Rendering: success!')
             } else {
-                console.log('Rendering: failed!');
+                console.error('Error in renderRoute(): Failed to render!');
             }
         });
 
@@ -231,9 +235,6 @@ class Renderer {
     }
 
     clearMarkers() {
-        // this.currentStartMarker.setMap(null);
-        // this.currentEndMarker.setMap(null);
-
         this.spotMarkers.forEach((marker) => {
             marker.setMap(null);
         });

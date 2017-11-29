@@ -59,10 +59,19 @@ def respond_hashtags():
 def respond_spots():
     print('>> Request: (url)/spots')
 
-    spots = db.get_spot_list()
-    json_spots = json.dumps(spots)
+    list_spots = db.get_spot_list()
+    result = []
 
-    return json_spots
+    for spot in list_spots:
+        result.append({
+            'name': spot['name'],
+            'id': spot['id'],
+            'lat': spot['latitude'],
+            'lng': spot['longitude'],
+            'icon': spot['icon']
+        })
+
+    return json.dumps(result)
 
 
 @app.route('/hashtags/<userId>', methods=['GET'])
