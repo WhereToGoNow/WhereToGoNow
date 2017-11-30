@@ -204,10 +204,13 @@ class Renderer {
         var startPos = this.currentStartMarker.getPosition();
         var endPos = this.currentEndMarker.getPosition();
         var waypoints = [];
+        var spotCount = route.length;
 
         this.clearMarkers();
 
-        route.forEach((spot) => {
+        for (var i = 0; i < spotCount; i++) {
+            var spot = route[i];
+
             waypoints.push({
                 location: '' + spot.lat + ',' + spot.lng,
                 stopover: true
@@ -222,6 +225,10 @@ class Renderer {
                     // TODO: Change icon to photo
                     url: spot.icon,
                     scaledSize: new google.maps.Size(40, 40)
+                },
+                label: {
+                    text: String.fromCharCode(65 + i),
+                    fontWeight: 'bold'
                 },
                 map: this.map
             });
@@ -240,7 +247,7 @@ class Renderer {
             });
 
             this.spotMarkers.push(marker);
-        });
+        }
 
         var routeInfo = {
             origin: '' + startPos.lat() + ',' + startPos.lng(),
