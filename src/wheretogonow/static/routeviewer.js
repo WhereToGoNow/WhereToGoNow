@@ -55,7 +55,8 @@ class RouteViewer {
                         'end': {
                             'lat': this.renderer.currentEndMarker.getPosition().lat(),
                             'lng': this.renderer.currentEndMarker.getPosition().lng()
-                        }
+                        },
+                        'time': this.renderer.currentTime
                     }),
                     success: (data) => {
                         this.updateRoutes(data);

@@ -29,6 +29,7 @@ class Renderer {
         this.currentInfoWindow = null;
         this.currentStartMarker = null;
         this.currentEndMarker = null;
+        this.currentTime = 24;
         this.spotMarkers = [];
 
         // draw the markers on the map at start
@@ -88,6 +89,10 @@ class Renderer {
                         data-lng="` + event.latLng.lng() + `">
                     End
                     </button>
+                    <br/>
+                    <input type="number" id="input-time" placeholder="Hours"
+                           style="width: 100px; margin-top: 5px; margin-left: 5px;">
+                    </input>
                 </div>`
             });
 
@@ -131,8 +136,19 @@ class Renderer {
 
                         this.currentStartMarker = marker;
 
-                        console.log('Start: ' + marker.getPosition().lat()
-                            + ', ' + marker.getPosition().lng());
+                        var time = parseInt(infoDom.find('#input-time').val());
+
+                        if (isNaN(time)) {
+                            this.currentTime = 24;
+                        } else {
+                            this.currentTime = time;
+                        }
+
+                        console.log(
+                            'Start: ' + marker.getPosition().lat()
+                            + ', ' + marker.getPosition().lng()
+                            + ', Time: ' + this.currentTime
+                        );
                     });
                 });
 
@@ -161,8 +177,19 @@ class Renderer {
 
                         this.currentEndMarker = marker;
 
-                        console.log('End: ' + marker.getPosition().lat()
-                            + ', ' + marker.getPosition().lng());
+                        var time = parseInt(infoDom.find('#input-time').val());
+
+                        if (isNaN(time)) {
+                            this.currentTime = 24;
+                        } else {
+                            this.currentTime = time;
+                        }
+
+                        console.log(
+                            'End: ' + marker.getPosition().lat()
+                            + ', ' + marker.getPosition().lng()
+                            + ', Time: ' + this.currentTime
+                        );
                     });
                 });
             })

@@ -1,4 +1,5 @@
 import json
+import math
 
 from flask import render_template, request
 from flask_login import login_user, logout_user
@@ -24,16 +25,22 @@ def respond_update():
 
     loc_start = request.json['start']
     loc_end = request.json['end']
+    time_max = request.json['time']
     print('>> Start: %s' % loc_start)
     print('>> End: %s' % loc_end)
+    print('>> Time: %d' % time_max)
 
+    # Since we gave some weight to the time between
+    # the starting / ending point and each spot,
+    # we have to set time_max to (what we want) + (a few more hours)
+    # (Currently: 24 + 6)
     data_routes = route_generator.generate_route(
         lat_start=loc_start['lat'],
         lng_start=loc_start['lng'],
         lat_end=loc_end['lat'],
         lng_end=loc_end['lng'],
-        length_max=6 + 1,
-        time_max=24 + 6
+        length_max=6 * int(math.ceil(time_max / 24.0)),
+        time_max=time_max + 6
     )
 
     print('>> Found %d routes' % len(data_routes))
