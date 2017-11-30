@@ -110,10 +110,27 @@ class RouteViewer {
             var routeCard = $('<div>').attr('class', 'card').attr('id', 'route');
             var routeListGroup = $('<ul>').attr('id', 'list-group-route')
                 .attr('class', 'list-group list-group-flush');
+            var spotCount = route.length;
 
-            route.forEach((spot) => {
+            for (var i = 0; i < spotCount; i++) {
+                var bgColor;
+                var iconHeight;
+                var nameSize;
+
+                if (i === 0) {
+                    bgColor = '#4EF425';
+                    iconHeight = '2em';
+                    nameSize = '100%';
+                } else {
+                    bgColor = '#E8F9F9';
+                    iconHeight = '1.5em';
+                    nameSize = '75%';
+                }
+
+                var spot = route[i];
+
                 var spotIcon = $('<img>').attr('src', spot.icon).css({
-                    'height': '2em',
+                    'height': iconHeight,
                     'margin-right': '5px',
                     'border-radius': '50%',
                     'border': '2px solid black'
@@ -124,10 +141,14 @@ class RouteViewer {
                 // TODO: Change icon to photo
                 routeListGroup.append(
                     $('<li>').attr('class', 'list-group-item')
+                        .css({
+                            'background-color': bgColor,
+                            'font-size': nameSize
+                        })
                         .append(spotIcon)
                         .append(spotName)
                 );
-            });
+            }
 
             routeCard.append(routeListGroup);
             this.routeContainer.append(routeCard);

@@ -25,9 +25,12 @@ import sqlite3
 
 
 class DBManager(object):
-    def __init__(self):
+    def __init__(self, path=None):
+        if path is None:
+            path = 'wheretogonow/static/data/spots.db'
+
         self.connection = sqlite3.connect(
-            'wheretogonow/static/data/spots.db',
+            path,
             check_same_thread=False  # flask_login uses multiple threads
         )
         self.connection.row_factory = lambda c, r: dict(
