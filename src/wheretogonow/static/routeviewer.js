@@ -8,6 +8,7 @@ class RouteViewer {
         this.routeContainer = $(args.routeContainer);
         this.mapContainer = $(args.mapContainer);
         this.spotContainer = $(args.spotContainer);
+        this.backButton = $(args.backButton);
         this.submitButton = $(args.submitButton);
         this.evaluateButton = $(args.evaluateButton);
 
@@ -35,13 +36,20 @@ class RouteViewer {
             this.renderer.renderRoute(this.currentSelectedRoute);
         });
 
+        this.backButton.click(() => {
+            this.routeContainer.hide();
+            this.spotContainer.hide();
+            this.mapContainer.show();
+            this.evaluateButton.attr("disabled", false);
+        });
+
         this.submitButton.click(() => {
             this.disableEvaluation();
 
             // if the user choosed both start / end markers,
             // request the route from the server
-            if (this.renderer.currentStartMarker
-                    && this.renderer.currentEndMarker) {
+            if (this.renderer.currentStartMarker &&
+                this.renderer.currentEndMarker) {
                 loadingPanel.show();
 
                 $.ajax({
@@ -72,11 +80,11 @@ class RouteViewer {
                 alert('Missing start / end!');
 
                 console.error(
-                    'Error in submitButton: Invalid start / end markers! ('
-                    + this.renderer.currentStartMarker
-                    + ', '
-                    + this.renderer.currentEndMarker
-                    + ')'
+                    'Error in submitButton: Invalid start / end markers! (' +
+                    this.renderer.currentStartMarker +
+                    ', ' +
+                    this.renderer.currentEndMarker +
+                    ')'
                 );
             }
         });
@@ -141,12 +149,12 @@ class RouteViewer {
                 // TODO: Change icon to photo
                 routeListGroup.append(
                     $('<li>').attr('class', 'list-group-item')
-                        .css({
-                            'background-color': bgColor,
-                            'font-size': nameSize
-                        })
-                        .append(spotIcon)
-                        .append(spotName)
+                    .css({
+                        'background-color': bgColor,
+                        'font-size': nameSize
+                    })
+                    .append(spotIcon)
+                    .append(spotName)
                 );
             }
 
@@ -177,8 +185,8 @@ class RouteViewer {
 
             spotCard.append(
                 $('<div>').attr('class', 'card-header')
-                    .attr('role', 'tab')
-                    .append($('<a>')
+                .attr('role', 'tab')
+                .append($('<a>')
                     .attr('data-toggle', 'collapse')
                     .attr('data-parent', '#accordion')
                     .attr('href', '#collapse' + index).text(spot.name))
@@ -209,7 +217,7 @@ class RouteViewer {
 
                     $.ajax({
                         type: 'POST',
-                        url: '/hashtags/update',
+                        url: '/hashtags-update',
                         data: {
                             'userId': userId,
                             'spotId': button.attr('data-spot-id'),
@@ -247,9 +255,9 @@ class RouteViewer {
                     var elem = $(e);
 
                     evalList.forEach((ev) => {
-                        if (ev.userId == userId
-                                && ev.spotId == elem.attr('data-spot-id')
-                                && ev.hashtagId == elem.attr('data-hashtag-id')) {
+                        if (ev.userId == userId &&
+                            ev.spotId == elem.attr('data-spot-id') &&
+                            ev.hashtagId == elem.attr('data-hashtag-id')) {
                             elem.attr('class', 'btn btn-primary btn-sm');
                         }
                     });
@@ -270,17 +278,20 @@ class RouteViewer {
         this.spotContainer.hide();
         this.routeContainer.hide();
         this.mapContainer.show();
+        this.backButton.attr("disabled", true);
     }
 
     openSpotContainer() {
         this.routeContainer.hide();
         this.mapContainer.hide();
         this.spotContainer.show();
+        this.backButton.attr("disabled", false);
     }
 
     openRouteContainer() {
         this.mapContainer.hide();
         this.spotContainer.hide();
         this.routeContainer.show();
+        this.backButton.attr("disabled", false);
     }
 }

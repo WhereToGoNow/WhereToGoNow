@@ -91,9 +91,9 @@ def respond_hashtag_list_by_user_id(userId):
     return json_hashtags
 
 
-@app.route('/hashtags/update', methods=['POST'])
+@app.route('/hashtags-update', methods=['POST'])
 def respond_hashtags_update():
-    print('>> Request: (url)/hashtags/update')
+    print('>> Request: (url)/hashtags-update')
 
     contents = request.form
     print contents

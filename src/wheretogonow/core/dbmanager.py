@@ -94,7 +94,7 @@ class DBManager(object):
         elif updateType == 'update':
             print 'insert'
             self.run_query(
-                'INSERT INTO SpotEval VALUES (NULL, ?, ?, ?)', userId, spotId,
+                'INSERT INTO SpotEval VALUES (NULL, ?, ?, ?, 0, 0)', userId, spotId,
                 hashtagId)
 
         return True

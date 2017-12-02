@@ -43,6 +43,7 @@ class Renderer {
 
     /* Render the markers on the map. */
     renderMarkers(spotList) {
+
         spotList.forEach((spot) => {
             var marker = new google.maps.Marker({
                 position: {
@@ -63,9 +64,8 @@ class Renderer {
             });
 
             marker.addListener('click', () => {
-                if (this.currentInfoWindow) {
+                if (this.currentInfoWindow)
                     this.currentInfoWindow.close();
-                }
 
                 this.currentInfoWindow = infoWindow;
                 infoWindow.open(this.map, marker);
@@ -101,9 +101,8 @@ class Renderer {
                 lng: event.latLng.lng()
             });
 
-            if (this.currentInfoWindow) {
+            if (this.currentInfoWindow)
                 this.currentInfoWindow.close();
-            }
 
             this.currentInfoWindow = infoWindow;
             infoWindow.open(this.map);
@@ -145,9 +144,9 @@ class Renderer {
                         }
 
                         console.log(
-                            'Start: ' + marker.getPosition().lat()
-                            + ', ' + marker.getPosition().lng()
-                            + ', Time: ' + this.currentTime
+                            'Start: ' + marker.getPosition().lat() +
+                            ', ' + marker.getPosition().lng() +
+                            ', Time: ' + this.currentTime
                         );
                     });
                 });
@@ -186,21 +185,21 @@ class Renderer {
                         }
 
                         console.log(
-                            'End: ' + marker.getPosition().lat()
-                            + ', ' + marker.getPosition().lng()
-                            + ', Time: ' + this.currentTime
+                            'End: ' + marker.getPosition().lat() +
+                            ', ' + marker.getPosition().lng() +
+                            ', Time: ' + this.currentTime
                         );
                     });
                 });
             })
 
-            this.currentInfoWindow = infoWindow;
+            //this.currentInfoWindow = infoWindow;
         })
     }
 
-
     /* Given the data of a route, render the route on the map. */
     renderRoute(route) {
+
         var startPos = this.currentStartMarker.getPosition();
         var endPos = this.currentEndMarker.getPosition();
         var waypoints = [];
@@ -238,15 +237,15 @@ class Renderer {
             });
 
             marker.addListener('click', () => {
-                if (this.currentInfoWindow) {
+                if (this.currentInfoWindow)
                     this.currentInfoWindow.close();
-                }
 
                 this.currentInfoWindow = infoWindow;
                 infoWindow.open(this.map, marker);
             });
 
             this.spotMarkers.push(marker);
+            console.log(spot);
         }
 
         var routeInfo = {
