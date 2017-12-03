@@ -157,8 +157,8 @@ class Router(object):
                             if set(path_tmp.nodes) == set(path_best.nodes):
                                 if path_tmp.time < path_best.time:
                                     path_best = path_tmp
-                                else:
-                                    success = False
+
+                                success = False
                                 break
 
                         if success:
