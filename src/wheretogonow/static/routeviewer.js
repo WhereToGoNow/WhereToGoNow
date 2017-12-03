@@ -126,11 +126,15 @@ class RouteViewer {
                 var nameSize;
 
                 if (i === 0) {
-                    bgColor = '#4EF425';
+                    bgColor = '#52a3f9';
+                    iconHeight = '2em';
+                    nameSize = '100%';
+                } else if (i == spotCount - 1) {
+                    bgColor = '#52a3f9';
                     iconHeight = '2em';
                     nameSize = '100%';
                 } else {
-                    bgColor = '#E8F9F9';
+                    bgColor = '#c7e2ff';
                     iconHeight = '1.5em';
                     nameSize = '75%';
                 }

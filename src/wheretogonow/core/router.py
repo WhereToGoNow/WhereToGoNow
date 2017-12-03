@@ -75,7 +75,7 @@ class Path(object):
 
         # (2) add the edges (v_prev -> v) and (v -> v_next)
         self.time += self.graph.time_edges[v_prev][v] \
-                     + self.graph.time_edges[v][v_next]
+            + self.graph.time_edges[v][v_next]
 
         # (3) remove the edge (v_prev -> v_next)
         self.time -= self.graph.time_edges[v_prev][v_next]
@@ -155,7 +155,10 @@ class Router(object):
 
                         for path_tmp in plist_new:
                             if set(path_tmp.nodes) == set(path_best.nodes):
-                                success = False
+                                if path_tmp.time < path_best.time:
+                                    path_best = path_tmp
+                                else:
+                                    success = False
                                 break
 
                         if success:
