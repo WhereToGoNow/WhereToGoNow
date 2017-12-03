@@ -1,7 +1,6 @@
 from __future__ import print_function
 
 import math
-import sqlite3
 import time
 
 import googlemaps
@@ -26,9 +25,9 @@ def calc_distance(lat_1, lng_1, lat_2, lng_2):
 
 
 class RouteInfoSearcher(object):
-    def __init__(self, api_key, path_db, size_matrix=10, time_delay=5):
+    def __init__(self, api_key, size_matrix=10, time_delay=5):
         self.client = googlemaps.Client(api_key)
-        self.db = DBManager(sqlite3.connect(path_db))
+        self.db = DBManager(path='./spots_tools.db')
         self.size_matrix = size_matrix
         self.time_delay = time_delay
 
@@ -40,9 +39,9 @@ class RouteInfoSearcher(object):
 
         # build the objects used for searching
         self.num_spots = len(list_rows)
-        self.list_ids = [row[0] for row in list_rows]
-        self.list_lats = [row[1] for row in list_rows]
-        self.list_lngs = [row[2] for row in list_rows]
+        self.list_ids = [row['id'] for row in list_rows]
+        self.list_lats = [row['latitude'] for row in list_rows]
+        self.list_lngs = [row['longitude'] for row in list_rows]
 
         # list of (index_min, index_max + 1) for each submatrix
         self.list_ranges = [
@@ -189,8 +188,7 @@ class RouteInfoSearcher(object):
 
 if __name__ == '__main__':
     searcher = RouteInfoSearcher(
-        api_key=presets.api_key['Avant-WTGN-2'],
-        path_db='spots.db'
+        api_key=presets.api_key['Avant-WTGN-2']
     )
 
     searcher.search()
