@@ -1,0 +1,603 @@
+{
+    "teatro marcello": {
+        "website": "http://www.turismoroma.it/cosa-fare/teatro-marcello", 
+        "rating": 4.5, 
+        "utc_offset": 60, 
+        "place_id": "ChIJp3-BzEtgLxMRMyxlHO3Qw3Y", 
+        "phone": "+39 06 0608", 
+        "address": "Via del Teatro di Marcello, 00186 Roma RM, Italy", 
+        "types": [
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png", 
+        "name": "Marcello Theater", 
+        "url": "https://maps.google.com/?cid=8557913433736293427", 
+        "opening_hours": null, 
+        "vicinity": "Via del Teatro di Marcello, Roma", 
+        "location": {
+            "lat": 41.8919308, 
+            "lng": 12.4799083
+        }
+    }, 
+    "pantheon": {
+        "website": "http://www.polomusealelazio.beniculturali.it/index.php?it/232/pantheon", 
+        "rating": 4.7, 
+        "utc_offset": 60, 
+        "place_id": "ChIJqUCGZ09gLxMRLM42IPpl0co", 
+        "phone": "+39 06 6830 0230", 
+        "address": "Piazza della Rotonda, 00186 Roma RM, Italy", 
+        "types": [
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/museum-71.png", 
+        "name": "Pantheon", 
+        "url": "https://maps.google.com/?cid=14614574390750662188", 
+        "opening_hours": [
+            "Monday: 9:00 AM \u2013 6:00 PM", 
+            "Tuesday: 9:00 AM \u2013 6:00 PM", 
+            "Wednesday: 9:00 AM \u2013 6:00 PM", 
+            "Thursday: 9:00 AM \u2013 6:00 PM", 
+            "Friday: 9:00 AM \u2013 6:00 PM", 
+            "Saturday: 9:00 AM \u2013 6:00 PM", 
+            "Sunday: 8:30 AM \u2013 7:30 AM"
+        ], 
+        "vicinity": "Piazza della Rotonda, Roma", 
+        "location": {
+            "lat": 41.8986108, 
+            "lng": 12.4768729
+        }
+    }, 
+    "musei di barberini": {
+        "website": "http://www.barberinicorsini.org/", 
+        "rating": 4.4, 
+        "utc_offset": 60, 
+        "place_id": "ChIJk7HQeqlhLxMRwIY3JsnfdjU", 
+        "phone": "+39 06 481 4591", 
+        "address": "Via delle Quattro Fontane, 13, 00184 Roma RM, Italy", 
+        "types": [
+            "art_gallery", 
+            "premise", 
+            "museum", 
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/museum-71.png", 
+        "name": "National Gallery of Ancient Art in Barberini Palace", 
+        "url": "https://maps.google.com/?cid=3852512586284631744", 
+        "opening_hours": [
+            "Monday: Closed", 
+            "Tuesday: 8:00 AM \u2013 7:00 PM", 
+            "Wednesday: 8:00 AM \u2013 7:00 PM", 
+            "Thursday: 8:00 AM \u2013 7:00 PM", 
+            "Friday: 8:00 AM \u2013 7:00 PM", 
+            "Saturday: 8:00 AM \u2013 7:00 PM", 
+            "Sunday: 8:00 AM \u2013 7:00 PM"
+        ], 
+        "vicinity": "Via delle Quattro Fontane, 13, Roma", 
+        "location": {
+            "lat": 41.9031491, 
+            "lng": 12.4900479
+        }
+    }, 
+    "foro romano": {
+        "website": "http://www.turismoroma.it/cosa-fare/fori?lang=it", 
+        "rating": 4.7, 
+        "utc_offset": 60, 
+        "place_id": "ChIJ782pg7NhLxMR5n3swAdAkfo", 
+        "phone": "+39 06 0608", 
+        "address": "Via della Salaria Vecchia, 5/6, 00186 Roma RM, Italy", 
+        "types": [
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png", 
+        "name": "Roman Forum", 
+        "url": "https://maps.google.com/?cid=18055282783150702054", 
+        "opening_hours": [
+            "Monday: 9:00 AM \u2013 7:00 PM", 
+            "Tuesday: 9:00 AM \u2013 7:00 PM", 
+            "Wednesday: 9:00 AM \u2013 7:00 PM", 
+            "Thursday: 9:00 AM \u2013 7:00 PM", 
+            "Friday: 9:00 AM \u2013 7:00 PM", 
+            "Saturday: 9:00 AM \u2013 7:00 PM", 
+            "Sunday: 9:00 AM \u2013 7:00 PM"
+        ], 
+        "vicinity": "Via della Salaria Vecchia, 5/6, Roma", 
+        "location": {
+            "lat": 41.8924623, 
+            "lng": 12.485325
+        }
+    }, 
+    "basilica papale san paulo fuori le mura": {
+        "website": "http://www.basilicasanpaolo.org/", 
+        "rating": 4.7, 
+        "utc_offset": 60, 
+        "place_id": "ChIJ2ReSKI-KJRMRTk07SoiIUXI", 
+        "phone": "+39 06 6988 0800", 
+        "address": "Piazzale San Paolo, 1, 00146 Roma RM, Italy", 
+        "types": [
+            "church", 
+            "place_of_worship", 
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/worship_general-71.png", 
+        "name": "Basilica Papale San Paolo fuori le Mura", 
+        "url": "https://maps.google.com/?cid=8237515312379678030", 
+        "opening_hours": [
+            "Monday: 7:00 AM \u2013 6:30 PM", 
+            "Tuesday: 7:00 AM \u2013 6:30 PM", 
+            "Wednesday: 7:00 AM \u2013 6:30 PM", 
+            "Thursday: 7:00 AM \u2013 6:30 PM", 
+            "Friday: 7:00 AM \u2013 6:30 PM", 
+            "Saturday: 7:00 AM \u2013 6:30 PM", 
+            "Sunday: 7:00 AM \u2013 6:30 PM"
+        ], 
+        "vicinity": "Piazzale San Paolo, 1, Roma", 
+        "location": {
+            "lat": 41.8586767, 
+            "lng": 12.4767338
+        }
+    }, 
+    "colosseo": {
+        "website": "http://archeoroma.beniculturali.it/", 
+        "rating": 4.7, 
+        "utc_offset": 60, 
+        "place_id": "ChIJrRMgU7ZhLxMRxAOFkC7I8Sg", 
+        "phone": "+39 06 3996 7700", 
+        "address": "Piazza del Colosseo, 1, 00184 Roma RM, Italy", 
+        "types": [
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png", 
+        "name": "Colosseum", 
+        "url": "https://maps.google.com/?cid=2950359333223072708", 
+        "opening_hours": [
+            "Monday: 8:30 AM \u2013 7:00 PM", 
+            "Tuesday: 8:30 AM \u2013 7:00 PM", 
+            "Wednesday: 8:30 AM \u2013 7:00 PM", 
+            "Thursday: 8:30 AM \u2013 7:00 PM", 
+            "Friday: 8:30 AM \u2013 7:00 PM", 
+            "Saturday: 8:30 AM \u2013 7:00 PM", 
+            "Sunday: 8:30 AM \u2013 7:00 PM"
+        ], 
+        "vicinity": "Piazza del Colosseo, 1, Roma", 
+        "location": {
+            "lat": 41.89021020000001, 
+            "lng": 12.4922309
+        }
+    }, 
+    "piazza del popolo": {
+        "website": "http://www.turismoroma.it/cosa-fare/piazza-del-popolo", 
+        "rating": 4.5, 
+        "utc_offset": 60, 
+        "place_id": "ChIJhxbo5fhgLxMRUEPO_f-f7kM", 
+        "phone": null, 
+        "address": "Piazza del Popolo, 00187 Roma RM, Italy", 
+        "types": [
+            "park", 
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png", 
+        "name": "Piazza del Popolo", 
+        "url": "https://maps.google.com/?cid=4895025766821938000", 
+        "opening_hours": [
+            "Monday: Open 24 hours", 
+            "Tuesday: Open 24 hours", 
+            "Wednesday: Open 24 hours", 
+            "Thursday: Open 24 hours", 
+            "Friday: Open 24 hours", 
+            "Saturday: Open 24 hours", 
+            "Sunday: Open 24 hours"
+        ], 
+        "vicinity": "Piazza del Popolo, Roma", 
+        "location": {
+            "lat": 41.9107038, 
+            "lng": 12.4763579
+        }
+    }, 
+    "musei capitolini": {
+        "website": "http://www.museicapitolini.org/", 
+        "rating": 4.6, 
+        "utc_offset": 60, 
+        "place_id": "ChIJ8-wGeU9gLxMR--zJtnpGod4", 
+        "phone": "+39 06 0608", 
+        "address": "Piazza del Campidoglio, 1, 00186 Roma RM, Italy", 
+        "types": [
+            "museum", 
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/museum-71.png", 
+        "name": "Capitoline Museums", 
+        "url": "https://maps.google.com/?cid=16042180840537058555", 
+        "opening_hours": [
+            "Monday: 9:30 AM \u2013 7:30 PM", 
+            "Tuesday: 9:30 AM \u2013 7:30 PM", 
+            "Wednesday: 9:30 AM \u2013 7:30 PM", 
+            "Thursday: 9:30 AM \u2013 7:30 PM", 
+            "Friday: 9:30 AM \u2013 7:30 PM", 
+            "Saturday: 9:30 AM \u2013 7:30 PM", 
+            "Sunday: 9:30 AM \u2013 7:30 PM"
+        ], 
+        "vicinity": "Piazza del Campidoglio, 1, Roma", 
+        "location": {
+            "lat": 41.8929428, 
+            "lng": 12.4825577
+        }
+    }, 
+    "mausoleo di cecilla metella": {
+        "website": null, 
+        "rating": 4.1, 
+        "utc_offset": 60, 
+        "place_id": "ChIJARD-jRqKJRMRydKB6zIriqk", 
+        "phone": null, 
+        "address": "Via Appia Antica, 161, 00178 Roma RM, Italy", 
+        "types": [
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png", 
+        "name": "Mausoleo di Cecilia Metella", 
+        "url": "https://maps.google.com/?cid=12216624436895404745", 
+        "opening_hours": null, 
+        "vicinity": "Via Appia Antica, 161, Roma", 
+        "location": {
+            "lat": 41.8521596, 
+            "lng": 12.5209707
+        }
+    }, 
+    "palazzo montecitorio": {
+        "website": "http://www.camera.it/leg17/585?raccolta=129&rcgrp=Palazzo+Montecitorio&Palazzo+Montecitorio+%2F+Sale+e+corridoi", 
+        "rating": 3.9, 
+        "utc_offset": 60, 
+        "place_id": "ChIJC9NzLFJgLxMRgfEuylx5Gu8", 
+        "phone": "+39 06 67601", 
+        "address": "Piazza di Monte Citorio, 00186 Roma RM, Italy", 
+        "types": [
+            "premise", 
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/civic_building-71.png", 
+        "name": "Montecitori Palace", 
+        "url": "https://maps.google.com/?cid=17229216763895280001", 
+        "opening_hours": null, 
+        "vicinity": "Piazza di Monte Citorio, Roma", 
+        "location": {
+            "lat": 41.9015668, 
+            "lng": 12.4787435
+        }
+    }, 
+    "palatino": {
+        "website": "http://www.palatino.london/", 
+        "rating": 3.9, 
+        "utc_offset": 0, 
+        "place_id": "ChIJN_odNVgbdkgR7iJxViw9acY", 
+        "phone": "+44 20 3481 5300", 
+        "address": "71 Central St, London EC1V 8AB, UK", 
+        "types": [
+            "restaurant", 
+            "food", 
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png", 
+        "name": "Palatino", 
+        "url": "https://maps.google.com/?cid=14297025752702460654", 
+        "opening_hours": [
+            "Monday: 8:00 AM \u2013 10:00 PM", 
+            "Tuesday: 8:00 AM \u2013 10:00 PM", 
+            "Wednesday: 8:00 AM \u2013 10:00 PM", 
+            "Thursday: 8:00 AM \u2013 10:00 PM", 
+            "Friday: 8:00 AM \u2013 10:00 PM", 
+            "Saturday: 12:00 \u2013 10:00 PM", 
+            "Sunday: Closed"
+        ], 
+        "vicinity": "71 Central Street, London", 
+        "location": {
+            "lat": 51.52663320000001, 
+            "lng": -0.09679360000000001
+        }
+    }, 
+    "stadium of domitian": {
+        "website": "http://www.stadiodomiziano.com/", 
+        "rating": 3.9, 
+        "utc_offset": 60, 
+        "place_id": "ChIJYzIaClBgLxMRZtXO0N4-qH8", 
+        "phone": "+39 06 6880 5311", 
+        "address": "Via di Tor Sanguigna, 3, 00186 Roma RM, Italy", 
+        "types": [
+            "museum", 
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/museum-71.png", 
+        "name": "Stadium of Domitian", 
+        "url": "https://maps.google.com/?cid=9198671365611115878", 
+        "opening_hours": [
+            "Monday: 10:00 AM \u2013 7:00 PM", 
+            "Tuesday: 10:00 AM \u2013 7:00 PM", 
+            "Wednesday: 10:00 AM \u2013 7:00 PM", 
+            "Thursday: 10:00 AM \u2013 7:00 PM", 
+            "Friday: 10:00 AM \u2013 7:00 PM", 
+            "Saturday: 10:00 AM \u2013 7:00 PM", 
+            "Sunday: 10:00 AM \u2013 7:00 PM"
+        ], 
+        "vicinity": "Via di Tor Sanguigna, 3, Roma", 
+        "location": {
+            "lat": 41.900127, 
+            "lng": 12.472567
+        }
+    }, 
+    "santa maria del popolo": {
+        "website": "http://www.santamariadelpopolo.it/", 
+        "rating": 4.5, 
+        "utc_offset": 60, 
+        "place_id": "ChIJn8_twvhgLxMRrSlE7RYxCbg", 
+        "phone": "+39 06 361 0836", 
+        "address": "Piazza del Popolo, 12, 00187 Roma RM, Italy", 
+        "types": [
+            "church", 
+            "place_of_worship", 
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/worship_general-71.png", 
+        "name": "Basilica Parrocchiale Santa Maria del Popolo", 
+        "url": "https://maps.google.com/?cid=13261184552308844973", 
+        "opening_hours": [
+            "Monday: 7:15 AM \u2013 12:30 PM, 4:00 \u2013 7:00 PM", 
+            "Tuesday: 7:15 AM \u2013 12:30 PM, 4:00 \u2013 7:00 PM", 
+            "Wednesday: 7:15 AM \u2013 12:30 PM, 4:00 \u2013 7:00 PM", 
+            "Thursday: 7:15 AM \u2013 12:30 PM, 4:00 \u2013 7:00 PM", 
+            "Friday: 7:30 AM \u2013 7:00 PM", 
+            "Saturday: 7:30 AM \u2013 7:00 PM", 
+            "Sunday: Closed"
+        ], 
+        "vicinity": "Piazza del Popolo, 12, Roma", 
+        "location": {
+            "lat": 41.911491, 
+            "lng": 12.4766557
+        }
+    }, 
+    "domus aurea": {
+        "website": "http://archeoroma.beniculturali.it/siti-archeologici/domus-aurea", 
+        "rating": 4.3, 
+        "utc_offset": 60, 
+        "place_id": "ChIJp-3oaLdhLxMRS_bYIp1GB8w", 
+        "phone": "+39 06 0608", 
+        "address": "Via della Domus Aurea, 1, 00184 Roma RM, Italy", 
+        "types": [
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png", 
+        "name": "Domus Aurea", 
+        "url": "https://maps.google.com/?cid=14701797149282727499", 
+        "opening_hours": [
+            "Monday: 9:15 AM \u2013 3:45 PM", 
+            "Tuesday: 9:15 AM \u2013 3:45 PM", 
+            "Wednesday: 9:15 AM \u2013 3:45 PM", 
+            "Thursday: 9:15 AM \u2013 3:45 PM", 
+            "Friday: 9:15 AM \u2013 3:45 PM", 
+            "Saturday: 9:15 AM \u2013 3:45 PM", 
+            "Sunday: 9:15 AM \u2013 3:45 PM"
+        ], 
+        "vicinity": "Via della Domus Aurea, 1, Roma", 
+        "location": {
+            "lat": 41.8926987, 
+            "lng": 12.4937992
+        }
+    }, 
+    "catacombe di domitilla": {
+        "website": "http://www.domitilla.info/", 
+        "rating": 4.4, 
+        "utc_offset": 60, 
+        "place_id": "ChIJBULz1nKKJRMRmkuAVRGLp3w", 
+        "phone": "+39 06 511 0342", 
+        "address": "Via delle Sette Chiese, 282, 00147 Roma RM, Italy", 
+        "types": [
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png", 
+        "name": "Catacombs of Domitilla", 
+        "url": "https://maps.google.com/?cid=8982300888378919834", 
+        "opening_hours": [
+            "Monday: 9:00 AM \u2013 12:00 PM, 2:00 \u2013 5:00 PM", 
+            "Tuesday: Closed", 
+            "Wednesday: 9:00 AM \u2013 12:00 PM, 2:00 \u2013 5:00 PM", 
+            "Thursday: 9:00 AM \u2013 12:00 PM, 2:00 \u2013 5:00 PM", 
+            "Friday: 9:00 AM \u2013 12:00 PM, 2:00 \u2013 5:00 PM", 
+            "Saturday: 9:00 AM \u2013 12:00 PM, 2:00 \u2013 5:00 PM", 
+            "Sunday: 9:00 AM \u2013 12:00 PM, 2:00 \u2013 5:00 PM"
+        ], 
+        "vicinity": "Via delle Sette Chiese, 282, Roma", 
+        "location": {
+            "lat": 41.8589185, 
+            "lng": 12.5052027
+        }
+    }, 
+    "galleria doria pamphilj": {
+        "website": "http://www.doriapamphilj.it/", 
+        "rating": 4.6, 
+        "utc_offset": 60, 
+        "place_id": "ChIJF0obe01gLxMR0JJHtlD0kMY", 
+        "phone": "+39 06 679 7323", 
+        "address": "Via del Corso, 305, 00186 Roma RM, Italy", 
+        "types": [
+            "art_gallery", 
+            "museum", 
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png", 
+        "name": "Galleria Doria Pamphilj", 
+        "url": "https://maps.google.com/?cid=14308204643648770768", 
+        "opening_hours": [
+            "Monday: 9:00 AM \u2013 7:00 PM", 
+            "Tuesday: 9:00 AM \u2013 7:00 PM", 
+            "Wednesday: 9:00 AM \u2013 7:00 PM", 
+            "Thursday: 9:00 AM \u2013 7:00 PM", 
+            "Friday: 9:00 AM \u2013 7:00 PM", 
+            "Saturday: 9:00 AM \u2013 7:00 PM", 
+            "Sunday: 9:00 AM \u2013 7:00 PM"
+        ], 
+        "vicinity": "Via del Corso, 305, Roma", 
+        "location": {
+            "lat": 41.8979852, 
+            "lng": 12.481562
+        }
+    }, 
+    "piazza navona": {
+        "website": "http://www.turismoroma.it/cosa-fare/piazza-navona", 
+        "rating": 4.6, 
+        "utc_offset": 60, 
+        "place_id": "ChIJPRydwYNgLxMRSjOCLlYkV6M", 
+        "phone": null, 
+        "address": "Piazza Navona, 00186 Roma RM, Italy", 
+        "types": [
+            "park", 
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png", 
+        "name": "Piazza Navona", 
+        "url": "https://maps.google.com/?cid=11769916103722152778", 
+        "opening_hours": null, 
+        "vicinity": "Piazza Navona, Roma", 
+        "location": {
+            "lat": 41.8991633, 
+            "lng": 12.4730742
+        }
+    }, 
+    "il tempio di adriano": {
+        "website": null, 
+        "rating": 4.5, 
+        "utc_offset": 60, 
+        "place_id": "ChIJj9JKPlJgLxMRm0m6p_5cGBw", 
+        "phone": "+39 06 679 5937", 
+        "address": "Piazza di Pietra, 00186 Roma RM, Italy", 
+        "types": [
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png", 
+        "name": "Il Tempio di Adriano", 
+        "url": "https://maps.google.com/?cid=2024470281308490139", 
+        "opening_hours": null, 
+        "vicinity": "Piazza di Pietra, Roma", 
+        "location": {
+            "lat": 41.89988940000001, 
+            "lng": 12.4793957
+        }
+    }, 
+    "ponte sant'angelo": {
+        "website": null, 
+        "rating": 4.6, 
+        "utc_offset": 60, 
+        "place_id": "ChIJdQnXoVxgLxMRCQK0txZGq6g", 
+        "phone": null, 
+        "address": "Ponte Sant'Angelo, 00186 Roma RM, Italy", 
+        "types": [
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png", 
+        "name": "St. Angelo Bridge", 
+        "url": "https://maps.google.com/?cid=12153885082774667785", 
+        "opening_hours": null, 
+        "vicinity": "Ponte Sant'Angelo, Roma", 
+        "location": {
+            "lat": 41.901788, 
+            "lng": 12.4664617
+        }
+    }, 
+    "castel sant angelo": {
+        "website": "http://castelsantangelo.beniculturali.it/", 
+        "rating": 4.6, 
+        "utc_offset": 60, 
+        "place_id": "ChIJ0aTnEYeKJRMRiUF95xwRbDY", 
+        "phone": "+39 06 681 9111", 
+        "address": "Lungotevere Castello, 50, 00193 Roma RM, Italy", 
+        "types": [
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png", 
+        "name": "Castel Sant'Angelo", 
+        "url": "https://maps.google.com/?cid=3921528191373361545", 
+        "opening_hours": [
+            "Monday: 9:00 AM \u2013 7:30 PM", 
+            "Tuesday: 9:00 AM \u2013 7:30 PM", 
+            "Wednesday: 9:00 AM \u2013 7:30 PM", 
+            "Thursday: 9:00 AM \u2013 7:30 PM", 
+            "Friday: 9:00 AM \u2013 7:30 PM", 
+            "Saturday: 9:00 AM \u2013 7:30 PM", 
+            "Sunday: 9:00 AM \u2013 7:30 PM"
+        ], 
+        "vicinity": "Lungotevere Castello, 50, Roma", 
+        "location": {
+            "lat": 41.90306319999999, 
+            "lng": 12.466276
+        }
+    }, 
+    "fontana di trevi": {
+        "website": "http://www.turismoroma.it/cosa-fare/fontana-di-trevi", 
+        "rating": 4.7, 
+        "utc_offset": 60, 
+        "place_id": "ChIJ1UCDJ1NgLxMRtrsCzOHxdvY", 
+        "phone": "+39 06 0608", 
+        "address": "Piazza di Trevi, 00187 Roma RM, Italy", 
+        "types": [
+            "park", 
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png", 
+        "name": "Trevi Fountain", 
+        "url": "https://maps.google.com/?cid=17759648132674796470", 
+        "opening_hours": null, 
+        "vicinity": "Piazza di Trevi, Roma", 
+        "location": {
+            "lat": 41.9009325, 
+            "lng": 12.483313
+        }
+    }, 
+    "san giovanni in laterano": {
+        "website": "http://www.vatican.va/", 
+        "rating": 4.7, 
+        "utc_offset": 60, 
+        "place_id": "ChIJc6vKf79hLxMR-JBUkZ--MAE", 
+        "phone": "+39 06 6988 6433", 
+        "address": "Piazza di S. Giovanni in Laterano, 4, 00184 Roma RM, Italy", 
+        "types": [
+            "church", 
+            "place_of_worship", 
+            "point_of_interest", 
+            "establishment"
+        ], 
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/worship_general-71.png", 
+        "name": "Basilica di San Giovanni in Laterano", 
+        "url": "https://maps.google.com/?cid=85777985467355384", 
+        "opening_hours": [
+            "Monday: 7:00 AM \u2013 6:30 PM", 
+            "Tuesday: 7:00 AM \u2013 6:30 PM", 
+            "Wednesday: 7:00 AM \u2013 6:30 PM", 
+            "Thursday: 7:00 AM \u2013 6:30 PM", 
+            "Friday: 7:00 AM \u2013 6:30 PM", 
+            "Saturday: 7:00 AM \u2013 6:30 PM", 
+            "Sunday: 7:00 AM \u2013 6:30 PM"
+        ], 
+        "vicinity": "Piazza di S. Giovanni in Laterano, 4, Roma", 
+        "location": {
+            "lat": 41.8858811, 
+            "lng": 12.505673
+        }
+    }
+}
