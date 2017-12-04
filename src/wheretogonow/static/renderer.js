@@ -93,7 +93,11 @@ class Renderer {
                     End
                     </button>
                     <br/>
-                    <input type="number" id="input-time" placeholder="Hours"
+                    <input type="number" id="input-day" placeholder="Days"
+                           style="width: 100px; margin-top: 5px; margin-left: 5px;">
+                    </input>
+                    <br/>
+                    <input type="number" id="input-hour" placeholder="Hours"
                            style="width: 100px; margin-top: 5px; margin-left: 5px;">
                     </input>
                 </div>`
@@ -138,12 +142,21 @@ class Renderer {
 
                         this.currentStartMarker = marker;
 
-                        var time = parseInt(infoDom.find('#input-time').val());
+                        var days = parseInt(infoDom.find('#input-day').val());
+                        var hours = parseInt(infoDom.find('#input-hour').val());
 
-                        if (isNaN(time)) {
+                        if (isNaN(days)) {
+                            days = 0;
+                        }
+
+                        if (isNaN(hours)) {
+                            hours = 0;
+                        }
+
+                        if (days === 0 && hours === 0) {
                             this.currentTime = 24;
                         } else {
-                            this.currentTime = time;
+                            this.currentTime = days + 24 * hours;
                         }
 
                         console.log(
