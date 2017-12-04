@@ -59,16 +59,19 @@ class Renderer {
                 tag: spot
             });
 
-            var infoWindow = new google.maps.InfoWindow({
-                content: spot.name
+            marker['spotName'] = spot.name;
+
+            marker['infoWindow'] = new google.maps.InfoWindow({
+                content: '<span style="font-size: 14px; font-weight: bold">'
+                    + marker.spotName + '</span>'
             });
 
             marker.addListener('click', () => {
                 if (this.currentInfoWindow)
                     this.currentInfoWindow.close();
 
-                this.currentInfoWindow = infoWindow;
-                infoWindow.open(this.map, marker);
+                this.currentInfoWindow = marker.infoWindow;
+                marker.infoWindow.open(this.map, marker);
             });
 
             this.spotMarkers.push(marker);

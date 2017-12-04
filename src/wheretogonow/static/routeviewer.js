@@ -21,6 +21,7 @@ class RouteViewer {
 
         var loadingPanel = $('#panel-loading');
 
+        /*
         this.routeContainer.on('click', '#route', (event) => {
             // note: (event) => { ... .index(event.currentTarget) ...}
             // is equivalent to function() { ... .index(this) ...}
@@ -35,6 +36,7 @@ class RouteViewer {
             // render the route on the map
             this.renderer.renderRoute(this.currentSelectedRoute);
         });
+        */
 
         this.backButton.click(() => {
             this.routeContainer.hide();
@@ -120,7 +122,7 @@ class RouteViewer {
                 .attr('class', 'list-group list-group-flush');
             var spotCount = route.length;
 
-            for (var i = 0; i < spotCount; i++) {
+            route.forEach((spot, i) => {
                 var bgColor;
                 var iconHeight;
                 var nameSize;
@@ -160,10 +162,34 @@ class RouteViewer {
                     .append(spotIcon)
                     .append(spotName)
                 );
-            }
+            });
 
             routeCard.append(routeListGroup);
             this.routeContainer.append(routeCard);
+        });
+
+        this.routeContainer.on('click', '#route', (event) => {
+            // note: (event) => { ... .index(event.currentTarget) ...}
+            // is equivalent to function() { ... .index(this) ...}
+            var index = $('div.card').index(event.currentTarget);
+
+            // XXX: F**king dirty way to fix this f**king bug!!!
+            if (index < 0 || index >= this.currentRoutes.length) {
+                index %= 6;
+
+                if (index < 0 || index >= this.currentRoutes.length) {
+                    index = 0;
+                }
+            }
+
+            this.currentSelectedRoute = this.currentRoutes[index];
+            console.log(index + 'th route is selected');
+
+            this.enableEvaluation();
+            this.openMapContainer();
+
+            // render the route on the map
+            this.renderer.renderRoute(this.currentSelectedRoute);
         });
 
         this.openRouteContainer();
