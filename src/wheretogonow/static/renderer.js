@@ -203,13 +203,10 @@ class Renderer {
         var startPos = this.currentStartMarker.getPosition();
         var endPos = this.currentEndMarker.getPosition();
         var waypoints = [];
-        var spotCount = route.length;
 
         this.clearMarkers();
 
-        for (var i = 0; i < spotCount; i++) {
-            var spot = route[i];
-
+        route.forEach((spot, i) => {
             waypoints.push({
                 location: '' + spot.lat + ',' + spot.lng,
                 stopover: true
@@ -226,27 +223,31 @@ class Renderer {
                     scaledSize: new google.maps.Size(40, 40)
                 },
                 label: {
-                    text: String.fromCharCode(65 + i),
-                    fontWeight: 'bold'
+                    text: '' + (i + 1),
+                    fontWeight: 'bold',
+                    color: '#F2B500',
+                    fontSize: '20px'
                 },
                 map: this.map
             });
 
-            var infoWindow = new google.maps.InfoWindow({
-                content: spot.name
+            marker['spotName'] = spot.name;
+
+            marker['infoWindow'] = new google.maps.InfoWindow({
+                content: '<span style="font-size: 14px; font-weight: bold">'
+                    + marker.spotName + '</span>'
             });
 
             marker.addListener('click', () => {
                 if (this.currentInfoWindow)
                     this.currentInfoWindow.close();
 
-                this.currentInfoWindow = infoWindow;
-                infoWindow.open(this.map, marker);
+                this.currentInfoWindow = marker.infoWindow;
+                marker.infoWindow.open(this.map, marker);
             });
 
             this.spotMarkers.push(marker);
-            console.log(spot);
-        }
+        });
 
         var routeInfo = {
             origin: '' + startPos.lat() + ',' + startPos.lng(),
